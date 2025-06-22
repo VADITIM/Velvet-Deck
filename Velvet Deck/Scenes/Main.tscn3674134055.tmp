@@ -1,0 +1,46 @@
+[gd_scene load_steps=5 format=3 uid="uid://cyj4ak6xkrmop"]
+
+[ext_resource type="Script" uid="uid://dporbs32ce01m" path="res://Scripts/VibrationCaller.cs" id="1_idj7w"]
+[ext_resource type="Script" uid="uid://djxmh6reeewx2" path="res://Scripts/AndoridBridge.gd" id="2_kln2b"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_rxg2q"]
+font_size = 65
+
+[sub_resource type="LabelSettings" id="LabelSettings_glv2v"]
+font_size = 50
+
+[node name="Main" type="Control"]
+layout_direction = 1
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Label" type="Label" parent="."]
+layout_mode = 1
+offset_right = 213.0
+offset_bottom = 90.0
+text = "test lol"
+label_settings = SubResource("LabelSettings_rxg2q")
+
+[node name="Label2" type="Label" parent="."]
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_top = -23.0
+offset_right = 55.0
+grow_vertical = 0
+text = "test lot"
+label_settings = SubResource("LabelSettings_glv2v")
+
+[node name="Andorid Bridge" type="Node" parent="."]
+script = ExtResource("2_kln2b")
+
+[node name="Button" type="Button" parent="."]
+layout_mode = 0
+offset_right = 824.0
+offset_bottom = 927.0
+script = ExtResource("1_idj7w")

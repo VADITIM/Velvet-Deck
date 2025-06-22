@@ -1,0 +1,42 @@
+; Engine configuration file.
+; It's best edited using the editor UI and not directly,
+; since the parameters that go here are not all obvious.
+;
+; Format:
+;   [section] ; section goes between []
+;   param=value ; assign values to parameters
+
+config_version=5
+
+[application]
+
+config/name="Velvet Deck"
+run/main_scene="uid://b3fmrrhsk6bpn"
+config/features=PackedStringArray("4.4", "C#", "Mobile")
+run/max_fps=120
+config/icon="res://icon.svg"
+
+[autoload]
+
+VibrationController="*res://Scripts/VibrationController.gd"
+
+[display]
+
+window/size/viewport_width=1080
+window/size/viewport_height=2340
+window/size/mode=2
+window/handheld/orientation=1
+
+[dotnet]
+
+project/assembly_name="Couples Card Game"
+
+[editor_plugins]
+
+enabled=PackedStringArray("res://addons/nv.node_pivot/plugin.cfg")
+
+[rendering]
+
+textures/canvas_textures/default_texture_filter=0
+renderer/rendering_method="mobile"
+textures/vram_compression/import_etc2_astc=true
