@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://bkaif0eiqq5ui"]
+
+[ext_resource type="Script" uid="uid://2ulnrsthwdj5" path="res://Scripts/C#/DeckManager.cs" id="1_lpnh5"]
+
+[node name="Deck Manager" type="Node"]
+script = ExtResource("1_lpnh5")

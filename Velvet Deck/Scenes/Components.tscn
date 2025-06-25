@@ -1,0 +1,15 @@
+[gd_scene load_steps=5 format=3 uid="uid://tvik5iraryyn"]
+
+[ext_resource type="Script" uid="uid://dml4xloskx3cd" path="res://Scripts/C#/Components.cs" id="1_tcufa"]
+[ext_resource type="PackedScene" uid="uid://bkaif0eiqq5ui" path="res://Scenes/DeckManager.tscn" id="2_fm4tj"]
+[ext_resource type="PackedScene" uid="uid://dmyqkbwrauoox" path="res://Scenes/TurnManager.tscn" id="3_6b81e"]
+[ext_resource type="PackedScene" uid="uid://6efdpqhvf7gb" path="res://Scenes/Animations.tscn" id="4_pkomj"]
+
+[node name="Components" type="Node"]
+script = ExtResource("1_tcufa")
+
+[node name="Deck Manager" parent="." instance=ExtResource("2_fm4tj")]
+
+[node name="Turn Manager" parent="." instance=ExtResource("3_6b81e")]
+
+[node name="Animations" parent="." instance=ExtResource("4_pkomj")]

@@ -1,19 +1,50 @@
-[gd_scene load_steps=5 format=3 uid="uid://b3fmrrhsk6bpn"]
+[gd_scene load_steps=15 format=3 uid="uid://b3fmrrhsk6bpn"]
 
-[ext_resource type="Script" uid="uid://c2mylv00jljg3" path="res://Scripts/VibrateDevice.gd" id="1_glv2v"]
+[ext_resource type="Script" uid="uid://c2mylv00jljg3" path="res://Scripts/GD/VibrateDevice.gd" id="1_glv2v"]
+[ext_resource type="PackedScene" uid="uid://cajivp4fllee0" path="res://Scenes/ScreenSize.tscn" id="1_kln2b"]
+[ext_resource type="PackedScene" uid="uid://tvik5iraryyn" path="res://Scenes/Components.tscn" id="1_pbw6q"]
+[ext_resource type="FontFile" uid="uid://cvaw2qt4e71he" path="res://Assets/Fonts/steelfish.eb-regular.otf" id="2_idj7w"]
+[ext_resource type="PackedScene" uid="uid://bqw653qeibxvr" path="res://Scenes/TimerController.tscn" id="3_v1gob"]
+[ext_resource type="PackedScene" uid="uid://bxkcdmjpntvoe" path="res://Scenes/Cards.tscn" id="6_jw32o"]
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_r150o"]
-bg_color = Color(0, 0, 0, 0.470588)
-corner_radius_top_left = 105
-corner_radius_top_right = 105
-corner_radius_bottom_right = 105
-corner_radius_bottom_left = 105
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_kln2b"]
 
-[sub_resource type="LabelSettings" id="LabelSettings_rxg2q"]
-font_size = 65
+[sub_resource type="LabelSettings" id="LabelSettings_rgh2o"]
+font = ExtResource("2_idj7w")
+font_size = 90
 
-[sub_resource type="LabelSettings" id="LabelSettings_glv2v"]
-font_size = 50
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_pbw6q"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_v1gob"]
+font = ExtResource("2_idj7w")
+font_size = 90
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_v1gob"]
+bg_color = Color(0.6, 0.6, 0.6, 0)
+border_width_top = 5
+border_width_bottom = 5
+border_color = Color(0.815308, 0.130559, 0.371416, 1)
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
+
+[sub_resource type="LabelSettings" id="LabelSettings_jw32o"]
+font = ExtResource("2_idj7w")
+font_size = 90
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_6sbnv"]
+corner_radius_top_left = 30
+corner_radius_top_right = 30
+corner_radius_bottom_right = 30
+corner_radius_bottom_left = 30
+shadow_color = Color(0, 0, 0, 0.392157)
+shadow_size = 20
+shadow_offset = Vector2(10, 10)
+
+[sub_resource type="LabelSettings" id="LabelSettings_13s5m"]
+font = ExtResource("2_idj7w")
+font_size = 100
 
 [node name="Main" type="Control"]
 layout_direction = 1
@@ -24,77 +55,231 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="Screen Size" type="Panel" parent="."]
+[node name="Screen Size" parent="." instance=ExtResource("1_kln2b")]
+layout_mode = 1
+
+[node name="Components" parent="." instance=ExtResource("1_pbw6q")]
+
+[node name="Deck Manager" parent="Components" index="0" node_paths=PackedStringArray("TypeLabel", "HeaderLabel", "DescriptionLabel", "LuckyHeaderLabel", "LuckyDescriptionLabel", "CardTypeImage", "ShotCountImage", "FrontCard", "BackCard", "LuckyCard", "FrontCardButton", "BackCardButton", "LuckyCardButton", "TimerController")]
+TypeLabel = NodePath("../../Cards/Front Card/Card Type")
+HeaderLabel = NodePath("../../Cards/Back Card/Header")
+DescriptionLabel = NodePath("../../Cards/Back Card/Description")
+LuckyHeaderLabel = NodePath("../../Cards/Lucky Card/Header")
+LuckyDescriptionLabel = NodePath("../../Cards/Lucky Card/Description")
+CardTypeImage = NodePath("../../Cards/Front Card/Card Type Texture")
+ShotCountImage = NodePath("../../Cards/Back Card/Shot Count")
+FrontCard = NodePath("../../Cards/Front Card")
+BackCard = NodePath("../../Cards/Back Card")
+LuckyCard = NodePath("../../Cards/Lucky Card")
+FrontCardButton = NodePath("../../Cards/Front Card/Front Card Button")
+BackCardButton = NodePath("../../Cards/Back Card/Back Card Button")
+LuckyCardButton = NodePath("../../Cards/Lucky Card/Lucky Card Button")
+TimerController = NodePath("../../Timer Controller")
+
+[node name="Button" type="Button" parent="."]
+visible = false
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -467.0
+offset_top = -1084.0
+offset_right = 467.0
+offset_bottom = -313.0
+grow_horizontal = 2
+grow_vertical = 2
+pivot_offset = Vector2(467, 385.5)
+theme_override_font_sizes/font_size = 76
+text = "Vibrate Light
+"
+script = ExtResource("1_glv2v")
+
+[node name="Button2" type="Button" parent="."]
+visible = false
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -467.0
+offset_top = -214.0
+offset_right = 467.0
+offset_bottom = 557.0
+grow_horizontal = 2
+grow_vertical = 2
+pivot_offset = Vector2(467, 385.5)
+theme_override_font_sizes/font_size = 76
+text = "Vibrate Medium
+"
+script = ExtResource("1_glv2v")
+
+[node name="Player 1 Panel" type="Panel" parent="."]
+self_modulate = Color(1, 0, 0.607843, 1)
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -540.0
+offset_right = -540.0
+grow_horizontal = 2
+grow_vertical = 2
+pivot_offset = Vector2(540, 1170)
+theme_override_styles/panel = SubResource("StyleBoxFlat_kln2b")
+metadata/_edit_use_anchors_ = true
+
+[node name="Player 1" type="Label" parent="Player 1 Panel"]
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_left = 40.0
+offset_top = 150.0
+offset_bottom = 259.0
+grow_horizontal = 2
+pivot_offset = Vector2(250, 54.5)
+text = "Player 1"
+label_settings = SubResource("LabelSettings_rgh2o")
+vertical_alignment = 1
+uppercase = true
+
+[node name="Player 2 Panel" type="Panel" parent="."]
+self_modulate = Color(0, 0.49281, 0.298506, 1)
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 1.0
+anchor_right = 1.5
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+pivot_offset = Vector2(0, 1170)
+theme_override_styles/panel = SubResource("StyleBoxFlat_pbw6q")
+metadata/_edit_use_anchors_ = true
+
+[node name="Player 2" type="Label" parent="Player 2 Panel"]
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_top = 150.0
+offset_right = -40.0
+offset_bottom = 259.0
+grow_horizontal = 2
+pivot_offset = Vector2(250, 54.5)
+text = "Player 2"
+label_settings = SubResource("LabelSettings_v1gob")
+horizontal_alignment = 2
+vertical_alignment = 1
+uppercase = true
+
+[node name="Cards" parent="." instance=ExtResource("6_jw32o")]
+layout_mode = 1
+
+[node name="Card Type Texture" parent="Cards/Front Card" index="0"]
+texture = null
+
+[node name="Timer Controller" parent="." node_paths=PackedStringArray("Timer", "TimerPanel", "TimerLabel", "CountdownPanel", "CountdownLabel") instance=ExtResource("3_v1gob")]
+visible = false
+layout_mode = 1
+Timer = NodePath("../Timer")
+TimerPanel = NodePath("../Timer Panel")
+TimerLabel = NodePath("../Timer Panel/Timer Timer")
+CountdownPanel = NodePath("../PreTimer Panel")
+CountdownLabel = NodePath("../PreTimer Panel/PreTimer Timer")
+
+[node name="Cards Left Panel" type="Panel" parent="."]
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_left = 314.0
+offset_top = 96.0
+offset_right = -314.0
+offset_bottom = 213.0
+grow_horizontal = 2
+pivot_offset = Vector2(226, 58.5)
+theme_override_styles/panel = SubResource("StyleBoxFlat_v1gob")
+
+[node name="Cards Left" type="Label" parent="Cards Left Panel"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-theme_override_styles/panel = SubResource("StyleBoxFlat_r150o")
+pivot_offset = Vector2(540, 58.5)
+text = "1 / 99"
+label_settings = SubResource("LabelSettings_jw32o")
+horizontal_alignment = 1
 
-[node name="Label" type="Label" parent="."]
+[node name="Timer Panel" type="Panel" parent="."]
 layout_mode = 1
-offset_right = 213.0
-offset_bottom = 90.0
-text = "test lol"
-label_settings = SubResource("LabelSettings_rxg2q")
-
-[node name="Label3" type="Label" parent="."]
-layout_mode = 1
-anchors_preset = 1
-anchor_left = 1.0
-anchor_right = 1.0
-offset_left = -213.0
-offset_bottom = 90.0
-grow_horizontal = 0
-text = "test lol"
-label_settings = SubResource("LabelSettings_rxg2q")
-
-[node name="Label2" type="Label" parent="."]
-layout_mode = 1
-anchors_preset = 2
-anchor_top = 1.0
-anchor_bottom = 1.0
-offset_top = -23.0
-offset_right = 55.0
-grow_vertical = 0
-text = "test lot"
-label_settings = SubResource("LabelSettings_glv2v")
-
-[node name="Label4" type="Label" parent="."]
-layout_mode = 1
-anchors_preset = 3
-anchor_left = 1.0
+anchors_preset = 12
 anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = -169.0
-offset_top = -69.0
-grow_horizontal = 0
+offset_left = 340.0
+offset_top = -260.0
+offset_right = -340.0
+offset_bottom = -60.0
+grow_horizontal = 2
 grow_vertical = 0
-text = "test lot"
-label_settings = SubResource("LabelSettings_glv2v")
+pivot_offset = Vector2(200, 100)
+theme_override_styles/panel = SubResource("StyleBoxFlat_6sbnv")
+metadata/_edit_use_anchors_ = true
 
-[node name="Button" type="Button" parent="."]
-layout_mode = 0
-offset_left = 71.0
-offset_top = 219.0
-offset_right = 1005.0
-offset_bottom = 990.0
-text = "Vibrate Light
-"
-script = ExtResource("1_glv2v")
+[node name="Timer Timer" type="Label" parent="Timer Panel"]
+layout_mode = 1
+anchors_preset = -1
+anchor_top = 0.267308
+anchor_right = 1.0
+anchor_bottom = 0.732692
+grow_horizontal = 2
+grow_vertical = 2
+pivot_offset = Vector2(200, 60.5)
+text = "Timer Time"
+label_settings = SubResource("LabelSettings_13s5m")
+horizontal_alignment = 1
+vertical_alignment = 1
 
-[node name="Button2" type="Button" parent="."]
-layout_mode = 0
-offset_left = 71.0
-offset_top = 1025.0
-offset_right = 1005.0
-offset_bottom = 1796.0
-text = "Vibrate Medium
-"
-script = ExtResource("1_glv2v")
+[node name="Timer" type="Timer" parent="."]
+
+[node name="PreTimer Panel" type="Panel" parent="."]
+layout_mode = 1
+anchors_preset = -1
+anchor_top = 0.863248
+anchor_right = 0.925926
+anchor_bottom = 0.863248
+offset_left = 340.0
+offset_top = -260.0
+offset_right = -260.0
+offset_bottom = 140.0
+grow_horizontal = 2
+grow_vertical = 0
+pivot_offset = Vector2(200, 200)
+theme_override_styles/panel = SubResource("StyleBoxFlat_6sbnv")
+metadata/_edit_use_anchors_ = true
+
+[node name="PreTimer Timer" type="Label" parent="PreTimer Panel"]
+layout_mode = 1
+anchors_preset = -1
+anchor_top = 0.267308
+anchor_right = 1.0
+anchor_bottom = 0.732692
+grow_horizontal = 2
+grow_vertical = 2
+pivot_offset = Vector2(200, 60.5)
+text = "Timer Time"
+label_settings = SubResource("LabelSettings_13s5m")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="PreTimer" type="Timer" parent="."]
+wait_time = 5.0
+one_shot = true
 
 [connection signal="pressed" from="Button" to="Button" method="_pressed"]
 [connection signal="pressed" from="Button2" to="Button2" method="_pressed2"]
+
+[editable path="Components"]
+[editable path="Cards"]
+[editable path="Timer Controller"]

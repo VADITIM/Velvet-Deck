@@ -1,0 +1,27 @@
+[gd_scene load_steps=3 format=3 uid="uid://cajivp4fllee0"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_e8ns5"]
+bg_color = Color(0.758192, 0.758192, 0.758192, 1)
+corner_radius_top_left = 105
+corner_radius_top_right = 105
+corner_radius_bottom_right = 105
+corner_radius_bottom_left = 105
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_4mheo"]
+bg_color = Color(0, 0, 0, 1)
+
+[node name="Screen Size" type="Panel"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_e8ns5")
+
+[node name="Panel" type="Panel" parent="."]
+offset_left = 520.0
+offset_top = 40.0
+offset_right = 560.0
+offset_bottom = 80.0
+pivot_offset = Vector2(20, 20)
+theme_override_styles/panel = SubResource("StyleBoxFlat_4mheo")

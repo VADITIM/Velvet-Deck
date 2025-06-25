@@ -18,13 +18,14 @@ config/icon="res://icon.svg"
 
 [autoload]
 
-VibrationController="*res://Scripts/VibrationController.gd"
+VibrationController="*res://Scripts/GD/VibrationController.gd"
 
 [display]
 
 window/size/viewport_width=1080
 window/size/viewport_height=2340
 window/size/mode=2
+window/stretch/mode="viewport"
 window/handheld/orientation=1
 
 [dotnet]
@@ -33,7 +34,7 @@ project/assembly_name="Couples Card Game"
 
 [editor_plugins]
 
-enabled=PackedStringArray("res://addons/nv.node_pivot/plugin.cfg")
+enabled=PackedStringArray("res://addons/globalize-plugins/plugin.cfg", "res://addons/inspector-category-filter/plugin.cfg", "res://addons/nv.node_pivot/plugin.cfg")
 
 [rendering]
 

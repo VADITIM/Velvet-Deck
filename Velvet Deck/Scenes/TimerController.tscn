@@ -1,0 +1,92 @@
+[gd_scene load_steps=5 format=3 uid="uid://bqw653qeibxvr"]
+
+[ext_resource type="FontFile" uid="uid://cvaw2qt4e71he" path="res://Assets/Fonts/steelfish.eb-regular.otf" id="1_6sbnv"]
+[ext_resource type="Script" uid="uid://cxowg6vfnitag" path="res://Scripts/C#/TimerController.cs" id="1_v0mwc"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_6sbnv"]
+corner_radius_top_left = 30
+corner_radius_top_right = 30
+corner_radius_bottom_right = 30
+corner_radius_bottom_left = 30
+shadow_color = Color(0, 0, 0, 0.392157)
+shadow_size = 20
+shadow_offset = Vector2(10, 10)
+
+[sub_resource type="LabelSettings" id="LabelSettings_13s5m"]
+font = ExtResource("1_6sbnv")
+font_size = 100
+
+[node name="Timer Controller" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_v0mwc")
+
+[node name="Timer Panel" type="Panel" parent="."]
+layout_mode = 1
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 340.0
+offset_top = -260.0
+offset_right = -340.0
+offset_bottom = -60.0
+grow_horizontal = 2
+grow_vertical = 0
+pivot_offset = Vector2(200, 100)
+theme_override_styles/panel = SubResource("StyleBoxFlat_6sbnv")
+metadata/_edit_use_anchors_ = true
+
+[node name="Timer Timer" type="Label" parent="Timer Panel"]
+layout_mode = 1
+anchors_preset = -1
+anchor_top = 0.267308
+anchor_right = 1.0
+anchor_bottom = 0.732692
+grow_horizontal = 2
+grow_vertical = 2
+pivot_offset = Vector2(200, 60.5)
+text = "Timer Time"
+label_settings = SubResource("LabelSettings_13s5m")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Timer" type="Timer" parent="."]
+
+[node name="PreTimer Panel" type="Panel" parent="."]
+layout_mode = 1
+anchors_preset = -1
+anchor_top = 0.863248
+anchor_right = 0.925926
+anchor_bottom = 0.863248
+offset_left = 340.0
+offset_top = -260.0
+offset_right = -260.0
+offset_bottom = 140.0
+grow_horizontal = 2
+grow_vertical = 0
+pivot_offset = Vector2(200, 200)
+theme_override_styles/panel = SubResource("StyleBoxFlat_6sbnv")
+metadata/_edit_use_anchors_ = true
+
+[node name="PreTimer Timer" type="Label" parent="PreTimer Panel"]
+layout_mode = 1
+anchors_preset = -1
+anchor_top = 0.267308
+anchor_right = 1.0
+anchor_bottom = 0.732692
+grow_horizontal = 2
+grow_vertical = 2
+pivot_offset = Vector2(200, 60.5)
+text = "Timer Time"
+label_settings = SubResource("LabelSettings_13s5m")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="PreTimer" type="Timer" parent="."]
+wait_time = 5.0
+one_shot = true

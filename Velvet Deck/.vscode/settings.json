@@ -1,0 +1,32 @@
+{
+    "files.exclude": {
+        "**/.godot": true,
+        "**/.godot/**": true,
+        "**/*.uid": true,
+        "**/.editorconfig": true,
+        "**/.git": true,
+        "**/.gitignore": true,
+        "**/.gitattributes": true,
+        "**/.import": true,
+        "**/*.import": true,
+        "**/*.md": true,
+        "**/*.sln": true,
+        "**/*.csproj": true,
+        "**/*.tmp": true,
+        "**/tmp": true
+    },
+    "search.exclude": {
+        "**/.godot": true,
+        "**/.godot/**": true,
+        "**/*.uid": true,
+        "**/.git": true,
+        "**/.import": true,
+        "**/*.import": true,
+        "**/*.md": true,
+        "**/*.sln": true,
+        "**/*.csproj": true,
+        "**/*.tmp": true,
+        "**/tmp": true
+    },
+    "godotTools.editorPath.godot4": "c:\\Users\\Teilnehmer\\Documents\\Godot Versions\\Godot_v4.4.1-stable_mono_win64\\Godot_v4.4.1-stable_mono_win64\\Godot 4.4.1.exe"
+}
