@@ -34,7 +34,7 @@ project/assembly_name="Couples Card Game"
 
 [editor_plugins]
 
-enabled=PackedStringArray("res://addons/globalize-plugins/plugin.cfg", "res://addons/inspector-category-filter/plugin.cfg", "res://addons/nv.node_pivot/plugin.cfg")
+enabled=PackedStringArray("res://addons/inspector-category-filter/plugin.cfg", "res://addons/nv.node_pivot/plugin.cfg")
 
 [rendering]
 

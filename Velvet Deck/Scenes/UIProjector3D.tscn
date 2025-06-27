@@ -1,0 +1,22 @@
+[gd_scene load_steps=4 format=3 uid="uid://c3kvgxtdmwlnj"]
+
+[ext_resource type="Script" uid="uid://x0ng53lkstya" path="res://Scripts/C#/UIProjector3D.cs" id="1_5hd7x"]
+[ext_resource type="PackedScene" uid="uid://ceospw3ab1ahn" path="res://Scenes/Player1Control.tscn" id="2_cwi0w"]
+
+[sub_resource type="ViewportTexture" id="ViewportTexture_cwi0w"]
+viewport_path = NodePath("SubViewport")
+
+[node name="UIProjector3D" type="Node3D" node_paths=PackedStringArray("SubViewport", "Sprite3D")]
+script = ExtResource("1_5hd7x")
+SubViewport = NodePath("SubViewport")
+Sprite3D = NodePath("Sprite3D")
+
+[node name="SubViewport" type="SubViewport" parent="."]
+transparent_bg = true
+size = Vector2i(1080, 2340)
+render_target_update_mode = 4
+
+[node name="Player 1 Control" parent="SubViewport" instance=ExtResource("2_cwi0w")]
+
+[node name="Sprite3D" type="Sprite3D" parent="."]
+texture = SubResource("ViewportTexture_cwi0w")

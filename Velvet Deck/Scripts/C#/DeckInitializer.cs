@@ -6,13 +6,13 @@ public static class DeckInitializer
     {
         var deck = new List<Card>();
 
-        deck.Add(new Card(CardType.Drink, "Take a sip of your drink. Enjoy a refreshing drink together", "Sip & Savor", 1, 30f));
-        deck.Add(new Card(CardType.Drink, "Share a drink with your partner. Take turns drinking from the same glass", "Share the Love", 1, 30f));
-        deck.Add(new Card(CardType.Drink, "Finish your drink. Drink up and move on to the next round", "Bottoms Up", 2, 30f));
-        deck.Add(new Card(CardType.Drink, "Take a shot together. Cheers and take a shot simultaneously", "Synchronized Shot", 3, 30f));
-        deck.Add(new Card(CardType.Drink, "Make a toast to your relationship. Raise your glasses and celebrate", "Cheers to Us", 1, 30f));
-        deck.Add(new Card(CardType.Drink, "Drink without using your hands. Get creative with how you drink", "Hands-Free Fun", 2, 30f));
-        deck.Add(new Card(CardType.Drink, "Feed your partner a drink. Help your partner drink", "Feeding Time", 1, 30f));
+        deck.Add(new Card(CardType.Drink, "Take a sip of your drink. Enjoy a refreshing drink together", "Sip & Savor", 1));
+        deck.Add(new Card(CardType.Drink, "Share a drink with your partner. Take turns drinking from the same glass", "Share the Love", 1));
+        deck.Add(new Card(CardType.Drink, "Finish your drink. Drink up and move on to the next round", "Bottoms Up", 2));
+        deck.Add(new Card(CardType.Drink, "Take a shot together. Cheers and take a shot simultaneously", "Synchronized Shot", 3));
+        deck.Add(new Card(CardType.Drink, "Make a toast to your relationship. Raise your glasses and celebrate", "Cheers to Us", 1));
+        deck.Add(new Card(CardType.Drink, "Drink without using your hands. Get creative with how you drink", "Hands-Free Fun", 2));
+        deck.Add(new Card(CardType.Drink, "Feed your partner a drink. Help your partner drink", "Feeding Time", 1));
 
         return deck;
     }

@@ -7,7 +7,7 @@
 [ext_resource type="Texture2D" uid="uid://dq2gsyg4itlhi" path="res://Assets/Textures/Shots/three-shot.png" id="3_q2i7g"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_3p273"]
-bg_color = Color(0, 0.870671, 0.905551, 1)
+bg_color = Color(0.974412, 0.806057, 0.342176, 1)
 border_width_left = 10
 border_width_top = 10
 border_width_right = 10
@@ -17,8 +17,7 @@ corner_radius_top_right = 35
 corner_radius_bottom_right = 35
 corner_radius_bottom_left = 35
 shadow_color = Color(0, 0, 0, 0.196078)
-shadow_size = 20
-shadow_offset = Vector2(10, 10)
+shadow_size = 30
 
 [sub_resource type="LabelSettings" id="LabelSettings_h8wm0"]
 font = ExtResource("1_3q7ms")
@@ -120,7 +119,6 @@ pivot_offset = Vector2(380, 710)
 script = ExtResource("1_q2i7g")
 
 [node name="Back Card" type="Panel" parent="."]
-visible = false
 layout_mode = 1
 anchors_preset = -1
 anchor_right = 1.0
@@ -131,9 +129,8 @@ offset_right = -160.0
 offset_bottom = -460.0
 grow_horizontal = 2
 grow_vertical = 2
-pivot_offset = Vector2(380, 710)
+pivot_offset = Vector2(380, 709.995)
 theme_override_styles/panel = SubResource("StyleBoxFlat_3p273")
-metadata/_edit_use_anchors_ = true
 
 [node name="Shot Count" type="TextureRect" parent="Back Card"]
 layout_mode = 1
@@ -279,5 +276,6 @@ pivot_offset = Vector2(380, 710)
 script = ExtResource("1_q2i7g")
 
 [connection signal="pressed" from="Front Card/Front Card Button" to="." method="_pressed"]
+[connection signal="pressed" from="Front Card/Front Card Button" to="Front Card/Front Card Button" method="FrontCardPressed"]
 [connection signal="pressed" from="Back Card/Back Card Button" to="." method="_pressed"]
 [connection signal="pressed" from="Lucky Card/Lucky Card Button" to="." method="_pressed"]

@@ -1,6 +1,0 @@
-[gd_scene load_steps=2 format=3 uid="uid://6efdpqhvf7gb"]
-
-[ext_resource type="Script" uid="uid://ds4ndlomd3bdi" path="res://Scripts/C#/Animations.cs" id="1_u68jx"]
-
-[node name="Animations" type="Node"]
-script = ExtResource("1_u68jx")
