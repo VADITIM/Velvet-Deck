@@ -1,0 +1,53 @@
+[gd_scene load_steps=7 format=3 uid="uid://c03d1agroh7ey"]
+
+[ext_resource type="Texture2D" uid="uid://cpqal50rmnmfx" path="res://Assets/Textures/Clipped Paths/player_background2.png" id="1_0hdqr"]
+[ext_resource type="Texture2D" uid="uid://picyml8sd0ll" path="res://Assets/Textures/Clipped Paths/player_background.png" id="2_d8ey0"]
+[ext_resource type="FontFile" uid="uid://cvaw2qt4e71he" path="res://Assets/Fonts/steelfish.eb-regular.otf" id="3_isrn2"]
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_frkhe"]
+texture = ExtResource("1_0hdqr")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_h1m7h"]
+texture = ExtResource("2_d8ey0")
+
+[sub_resource type="LabelSettings" id="LabelSettings_rgh2o"]
+font = ExtResource("3_isrn2")
+font_size = 90
+
+[node name="Home Player Panel" type="Panel"]
+self_modulate = Color(1, 0, 0.607843, 1)
+anchors_preset = -1
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -540.0
+offset_right = -540.0
+grow_horizontal = 2
+grow_vertical = 2
+pivot_offset = Vector2(540, 1170)
+theme_override_styles/panel = SubResource("StyleBoxTexture_frkhe")
+metadata/_edit_use_anchors_ = true
+
+[node name="Background 2" type="Panel" parent="."]
+self_modulate = Color(1, 0.33969, 0.660718, 1)
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxTexture_h1m7h")
+
+[node name="Player 1" type="Label" parent="."]
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_left = 70.0
+offset_top = 213.0
+offset_right = 30.0
+offset_bottom = 322.0
+grow_horizontal = 2
+pivot_offset = Vector2(250, 54.5)
+text = "Player 1"
+label_settings = SubResource("LabelSettings_rgh2o")
+vertical_alignment = 1
+uppercase = true

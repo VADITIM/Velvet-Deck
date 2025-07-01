@@ -12,3 +12,7 @@ func _pressed2():
 
 func FrontCardPressed():
 	pass # Replace with function body.
+
+
+func OnBackCardPressed():
+	pass # Replace with function body.

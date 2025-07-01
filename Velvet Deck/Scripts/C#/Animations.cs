@@ -9,19 +9,38 @@ public partial class Animations : Node
     public Vector2 Player2PanelOriginalPosition;
     public Vector2 backCardOriginalPos;
     public Vector2 frontCardOriginalPos;
+    [Export] public Panel FrontCardPanel;
+    [Export] public Panel BackCardPanel;
 
     public override void _Ready()
     {
         Player1PanelOriginalPosition = Player1Panel.Position;
         Player2PanelOriginalPosition = Player2Panel.Position;
 
+        CallDeferred(nameof(InitializeCardPositions));
         ResetToNeutralPosition();
+    }
+
+    private void InitializeCardPositions()
+    {
+        if (Components.Instance?.DeckManager != null)
+        {
+            backCardOriginalPos = Components.Instance.DeckManager.BackCardPanel.Position;
+            frontCardOriginalPos = Components.Instance.DeckManager.FrontCardPanel.Position;
+        }
     }
 
     public void ResetToNeutralPosition()
     {
-        Player1Panel.Position = Player1PanelOriginalPosition;
-        Player2Panel.Position = Player2PanelOriginalPosition;
+        var Player1 = CreateTween();
+        var player1Tween = Player1.TweenProperty(Player1Panel, "position", Player1PanelOriginalPosition, 0.25f)
+        .SetEase(Tween.EaseType.Out)
+        .SetTrans(Tween.TransitionType.Quad);
+
+        var Player2 = CreateTween();
+        var player2Tween = Player2.TweenProperty(Player2Panel, "position", Player2PanelOriginalPosition, 0.25f)
+        .SetEase(Tween.EaseType.Out)
+        .SetTrans(Tween.TransitionType.Quad);
     }
 
     public void AnimateForPlayer(Player activePlayer)
@@ -36,7 +55,7 @@ public partial class Animations : Node
         }
     }
 
-    private void Player2Turn()
+    public void Player2Turn()
     {
         var animationSpeed = 0.25f;
 
@@ -54,7 +73,7 @@ public partial class Animations : Node
         tweenProperty2b.SetTrans(Tween.TransitionType.Sine);
     }
 
-    private void Player1Turn()
+    public void Player1Turn()
     {
         var animationSpeed = 0.2f;
 
@@ -107,83 +126,69 @@ public partial class Animations : Node
         tweenProperty2.SetTrans(Tween.TransitionType.Quad);
     }
 
-    public void FlipFrontCard(Panel FrontCardPanel, Panel BackCardPanel)
+    public void FlipCards(Panel FrontCardPanel, Panel BackCardPanel)
     {
-        var frontButton = Components.Instance.DeckManager.FrontCardButton;
-        var backButton = Components.Instance.DeckManager.BackCardButton;
-
         var animationSpeed = 0.15f;
 
-        if (frontButton != null)
-        {
-            frontButton.Disabled = true;
-        }
+        var frontButton = Components.Instance.DeckManager.FrontCardButton;
+        var backButton = Components.Instance.DeckManager.BackCardButton;
+        BackCardPanel.Position = backCardOriginalPos;
+        FrontCardPanel.Position = frontCardOriginalPos;
 
+        frontButton.Disabled = true;
         BackCardPanel.Visible = false;
         BackCardPanel.Scale = new Vector2(0.0f, BackCardPanel.Scale.Y);
 
-        var frontCardFlip = CreateTween();
-        var tweenProperty1 = frontCardFlip.TweenProperty(FrontCardPanel, "scale:x", 0.0f, animationSpeed);
-        tweenProperty1.SetEase(Tween.EaseType.Out);
-        tweenProperty1.SetTrans(Tween.TransitionType.Sine);
-
-        frontCardFlip.TweenCallback(Callable.From(() =>
+        var FrontCardFlip = CreateTween();
+        var flipFrontCard = FrontCardFlip.TweenProperty(FrontCardPanel, "scale:x", 0.0f, animationSpeed)
+        .SetEase(Tween.EaseType.Out)
+        .SetTrans(Tween.TransitionType.Sine);
+        FrontCardFlip.TweenCallback(Callable.From(() =>
         {
-            FrontCardPanel.Visible = false;
             BackCardPanel.Visible = true;
         }));
 
-        var tweenProperty2 = frontCardFlip.TweenProperty(BackCardPanel, "scale:x", 1.0f, animationSpeed);
-        tweenProperty2.SetEase(Tween.EaseType.Out);
-        tweenProperty2.SetTrans(Tween.TransitionType.Sine);
-
-        frontCardFlip.TweenCallback(Callable.From(() =>
+        var BackCardFlip = CreateTween();
+        var flipBackTween = BackCardFlip.TweenProperty(BackCardPanel, "scale:x", 1.0f, animationSpeed)
+        .SetDelay(animationSpeed)
+        .SetEase(Tween.EaseType.Out)
+        .SetTrans(Tween.TransitionType.Sine);
+        BackCardFlip.TweenCallback(Callable.From(() =>
         {
-            if (backButton != null)
-            {
-                backButton.Disabled = false;
-            }
+            backButton.Disabled = false;
+            FrontCardPanel.Visible = false;
+            FrontCardPanel.Scale = new Vector2(1.0f, FrontCardPanel.Scale.Y);
+            FrontCardPanel.Position = frontCardOriginalPos + 2000 * Vector2.Up;
         }));
     }
 
-    public void FlipBackCard(Panel BackCardPanel, Panel FrontCardPanel)
+    public void MoveCards()
     {
+        var animationSpeed = 0.6f;
         var frontButton = Components.Instance.DeckManager.FrontCardButton;
         var backButton = Components.Instance.DeckManager.BackCardButton;
 
-        var animationSpeed = 0.3f;
-
-        if (backButton != null)
-        {
-            backButton.Disabled = true;
-        }
-        BackCardPanel.Visible = true;
-        FrontCardPanel.Visible = false;
+        backButton.Disabled = true;
 
         var backCardMove = CreateTween();
-        var tweenProperty1 = backCardMove.TweenProperty(BackCardPanel, "position", backCardOriginalPos + new Vector2(BackCardPanel.Position.X, 2000), animationSpeed);
-        tweenProperty1.SetEase(Tween.EaseType.Out);
-        tweenProperty1.SetTrans(Tween.TransitionType.Sine);
-
+        var backCardPanel = backCardMove.TweenProperty(BackCardPanel, "position", backCardOriginalPos + 2000 * Vector2.Down, animationSpeed)
+        .SetEase(Tween.EaseType.InOut)
+        .SetTrans(Tween.TransitionType.Quint);
         backCardMove.TweenCallback(Callable.From(() =>
         {
+            FrontCardPanel.Visible = true;
             BackCardPanel.Visible = false;
             Components.Instance.DeckManager.ProgressToNextCard();
         }));
 
-        FrontCardPanel.Position = frontCardOriginalPos + new Vector2(FrontCardPanel.Position.X, 2000);
         var frontCardMove = CreateTween();
-        var tweenProperty2 = frontCardMove.TweenProperty(FrontCardPanel, "position", frontCardOriginalPos, animationSpeed);
-        tweenProperty2.SetEase(Tween.EaseType.Out);
-        tweenProperty2.SetTrans(Tween.TransitionType.Sine);
-
+        var frontCardTween = frontCardMove.TweenProperty(FrontCardPanel, "position", frontCardOriginalPos, animationSpeed)
+        .SetDelay(animationSpeed)
+        .SetEase(Tween.EaseType.InOut)
+        .SetTrans(Tween.TransitionType.Quint);
         frontCardMove.TweenCallback(Callable.From(() =>
         {
-            FrontCardPanel.Visible = true;
-            if (frontButton != null)
-            {
-                frontButton.Disabled = false;
-            }
+            frontButton.Disabled = false;
         }));
     }
 }

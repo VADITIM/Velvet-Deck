@@ -9,6 +9,8 @@ public partial class Components : Node
     [Export] public TurnManager TurnManager;
     [Export] public CardManager CardManager;
     [Export] public Animations Animations;
+    [Export] public ColorPicker ColorPicker;
+    [Export] public CustomizePlayers CustomizePlayers;
 
     public override void _Ready()
     {

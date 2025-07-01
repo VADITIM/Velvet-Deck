@@ -77,9 +77,13 @@ public partial class DeckManager : Node
             CardTypeImage.Texture = cardTypeTextures[card.Type];
         }
 
-        if (HeaderLabel != null) HeaderLabel.Text = "";
-        if (DescriptionLabel != null) DescriptionLabel.Text = "";
-        if (ShotCountImage != null) ShotCountImage.Texture = null;
+        // Only clear the back card content if the back card is not visible
+        if (BackCardPanel != null && !BackCardPanel.Visible)
+        {
+            if (HeaderLabel != null) HeaderLabel.Text = "";
+            if (DescriptionLabel != null) DescriptionLabel.Text = "";
+            if (ShotCountImage != null) ShotCountImage.Texture = null;
+        }
 
         SetCardColor(FrontCardPanel, card.Type);
 
@@ -186,7 +190,7 @@ public partial class DeckManager : Node
         {
             DisplaySecondCard(currentCard);
 
-            Components.Instance.Animations.FlipFrontCard(FrontCardPanel, BackCardPanel);
+            Components.Instance.Animations.FlipCards(FrontCardPanel, BackCardPanel);
         }
     }
 
@@ -227,7 +231,7 @@ public partial class DeckManager : Node
         }
 
         DisplayFirstCard(currentCard);
-        Components.Instance.Animations.FlipBackCard(BackCardPanel, FrontCardPanel);
+        Components.Instance.Animations.MoveCards();
     }
 
     public void OnLuckyCardPressed()
@@ -240,7 +244,7 @@ public partial class DeckManager : Node
     {
         if (!gameStarted)
         {
-            return; 
+            return;
         }
 
         if (Components.Instance == null || Components.Instance.CardManager == null)

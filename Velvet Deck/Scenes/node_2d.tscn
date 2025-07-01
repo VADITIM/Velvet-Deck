@@ -1,0 +1,194 @@
+[gd_scene load_steps=7 format=3 uid="uid://datxqjv0n0xqk"]
+
+[ext_resource type="Texture2D" uid="uid://p8uwdxjm178q" path="res://Assets/Textures/Card Types/drink.png" id="1_hh5uf"]
+[ext_resource type="FontFile" uid="uid://gefc4b2w7ewl" path="res://Assets/Fonts/steelfish.outline-regular.otf" id="2_6whob"]
+[ext_resource type="Script" uid="uid://c2mylv00jljg3" path="res://Scripts/GD/VibrateDevice.gd" id="3_u7krg"]
+
+[sub_resource type="Gradient" id="Gradient_tx0tn"]
+colors = PackedColorArray(0.819179, 0.568961, 0.719042, 1, 1, 0.559557, 0.985305, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_wjtap"]
+gradient = SubResource("Gradient_tx0tn")
+width = 600
+height = 1000
+fill_from = Vector2(1, 0)
+fill_to = Vector2(1, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_h8wm0"]
+font = ExtResource("2_6whob")
+font_size = 200
+
+[node name="Node2D" type="Node2D"]
+
+[node name="Front Card" type="Node2D" parent="."]
+
+[node name="Front Card" type="Sprite2D" parent="Front Card"]
+position = Vector2(539, 1023)
+texture = SubResource("GradientTexture2D_wjtap")
+
+[node name="Control" type="Control" parent="Front Card"]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 539.0
+offset_bottom = 1173.0
+
+[node name="Card Type Texture" type="TextureRect" parent="Front Card/Control"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 239.0
+offset_top = 915.0
+offset_right = 300.0
+offset_bottom = 342.0
+grow_horizontal = 2
+grow_vertical = 2
+pivot_offset = Vector2(340, 340)
+texture = ExtResource("1_hh5uf")
+expand_mode = 1
+
+[node name="Card Type" type="Label" parent="Front Card/Control"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 239.0
+offset_top = 523.0
+offset_right = 300.0
+offset_bottom = -258.0
+grow_horizontal = 2
+grow_vertical = 2
+pivot_offset = Vector2(267.5, 120.5)
+text = "Card Type"
+label_settings = SubResource("LabelSettings_h8wm0")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Front Card Button" type="Button" parent="Front Card/Control"]
+self_modulate = Color(1, 1, 1, 0)
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 239.0
+offset_top = 523.0
+offset_right = 300.0
+offset_bottom = 350.0
+grow_horizontal = 2
+grow_vertical = 2
+pivot_offset = Vector2(380, 710)
+script = ExtResource("3_u7krg")
+
+[node name="Back Card" type="Node2D" parent="."]
+
+[node name="Back Card" type="Sprite2D" parent="Back Card"]
+
+[node name="Control" type="Control" parent="Back Card"]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 539.0
+offset_bottom = 1173.0
+
+[node name="Card Type Texture" type="TextureRect" parent="Back Card/Control"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 239.0
+offset_top = 915.0
+offset_right = 300.0
+offset_bottom = 342.0
+grow_horizontal = 2
+grow_vertical = 2
+pivot_offset = Vector2(340, 340)
+texture = ExtResource("1_hh5uf")
+expand_mode = 1
+
+[node name="Card Type" type="Label" parent="Back Card/Control"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 239.0
+offset_top = 523.0
+offset_right = 300.0
+offset_bottom = -258.0
+grow_horizontal = 2
+grow_vertical = 2
+pivot_offset = Vector2(267.5, 120.5)
+text = "Card Type"
+label_settings = SubResource("LabelSettings_h8wm0")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Back Card Button" type="Button" parent="Back Card/Control"]
+self_modulate = Color(1, 1, 1, 0)
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 239.0
+offset_top = 523.0
+offset_right = 300.0
+offset_bottom = 350.0
+grow_horizontal = 2
+grow_vertical = 2
+pivot_offset = Vector2(380, 710)
+script = ExtResource("3_u7krg")
+
+[node name="Lucky Card" type="Node2D" parent="."]
+
+[node name="Lucky Card" type="Sprite2D" parent="Lucky Card"]
+
+[node name="Control" type="Control" parent="Lucky Card"]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 539.0
+offset_bottom = 1173.0
+
+[node name="Card Type Texture" type="TextureRect" parent="Lucky Card/Control"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 239.0
+offset_top = 915.0
+offset_right = 300.0
+offset_bottom = 342.0
+grow_horizontal = 2
+grow_vertical = 2
+pivot_offset = Vector2(340, 340)
+texture = ExtResource("1_hh5uf")
+expand_mode = 1
+
+[node name="Card Type" type="Label" parent="Lucky Card/Control"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 239.0
+offset_top = 523.0
+offset_right = 300.0
+offset_bottom = -258.0
+grow_horizontal = 2
+grow_vertical = 2
+pivot_offset = Vector2(267.5, 120.5)
+text = "Card Type"
+label_settings = SubResource("LabelSettings_h8wm0")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Lucky Card Button" type="Button" parent="Lucky Card/Control"]
+self_modulate = Color(1, 1, 1, 0)
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 239.0
+offset_top = 523.0
+offset_right = 300.0
+offset_bottom = 350.0
+grow_horizontal = 2
+grow_vertical = 2
+pivot_offset = Vector2(380, 710)
+script = ExtResource("3_u7krg")

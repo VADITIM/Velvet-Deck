@@ -9,7 +9,8 @@ public enum Player
 
 public partial class TurnManager : Node
 {
-    [Export] Button StartGameButton;
+    [Export] public Button StartGameButton;
+    [Export] public Control CustomizePlayers;
 
     private Player currentPlayer;
     private bool gameStarted = false;
@@ -18,28 +19,20 @@ public partial class TurnManager : Node
     public override void _Ready()
     {
         StartGameButton.Pressed += OnStartGamePressed;
+        StartGameButton.Visible = false;
     }
 
     public void OnStartGamePressed()
     {
-        GD.Print("Start Game Button Pressed!");
-
         if (!turnsAssigned)
         {
             AssignFirstPlayer();
             turnsAssigned = true;
             gameStarted = true;
 
-            if (StartGameButton != null)
-            {
-                StartGameButton.Visible = false;
-            }
+            CustomizePlayers.Visible = false;
             UpdatePlayerTurn();
             Components.Instance.DeckManager.OnGameStarted();
-        }
-        else
-        {
-            GD.Print("Game already started!");
         }
     }
 
@@ -78,5 +71,15 @@ public partial class TurnManager : Node
     public bool AreTurnsAssigned()
     {
         return turnsAssigned;
+    }
+
+    public void SetStartButtonVisible(bool visible)
+    {
+        StartGameButton.Visible = visible;
+    }
+
+    public CustomizePlayers GetCustomizePlayers()
+    {
+        return CustomizePlayers as CustomizePlayers;
     }
 }
