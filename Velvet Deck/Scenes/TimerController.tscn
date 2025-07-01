@@ -1,6 +1,6 @@
 [gd_scene load_steps=5 format=3 uid="uid://bqw653qeibxvr"]
 
-[ext_resource type="Script" uid="uid://cxowg6vfnitag" path="res://Scripts/C#/TimerController.cs" id="1_v0mwc"]
+[ext_resource type="Script" uid="uid://cxowg6vfnitag" path="res://Scripts/C#/Misc/TimerController.cs" id="1_v0mwc"]
 [ext_resource type="FontFile" uid="uid://cvaw2qt4e71he" path="res://Assets/Fonts/steelfish.eb-regular.otf" id="2_13s5m"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_v0mwc"]

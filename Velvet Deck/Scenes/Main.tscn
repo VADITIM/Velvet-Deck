@@ -121,13 +121,13 @@ TimerController = NodePath("../../Timer Controller")
 StartGameButton = NodePath("../../Customize Players/Start Game Button")
 CustomizePlayers = NodePath("../../Customize Players")
 
-[node name="Animations" parent="Components" index="3" node_paths=PackedStringArray("Player1Panel", "Player2Panel", "FrontCardPanel", "BackCardPanel")]
-Player1Panel = NodePath("../../Home Player Panel")
-Player2Panel = NodePath("../../Away Player Panel")
+[node name="Animations" parent="Components" index="3" node_paths=PackedStringArray("LeftPlayerPanel", "RightPlayerPanel", "FrontCardPanel", "BackCardPanel")]
+LeftPlayerPanel = NodePath("../../Left Player Panel")
+RightPlayerPanel = NodePath("../../Right Player Panel")
 FrontCardPanel = NodePath("../../Cards/Front Card")
 BackCardPanel = NodePath("../../Cards/Back Card")
 
-[node name="Home Player Panel" type="Panel" parent="."]
+[node name="Left Player Panel" type="Panel" parent="."]
 self_modulate = Color(9.62615e-07, 0.379842, 0.653694, 1)
 layout_mode = 1
 anchors_preset = -1
@@ -141,7 +141,7 @@ pivot_offset = Vector2(540, 1170)
 theme_override_styles/panel = SubResource("StyleBoxTexture_frkhe")
 metadata/_edit_use_anchors_ = true
 
-[node name="Foreground" type="Panel" parent="Home Player Panel"]
+[node name="Left Player Foreground" type="Panel" parent="Left Player Panel"]
 self_modulate = Color(0, 0.550885, 0.92892, 1)
 layout_mode = 1
 anchors_preset = 15
@@ -151,7 +151,7 @@ grow_horizontal = 2
 grow_vertical = 2
 theme_override_styles/panel = SubResource("StyleBoxTexture_h1m7h")
 
-[node name="Player 1" type="Label" parent="Home Player Panel"]
+[node name="Left Player Name" type="Label" parent="Left Player Panel"]
 layout_mode = 1
 anchors_preset = 10
 anchor_right = 1.0
@@ -166,7 +166,7 @@ label_settings = SubResource("LabelSettings_rgh2o")
 vertical_alignment = 1
 uppercase = true
 
-[node name="Away Player Panel" type="Panel" parent="."]
+[node name="Right Player Panel" type="Panel" parent="."]
 self_modulate = Color(0.862098, 0, 0.360593, 1)
 layout_mode = 1
 anchors_preset = -1
@@ -179,7 +179,7 @@ pivot_offset = Vector2(0, 1170)
 theme_override_styles/panel = SubResource("StyleBoxTexture_1p5hy")
 metadata/_edit_use_anchors_ = true
 
-[node name="Foreground" type="Panel" parent="Away Player Panel"]
+[node name="Right Player Foreground" type="Panel" parent="Right Player Panel"]
 self_modulate = Color(1, 0.222071, 0.46108, 1)
 layout_mode = 1
 anchors_preset = 15
@@ -189,7 +189,7 @@ grow_horizontal = 2
 grow_vertical = 2
 theme_override_styles/panel = SubResource("StyleBoxTexture_erwvk")
 
-[node name="Player 2" type="Label" parent="Away Player Panel"]
+[node name="Right Player Name" type="Label" parent="Right Player Panel"]
 layout_mode = 1
 anchors_preset = 10
 anchor_right = 1.0
@@ -214,32 +214,25 @@ visible = false
 [node name="Back Card" parent="Cards" index="2"]
 visible = false
 
-[node name="Customize Players" parent="." node_paths=PackedStringArray("AwayPlayerName") instance=ExtResource("10_bmxlf")]
+[node name="Customize Players" parent="." node_paths=PackedStringArray("LeftPlayerNameEdit", "RightPlayerNameEdit") instance=ExtResource("10_bmxlf")]
 layout_mode = 1
-AwayPlayerName = NodePath("Input Fields/Away Player Input")
+LeftPlayerNameEdit = NodePath("Input Fields/Left Player Name Edit")
+RightPlayerNameEdit = NodePath("Input Fields/Right Player Name Edit")
 
 [node name="Screen Size" parent="Customize Players" index="0"]
 visible = false
 
-[node name="Away Color Button" parent="Customize Players" index="6"]
-pivot_offset = Vector2(220, 80)
-
-[node name="Colors" parent="Customize Players" index="7"]
+[node name="Colors" parent="Customize Players" index="6"]
 z_index = 2
 
-[node name="Colors Grid" parent="Customize Players/Colors" index="1" node_paths=PackedStringArray("HomeColorButton", "AwayColorButton", "ColorPickerContainer", "Player1Panel", "Player2Panel", "Player1PanelBackground", "Player2PanelBackground")]
-HomeColorButton = NodePath("../../Home Color Button")
-AwayColorButton = NodePath("../../Away Color Button")
-ColorPickerContainer = NodePath("..")
-Player1Panel = NodePath("../../../Home Player Panel")
-Player2Panel = NodePath("../../../Away Player Panel")
-Player1PanelBackground = NodePath("../../../Home Player Panel/Foreground")
-Player2PanelBackground = NodePath("../../../Away Player Panel/Foreground")
+[node name="Colors Grid" parent="Customize Players/Colors" index="1" node_paths=PackedStringArray("LeftPlayerPanel", "RightPlayerPanel", "LeftPlayerForegroundPanel", "RightPlayerForegroundPanel")]
+LeftPlayerPanel = NodePath("../../../Left Player Panel")
+RightPlayerPanel = NodePath("../../../Right Player Panel")
+LeftPlayerForegroundPanel = NodePath("../../../Left Player Panel/Left Player Foreground")
+RightPlayerForegroundPanel = NodePath("../../../Right Player Panel/Right Player Foreground")
 
 [connection signal="pressed" from="Customize Players/Color Swatch" to="Customize Players" method="SetSelectedColors"]
 [connection signal="pressed" from="Customize Players/Start Game Button" to="Customize Players" method="OnStartGamePressed"]
-[connection signal="pressed" from="Customize Players/Home Color Button" to="Customize Players" method="OnHomeColorButtonPressed"]
-[connection signal="pressed" from="Customize Players/Away Color Button" to="Customize Players" method="OnAwayColorButtonPressed"]
 
 [editable path="Timer Controller"]
 [editable path="Components"]
