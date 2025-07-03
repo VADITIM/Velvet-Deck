@@ -16,3 +16,7 @@ func FrontCardPressed():
 
 func OnBackCardPressed():
 	pass # Replace with function body.
+
+
+func OnLuckyCardPressed():
+	pass # Replace with function body.

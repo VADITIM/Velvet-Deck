@@ -1,0 +1,401 @@
+[gd_scene load_steps=22 format=3 uid="uid://d27ieabox358r"]
+
+[ext_resource type="FontFile" uid="uid://cvaw2qt4e71he" path="res://Assets/Fonts/steelfish.eb-regular.otf" id="2_p4o7h"]
+[ext_resource type="Script" uid="uid://c2mylv00jljg3" path="res://Scripts/GD/VibrateDevice.gd" id="3_1ugi2"]
+[ext_resource type="StyleBox" uid="uid://e1j6emmpna1p" path="res://Scenes/Other/CustomizePlayers.tres" id="3_qltgd"]
+[ext_resource type="Script" uid="uid://cxli3xxjkfl0j" path="res://Scripts/C#/Misc/ColorPicker.cs" id="4_61moa"]
+[ext_resource type="StyleBox" uid="uid://bcfwtvm8x7t7d" path="res://Scenes/CustomizePlayers.tres" id="5_v8gfv"]
+[ext_resource type="Texture2D" uid="uid://c8vh4g06s63do" path="res://Assets/Textures/LogoTop.png" id="8_p115m"]
+[ext_resource type="Script" uid="uid://cdv4ijhur68p5" path="res://Scripts/C#/Animations/AnimateLogo.cs" id="8_vaaja"]
+[ext_resource type="Texture2D" uid="uid://creho7loi6dxa" path="res://Assets/Textures/LogoBot.png" id="9_vaaja"]
+[ext_resource type="Script" uid="uid://dg4ws578275wi" path="res://Scripts/C#/Animations/AnimatePlayerButtons.cs" id="11_vs5ro"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_uriyb"]
+bg_color = Color(0.6, 0.6, 0.6, 0)
+border_width_left = 10
+border_width_top = 10
+border_width_right = 10
+border_width_bottom = 10
+corner_radius_top_left = 50
+corner_radius_top_right = 50
+corner_radius_bottom_right = 50
+corner_radius_bottom_left = 50
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_qltgd"]
+bg_color = Color(1, 1, 1, 0)
+border_width_left = 10
+border_width_top = 10
+border_width_right = 10
+border_width_bottom = 10
+border_color = Color(0.8, 0.8, 0.8, 0.588235)
+corner_radius_top_left = 50
+corner_radius_top_right = 50
+corner_radius_bottom_right = 50
+corner_radius_bottom_left = 50
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_f1hll"]
+bg_color = Color(1, 0.223529, 0.462745, 1)
+border_width_bottom = 20
+border_color = Color(0.999997, 0.396346, 0.539437, 1)
+corner_radius_top_left = 50
+corner_radius_top_right = 50
+corner_radius_bottom_right = 50
+corner_radius_bottom_left = 50
+shadow_color = Color(0, 0, 0, 0.823529)
+shadow_size = 20
+shadow_offset = Vector2(0, 30)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_61moa"]
+bg_color = Color(0.6, 0.6, 0.6, 0)
+border_width_left = 10
+border_width_top = 10
+border_width_right = 10
+border_width_bottom = 10
+border_color = Color(0.8, 0.8, 0.8, 0.588235)
+corner_radius_top_left = 50
+corner_radius_top_right = 50
+corner_radius_bottom_right = 50
+corner_radius_bottom_left = 50
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_p4o7h"]
+bg_color = Color(0, 0.54902, 0.929412, 1)
+border_width_bottom = 20
+border_color = Color(0.323393, 0.671375, 0.999998, 1)
+corner_radius_top_left = 50
+corner_radius_top_right = 50
+corner_radius_bottom_right = 50
+corner_radius_bottom_left = 50
+shadow_color = Color(0, 0, 0, 0.823529)
+shadow_size = 20
+shadow_offset = Vector2(0, 30)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_sv7g7"]
+bg_color = Color(0, 0.54902, 0.929412, 1)
+border_width_bottom = 20
+border_color = Color(0.321569, 0.670588, 1, 1)
+corner_radius_top_left = 50
+corner_radius_bottom_left = 50
+shadow_color = Color(0, 0, 0, 0.823529)
+shadow_size = 20
+shadow_offset = Vector2(0, 30)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_p115m"]
+bg_color = Color(0, 0.54902, 0.929412, 1)
+border_width_bottom = 20
+border_color = Color(0.321569, 0.670588, 1, 1)
+corner_radius_top_left = 50
+corner_radius_bottom_left = 50
+shadow_color = Color(0, 0, 0, 0.823529)
+shadow_size = 20
+shadow_offset = Vector2(0, 30)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_28bxo"]
+bg_color = Color(0, 0.54902, 0.929412, 1)
+border_width_bottom = 20
+border_color = Color(0.321569, 0.670588, 1, 1)
+corner_radius_top_left = 50
+corner_radius_bottom_left = 50
+shadow_color = Color(0, 0, 0, 0.823529)
+shadow_size = 20
+shadow_offset = Vector2(0, 30)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_vaaja"]
+bg_color = Color(1, 0.223529, 0.462745, 1)
+border_width_bottom = 20
+border_color = Color(1, 0.396078, 0.541176, 1)
+corner_radius_top_right = 50
+corner_radius_bottom_right = 50
+shadow_color = Color(0, 0, 0, 0.823529)
+shadow_size = 20
+shadow_offset = Vector2(0, 30)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_vs5ro"]
+bg_color = Color(1, 0.223529, 0.462745, 1)
+border_width_bottom = 20
+border_color = Color(1, 0.396078, 0.541176, 1)
+corner_radius_top_right = 50
+corner_radius_bottom_right = 50
+shadow_color = Color(0, 0, 0, 0.823529)
+shadow_size = 20
+shadow_offset = Vector2(0, 30)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_tba5l"]
+bg_color = Color(0.099986, 0.099986, 0.099986, 1)
+border_width_left = 5
+border_width_top = 5
+border_width_right = 5
+border_width_bottom = 5
+corner_radius_top_left = 100
+corner_radius_top_right = 100
+corner_radius_bottom_right = 100
+corner_radius_bottom_left = 100
+expand_margin_left = 50.0
+expand_margin_top = 250.0
+expand_margin_right = 50.0
+expand_margin_bottom = 50.0
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_3mq4g"]
+
+[node name="Player Setup Scene" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+metadata/_edit_use_anchors_ = true
+
+[node name="Animate Player Buttons" type="Control" parent="." node_paths=PackedStringArray("PlayerRightNameInput", "PlayerLeftNameInput")]
+layout_mode = 1
+anchors_preset = 0
+pivot_offset = Vector2(540, 1170)
+script = ExtResource("11_vs5ro")
+PlayerRightNameInput = NodePath("../Input Fields/Right Player Name Edit")
+PlayerLeftNameInput = NodePath("../Input Fields/Left Player Name Edit")
+
+[node name="Input Fields" type="Control" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+pivot_offset = Vector2(540, 1170)
+
+[node name="Panel" type="Panel" parent="Input Fields"]
+visible = false
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.12963
+anchor_top = 0.307692
+anchor_right = 0.87037
+anchor_bottom = 0.418803
+offset_left = -20.0
+offset_top = -20.0
+offset_right = 20.0
+offset_bottom = 19.9999
+grow_horizontal = 2
+grow_vertical = 2
+pivot_offset = Vector2(420, 150)
+theme_override_styles/panel = SubResource("StyleBoxFlat_uriyb")
+metadata/_edit_use_anchors_ = true
+
+[node name="Right Player Name Edit" type="LineEdit" parent="Input Fields"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -400.0
+offset_top = -430.0
+offset_right = 400.0
+offset_bottom = -285.0
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(0.95, 0.95)
+pivot_offset = Vector2(400, 72.5)
+theme_override_font_sizes/font_size = 100
+theme_override_styles/focus = SubResource("StyleBoxFlat_qltgd")
+theme_override_styles/normal = SubResource("StyleBoxFlat_f1hll")
+placeholder_text = "Name"
+alignment = 1
+
+[node name="Left Player Name Edit" type="LineEdit" parent="Input Fields"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -400.0
+offset_top = -350.0
+offset_right = 400.0
+offset_bottom = -205.0
+grow_horizontal = 2
+grow_vertical = 2
+pivot_offset = Vector2(400, 72.5)
+theme_override_font_sizes/font_size = 100
+theme_override_styles/focus = SubResource("StyleBoxFlat_61moa")
+theme_override_styles/normal = SubResource("StyleBoxFlat_p4o7h")
+placeholder_text = "Name"
+alignment = 1
+
+[node name="< Left Player Color Button" type="Button" parent="."]
+z_index = 3
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 80.0
+offset_top = 1060.0
+offset_right = -560.0
+offset_bottom = -1120.0
+grow_horizontal = 2
+grow_vertical = 2
+pivot_offset = Vector2(220, 80)
+theme_override_fonts/font = ExtResource("2_p4o7h")
+theme_override_font_sizes/font_size = 100
+theme_override_styles/focus = SubResource("StyleBoxFlat_sv7g7")
+theme_override_styles/hover_pressed = SubResource("StyleBoxFlat_p115m")
+theme_override_styles/hover = SubResource("StyleBoxFlat_p115m")
+theme_override_styles/normal = SubResource("StyleBoxFlat_28bxo")
+text = "< COLOR"
+script = ExtResource("3_1ugi2")
+
+[node name="> Right Player Color Button" type="Button" parent="."]
+z_index = 3
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 560.0
+offset_top = 1060.0
+offset_right = -80.0001
+offset_bottom = -1120.0
+grow_horizontal = 2
+grow_vertical = 2
+pivot_offset = Vector2(220, 79.9999)
+theme_override_fonts/font = ExtResource("2_p4o7h")
+theme_override_font_sizes/font_size = 100
+theme_override_styles/focus = SubResource("StyleBoxFlat_vaaja")
+theme_override_styles/hover_pressed = SubResource("StyleBoxFlat_p115m")
+theme_override_styles/hover = SubResource("StyleBoxFlat_vs5ro")
+theme_override_styles/normal = ExtResource("5_v8gfv")
+text = "COLOR >"
+script = ExtResource("3_1ugi2")
+metadata/_edit_use_anchors_ = true
+
+[node name="O Start Game Button" type="Button" parent="."]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.5
+anchor_top = 0.634
+anchor_right = 0.5
+anchor_bottom = 0.634
+offset_left = -360.0
+offset_top = 176.44
+offset_right = 360.0
+offset_bottom = 437.44
+grow_horizontal = 2
+grow_vertical = 2
+pivot_offset = Vector2(360, 124.5)
+theme_override_colors/font_hover_color = Color(0.152941, 0.152941, 0.152941, 1)
+theme_override_colors/font_color = Color(0.152941, 0.152941, 0.152941, 1)
+theme_override_colors/font_focus_color = Color(0.152941, 0.152941, 0.152941, 1)
+theme_override_colors/font_pressed_color = Color(0.152941, 0.152941, 0.152941, 1)
+theme_override_fonts/font = ExtResource("2_p4o7h")
+theme_override_font_sizes/font_size = 200
+theme_override_styles/focus = ExtResource("3_qltgd")
+theme_override_styles/hover = ExtResource("3_qltgd")
+theme_override_styles/pressed = ExtResource("3_qltgd")
+theme_override_styles/normal = ExtResource("3_qltgd")
+text = "START"
+script = ExtResource("3_1ugi2")
+
+[node name="Colors" type="Control" parent="."]
+anchors_preset = 0
+offset_top = 2440.0
+offset_right = 40.0
+offset_bottom = 2480.0
+pivot_offset = Vector2(20, 20)
+
+[node name="Panel" type="Panel" parent="Colors"]
+layout_mode = 2
+offset_left = 100.0
+offset_top = 220.0
+offset_right = 980.0
+offset_bottom = 1020.0
+grow_horizontal = 2
+grow_vertical = 2
+pivot_offset = Vector2(400, 400)
+theme_override_styles/panel = SubResource("StyleBoxFlat_tba5l")
+
+[node name="Colors Grid" type="GridContainer" parent="Colors" node_paths=PackedStringArray("ColorRect", "SelectButton", "ColorPickerContainer")]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = 100.0
+offset_top = 200.0
+offset_right = 940.0
+offset_bottom = 1000.0
+grow_horizontal = 2
+grow_vertical = 2
+pivot_offset = Vector2(400, 400)
+columns = 6
+script = ExtResource("4_61moa")
+ColorRect = NodePath("../Color Swatch/ColorRect")
+SelectButton = NodePath("../Color Swatch")
+ColorPickerContainer = NodePath("..")
+
+[node name="Color Swatch" type="Button" parent="Colors"]
+visible = false
+layout_mode = 0
+offset_top = -2440.0
+offset_right = 140.0
+offset_bottom = -2320.0
+theme_override_styles/focus = SubResource("StyleBoxFlat_3mq4g")
+
+[node name="ColorRect" type="ColorRect" parent="Colors/Color Swatch"]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="Logos" type="Control" parent="." node_paths=PackedStringArray("LogoTop", "LogoBot")]
+layout_mode = 1
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+script = ExtResource("8_vaaja")
+LogoTop = NodePath("Logo Top")
+LogoBot = NodePath("Logo Bot")
+
+[node name="Logo Top" type="TextureRect" parent="Logos"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = 60.0
+offset_top = 280.0
+offset_right = 778.0
+offset_bottom = 480.0
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(0.840002, 0.840002)
+pivot_offset = Vector2(359, 97)
+texture = ExtResource("8_p115m")
+
+[node name="Logo Bot" type="TextureRect" parent="Logos"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = 260.0
+offset_top = 280.0
+offset_right = 978.0
+offset_bottom = 480.0
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(0.840002, 0.840002)
+pivot_offset = Vector2(359, 97)
+texture = ExtResource("9_vaaja")
+
+[connection signal="editing_toggled" from="Input Fields/Right Player Name Edit" to="." method="OnAwayInputToggle"]
+[connection signal="editing_toggled" from="Input Fields/Left Player Name Edit" to="." method="OnHomeInputToggle"]
+[connection signal="button_down" from="< Left Player Color Button" to="." method="LeftColorButtonDown"]
+[connection signal="button_up" from="< Left Player Color Button" to="." method="LeftColorButtonUp"]
+[connection signal="pressed" from="< Left Player Color Button" to="Animate Player Buttons" method="_pressed"]
+[connection signal="pressed" from="< Left Player Color Button" to="Animate Player Buttons" method="LeftColorButtonPressed"]
+[connection signal="button_down" from="> Right Player Color Button" to="." method="RightColorButtonDown"]
+[connection signal="button_up" from="> Right Player Color Button" to="." method="RightColorButtonUp"]
+[connection signal="pressed" from="> Right Player Color Button" to="Animate Player Buttons" method="_pressed"]
+[connection signal="pressed" from="> Right Player Color Button" to="Animate Player Buttons" method="RightColorButtonPressed"]
+[connection signal="pressed" from="O Start Game Button" to="." method="OnStartGamePressed"]
+[connection signal="pressed" from="O Start Game Button" to="Animate Player Buttons" method="_pressed2"]

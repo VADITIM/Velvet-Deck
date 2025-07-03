@@ -1,28 +1,133 @@
 using Godot;
 using System;
 
-public partial class ColorPicker : GridContainer
+public partial class ColorPicker : Control
 {
+    Animations Animations => Components.Instance?.Animations;
+    TurnManager TurnManager => Components.Instance?.TurnManager;
+    DeckManager DeckManager => Components.Instance?.DeckManager;
+    PlayerSetupManager PlayerSetupManager => Components.Instance?.PlayerSetupManager;
+    ButtonHandler ButtonHandler => Components.Instance?.ButtonHandler;
+
     [Export] public ColorRect ColorRect;
     [Export] public Button SelectButton;
     [Export] public Control ColorPickerContainer;
 
-    [Export] public Button LeftPlayerColorButton;
-    [Export] public Button RightPlayerColorButton;
+    public bool isColorPickerActive = false;
+    public Player currentActivePlayer = Player.Player1;
 
-    [Export] public Panel LeftPlayerPanel;
-    [Export] public Panel RightPlayerPanel;
-    [Export] public Panel LeftPlayerForegroundPanel;
-    [Export] public Panel RightPlayerForegroundPanel;
+    public Color leftPlayerColor = Colors.White;
+    public Color rightPlayerColor = Colors.White;
+    public Color selectedColor = Colors.White;
 
-    private bool isColorPickerActive = false;
-    private Player currentActivePlayer = Player.Player1;
+    public void LeftColorRadius(bool expanded)
+    {
+        var normalStyleBox = ButtonHandler.LeftPlayerColorButton.GetThemeStylebox("normal") as StyleBoxFlat;
+        var hoverStyleBox = ButtonHandler.LeftPlayerColorButton.GetThemeStylebox("hover") as StyleBoxFlat;
+        var focusStyleBox = ButtonHandler.LeftPlayerColorButton.GetThemeStylebox("focus") as StyleBoxFlat;
 
-    private Color leftPlayerColor = Colors.White;
-    private Color rightPlayerColor = Colors.White;
+        normalStyleBox = normalStyleBox.Duplicate() as StyleBoxFlat;
+        hoverStyleBox = hoverStyleBox.Duplicate() as StyleBoxFlat;
+        focusStyleBox = focusStyleBox.Duplicate() as StyleBoxFlat;
 
-    private Vector2 originalPosAway;
-    private Vector2 originalSizeAway;
+        if (!expanded)
+        {
+            var radiusTween = CreateTween();
+            radiusTween.TweenMethod(Callable.From<float>((float progress) =>
+            {
+                var rightRadius = (int)(50f * progress);
+                normalStyleBox.CornerRadiusTopRight = rightRadius;
+                normalStyleBox.CornerRadiusBottomRight = rightRadius;
+                hoverStyleBox.CornerRadiusTopRight = rightRadius;
+                hoverStyleBox.CornerRadiusBottomRight = rightRadius;
+                focusStyleBox.CornerRadiusTopRight = rightRadius;
+                focusStyleBox.CornerRadiusBottomRight = rightRadius;
+                ButtonHandler.LeftPlayerColorButton.AddThemeStyleboxOverride("normal", normalStyleBox);
+                ButtonHandler.LeftPlayerColorButton.AddThemeStyleboxOverride("hover", hoverStyleBox);
+                ButtonHandler.LeftPlayerColorButton.AddThemeStyleboxOverride("focus", focusStyleBox);
+            }), 0f, 1f, 0.25f).SetEase(Tween.EaseType.InOut).SetTrans(Tween.TransitionType.Cubic);
+        }
+        else
+        {
+            normalStyleBox = normalStyleBox.Duplicate() as StyleBoxFlat;
+            hoverStyleBox = hoverStyleBox.Duplicate() as StyleBoxFlat;
+            focusStyleBox = focusStyleBox.Duplicate() as StyleBoxFlat;
+
+            var radiusTween = CreateTween();
+            radiusTween.TweenMethod(Callable.From<float>((float progress) =>
+            {
+                var rightRadius = (int)(50f * (1f - progress));
+                normalStyleBox.CornerRadiusTopRight = rightRadius;
+                normalStyleBox.CornerRadiusBottomRight = rightRadius;
+                hoverStyleBox.CornerRadiusTopRight = rightRadius;
+                hoverStyleBox.CornerRadiusBottomRight = rightRadius;
+                focusStyleBox.CornerRadiusTopRight = rightRadius;
+                focusStyleBox.CornerRadiusBottomRight = rightRadius;
+                ButtonHandler.LeftPlayerColorButton.AddThemeStyleboxOverride("normal", normalStyleBox);
+                ButtonHandler.LeftPlayerColorButton.AddThemeStyleboxOverride("hover", hoverStyleBox);
+                ButtonHandler.LeftPlayerColorButton.AddThemeStyleboxOverride("focus", focusStyleBox);
+            }), 0f, 1f, 0.25f).SetEase(Tween.EaseType.InOut).SetTrans(Tween.TransitionType.Cubic);
+
+
+        }
+    }
+
+    public void RightColorRadius(bool expanded)
+    {
+        if (!expanded)
+        {
+			var normalStyleBox = ButtonHandler.RightPlayerColorButton.GetThemeStylebox("normal") as StyleBoxFlat;
+			var hoverStyleBox = ButtonHandler.RightPlayerColorButton.GetThemeStylebox("hover") as StyleBoxFlat;
+			var focusStyleBox = ButtonHandler.RightPlayerColorButton.GetThemeStylebox("focus") as StyleBoxFlat;
+
+			normalStyleBox = normalStyleBox.Duplicate() as StyleBoxFlat;
+			hoverStyleBox = hoverStyleBox.Duplicate() as StyleBoxFlat;
+			focusStyleBox = focusStyleBox.Duplicate() as StyleBoxFlat;
+
+			var radiusTween = CreateTween();
+			radiusTween.TweenMethod(Callable.From<float>((float progress) =>
+			{
+				var leftRadius = (int)(50f * progress);
+				normalStyleBox.CornerRadiusTopLeft = leftRadius;
+				normalStyleBox.CornerRadiusBottomLeft = leftRadius;
+				hoverStyleBox.CornerRadiusTopLeft = leftRadius;
+				hoverStyleBox.CornerRadiusBottomLeft = leftRadius;
+				focusStyleBox.CornerRadiusTopLeft = leftRadius;
+				focusStyleBox.CornerRadiusBottomLeft = leftRadius;
+				ButtonHandler.RightPlayerColorButton.AddThemeStyleboxOverride("normal", normalStyleBox);
+				ButtonHandler.RightPlayerColorButton.AddThemeStyleboxOverride("hover", hoverStyleBox);
+				ButtonHandler.RightPlayerColorButton.AddThemeStyleboxOverride("focus", focusStyleBox);
+			}), 0f, 1f, 0.25f).SetEase(Tween.EaseType.InOut).SetTrans(Tween.TransitionType.Cubic);
+
+        }
+        else
+        {
+			var normalStyleBox = ButtonHandler.RightPlayerColorButton.GetThemeStylebox("normal") as StyleBoxFlat;
+			var hoverStyleBox = ButtonHandler.RightPlayerColorButton.GetThemeStylebox("hover") as StyleBoxFlat;
+			var focusStyleBox = ButtonHandler.RightPlayerColorButton.GetThemeStylebox("focus") as StyleBoxFlat;
+
+			normalStyleBox = normalStyleBox.Duplicate() as StyleBoxFlat;
+			hoverStyleBox = hoverStyleBox.Duplicate() as StyleBoxFlat;
+			focusStyleBox = focusStyleBox.Duplicate() as StyleBoxFlat;
+
+			var radiusTween = CreateTween();
+			radiusTween.TweenMethod(Callable.From<float>((float progress) =>
+			{
+				var leftRadius = (int)(50f * (1f - progress));
+				normalStyleBox.CornerRadiusTopLeft = leftRadius;
+				normalStyleBox.CornerRadiusBottomLeft = leftRadius;
+				hoverStyleBox.CornerRadiusTopLeft = leftRadius;
+				hoverStyleBox.CornerRadiusBottomLeft = leftRadius;
+				focusStyleBox.CornerRadiusTopLeft = leftRadius;
+				focusStyleBox.CornerRadiusBottomLeft = leftRadius;
+				ButtonHandler.RightPlayerColorButton.AddThemeStyleboxOverride("normal", normalStyleBox);
+				ButtonHandler.RightPlayerColorButton.AddThemeStyleboxOverride("hover", hoverStyleBox);
+				ButtonHandler.RightPlayerColorButton.AddThemeStyleboxOverride("focus", focusStyleBox);
+			}), 0f, 1f, 0.25f).SetEase(Tween.EaseType.InOut).SetTrans(Tween.TransitionType.Cubic);
+
+
+        }
+    }
 
     public string[] colorHex = new string[]
     {
@@ -41,17 +146,9 @@ public partial class ColorPicker : GridContainer
         "#459f29",
     };
 
-    private Color selectedColor = Colors.White;
-
     public override void _Ready()
     {
-
-        originalPosAway = new Vector2(RightPlayerColorButton.Position.X, RightPlayerColorButton.Position.Y);
-        originalSizeAway = RightPlayerColorButton.Size;
-
         SelectButton.Pressed += SetSelectedColors;
-        LeftPlayerColorButton.Pressed += OnHomeColorButtonPressed;
-        RightPlayerColorButton.Pressed += OnAwayColorButtonPressed;
         UpdateColorRect();
 
         AddThemeConstantOverride("h_separation", 20);
@@ -93,231 +190,62 @@ public partial class ColorPicker : GridContainer
         }
     }
 
-    public void SetSelectedColors()
-    {
-        ApplyColorToActivePlayer(selectedColor);
-        GD.Print($"Applied color {selectedColor} to {currentActivePlayer}");
-    }
-
     public void SetSelectedColor(Color color)
     {
         selectedColor = color;
         UpdateColorRect();
     }
 
-    private void UpdateColorRect()
-    {
-        ColorRect.Color = selectedColor;
-    }
 
-    public void HomePressed()
-    {
-        GD.Print("lol");
-    }
-
-    public void OnHomeColorButtonPressed()
-    {
-        currentActivePlayer = Player.Player1;
-        isColorPickerActive = !isColorPickerActive;
-
-        if (isColorPickerActive)
-        {
-            LeftPlayerColorButton.ZIndex = 4;
-            ShowActivePlayerPanel();
-            RightPlayerColorButton.Visible = true;
-
-            var normalStyleBox = LeftPlayerColorButton.GetThemeStylebox("normal") as StyleBoxFlat;
-            normalStyleBox = normalStyleBox.Duplicate() as StyleBoxFlat;
-            normalStyleBox.SetCornerRadiusAll(50);
-            LeftPlayerColorButton.AddThemeStyleboxOverride("normal", normalStyleBox);
-
-            var hoverStyleBox = LeftPlayerColorButton.GetThemeStylebox("hover") as StyleBoxFlat;
-            hoverStyleBox = hoverStyleBox.Duplicate() as StyleBoxFlat;
-            hoverStyleBox.SetCornerRadiusAll(50);
-            LeftPlayerColorButton.AddThemeStyleboxOverride("hover", hoverStyleBox);
-
-            var focusStyleBox = LeftPlayerColorButton.GetThemeStylebox("focus") as StyleBoxFlat;
-            focusStyleBox = focusStyleBox.Duplicate() as StyleBoxFlat;
-            focusStyleBox.SetCornerRadiusAll(50);
-            LeftPlayerColorButton.AddThemeStyleboxOverride("focus", focusStyleBox);
-
-            var MoveColorBox = CreateTween();
-            MoveColorBox.TweenProperty(ColorPickerContainer, "position", new Vector2(0, 1060), 0.25f).SetEase(Tween.EaseType.InOut).SetTrans(Tween.TransitionType.Cubic);
-
-            var MoveColorButton = CreateTween();
-            MoveColorButton.Parallel().TweenProperty(LeftPlayerColorButton, "size", new Vector2(920f, originalSizeAway.Y), 0.25f).SetEase(Tween.EaseType.InOut).SetTrans(Tween.TransitionType.Cubic);
-
-            MoveColorButton.TweenCallback(Callable.From(() =>
-            {
-                RightPlayerColorButton.Visible = false;
-            }));
-        }
-        else
-        {
-
-            RightPlayerColorButton.Visible = true;
-            var normalStyleBox = LeftPlayerColorButton.GetThemeStylebox("normal") as StyleBoxFlat;
-            normalStyleBox = normalStyleBox.Duplicate() as StyleBoxFlat;
-            normalStyleBox.CornerRadiusTopRight = 0;
-            normalStyleBox.CornerRadiusBottomRight = 0;
-            LeftPlayerColorButton.AddThemeStyleboxOverride("normal", normalStyleBox);
-
-            var hoverStyleBox = LeftPlayerColorButton.GetThemeStylebox("hover") as StyleBoxFlat;
-            hoverStyleBox = hoverStyleBox.Duplicate() as StyleBoxFlat;
-            hoverStyleBox.CornerRadiusTopRight = 0;
-            hoverStyleBox.CornerRadiusBottomRight = 0;
-            LeftPlayerColorButton.AddThemeStyleboxOverride("hover", hoverStyleBox);
-
-            var focusStyleBox = LeftPlayerColorButton.GetThemeStylebox("focus") as StyleBoxFlat;
-            focusStyleBox = focusStyleBox.Duplicate() as StyleBoxFlat;
-            focusStyleBox.CornerRadiusTopRight = 0;
-            focusStyleBox.CornerRadiusBottomRight = 0;
-            LeftPlayerColorButton.AddThemeStyleboxOverride("focus", focusStyleBox);
-
-            var MoveColorBox = CreateTween();
-            MoveColorBox.TweenProperty(ColorPickerContainer, "position", new Vector2(0, 2440), 0.25f).SetEase(Tween.EaseType.InOut).SetTrans(Tween.TransitionType.Cubic);
-
-            var MoveColorButton = CreateTween();
-            MoveColorButton.Parallel().TweenProperty(LeftPlayerColorButton, "size", new Vector2(originalSizeAway.X, originalSizeAway.Y), 0.25f).SetEase(Tween.EaseType.InOut).SetTrans(Tween.TransitionType.Cubic);
-
-            MoveColorButton.TweenCallback(Callable.From(() =>
-            {
-                LeftPlayerColorButton.ZIndex = 3;
-                RightPlayerColorButton.Disabled = false;
-            }));
-
-            Components.Instance.Animations.ResetToNeutralPosition();
-        }
-    }
-
-    public void OnAwayColorButtonPressed()
-    {
-        currentActivePlayer = Player.Player2;
-        isColorPickerActive = !isColorPickerActive;
-
-        if (isColorPickerActive)
-        {
-            RightPlayerColorButton.ZIndex = 4;
-            ShowActivePlayerPanel();
-
-            var normalStyleBox = RightPlayerColorButton.GetThemeStylebox("normal") as StyleBoxFlat;
-            normalStyleBox = normalStyleBox.Duplicate() as StyleBoxFlat;
-            normalStyleBox.SetCornerRadiusAll(50);
-            RightPlayerColorButton.AddThemeStyleboxOverride("normal", normalStyleBox);
-
-            var hoverStyleBox = RightPlayerColorButton.GetThemeStylebox("hover") as StyleBoxFlat;
-            hoverStyleBox = hoverStyleBox.Duplicate() as StyleBoxFlat;
-            hoverStyleBox.SetCornerRadiusAll(50);
-            RightPlayerColorButton.AddThemeStyleboxOverride("hover", hoverStyleBox);
-
-            var focusStyleBox = RightPlayerColorButton.GetThemeStylebox("focus") as StyleBoxFlat;
-            focusStyleBox = focusStyleBox.Duplicate() as StyleBoxFlat;
-            focusStyleBox.SetCornerRadiusAll(50);
-            RightPlayerColorButton.AddThemeStyleboxOverride("focus", focusStyleBox);
-
-            var MoveColorBox = CreateTween();
-            MoveColorBox.TweenProperty(ColorPickerContainer, "position", new Vector2(0, 1060), 0.25f).SetEase(Tween.EaseType.InOut).SetTrans(Tween.TransitionType.Cubic);
-
-            var MoveColorButton = CreateTween();
-            MoveColorButton.Parallel().TweenProperty(RightPlayerColorButton, "position", new Vector2(80f, originalPosAway.Y), 0.25f).SetEase(Tween.EaseType.InOut).SetTrans(Tween.TransitionType.Cubic);
-            MoveColorButton.Parallel().TweenProperty(RightPlayerColorButton, "size", new Vector2(920f, originalSizeAway.Y), 0.25f).SetEase(Tween.EaseType.InOut).SetTrans(Tween.TransitionType.Cubic);
-        }
-        else
-        {
-            RightPlayerColorButton.ZIndex = 3;
-
-            var normalStyleBox = RightPlayerColorButton.GetThemeStylebox("normal") as StyleBoxFlat;
-            normalStyleBox = normalStyleBox.Duplicate() as StyleBoxFlat;
-            normalStyleBox.CornerRadiusTopLeft = 0;
-            normalStyleBox.CornerRadiusBottomLeft = 0;
-            RightPlayerColorButton.AddThemeStyleboxOverride("normal", normalStyleBox);
-
-            var hoverStyleBox = RightPlayerColorButton.GetThemeStylebox("hover") as StyleBoxFlat;
-            hoverStyleBox = hoverStyleBox.Duplicate() as StyleBoxFlat;
-            hoverStyleBox.CornerRadiusTopLeft = 0;
-            hoverStyleBox.CornerRadiusBottomLeft = 0;
-            RightPlayerColorButton.AddThemeStyleboxOverride("hover", hoverStyleBox);
-
-            var focusStyleBox = RightPlayerColorButton.GetThemeStylebox("focus") as StyleBoxFlat;
-            focusStyleBox = focusStyleBox.Duplicate() as StyleBoxFlat;
-            focusStyleBox.CornerRadiusTopLeft = 0;
-            focusStyleBox.CornerRadiusBottomLeft = 0;
-            RightPlayerColorButton.AddThemeStyleboxOverride("focus", focusStyleBox);
-
-            var MoveColorBox = CreateTween();
-            MoveColorBox.TweenProperty(ColorPickerContainer, "position", new Vector2(0, 2440), 0.25f).SetEase(Tween.EaseType.InOut).SetTrans(Tween.TransitionType.Cubic);
-
-            var MoveColorButton = CreateTween();
-            MoveColorButton.Parallel().TweenProperty(RightPlayerColorButton, "position", new Vector2(originalPosAway.X, originalPosAway.Y), 0.25f).SetEase(Tween.EaseType.InOut).SetTrans(Tween.TransitionType.Cubic);
-            MoveColorButton.Parallel().TweenProperty(RightPlayerColorButton, "size", new Vector2(originalSizeAway.X, originalSizeAway.Y), 0.25f).SetEase(Tween.EaseType.InOut).SetTrans(Tween.TransitionType.Cubic);
-
-            MoveColorButton.TweenCallback(Callable.From(() =>
-            {
-                RightPlayerColorButton.ZIndex = 3;
-                LeftPlayerColorButton.Disabled = false;
-            }));
-
-            Components.Instance.Animations.ResetToNeutralPosition();
-        }
-    }
 
     private void UpdateActivePlayer()
     {
-        var turnManager = Components.Instance.TurnManager;
-        var customizePlayers = turnManager?.GetCustomizePlayers();
+        var customizePlayers = TurnManager?.GetCustomizePlayers();
 
-        if (customizePlayers.LeftPlayerNameEdit.MouseFilter == Control.MouseFilterEnum.Stop)
-        {
+        if (Animations.LeftPlayerNameEdit.MouseFilter == Control.MouseFilterEnum.Stop)
             currentActivePlayer = Player.Player1;
-        }
-        else if (customizePlayers.RightPlayerNameEdit.MouseFilter == Control.MouseFilterEnum.Stop)
-        {
+        else if (Animations.RightPlayerNameEdit.MouseFilter == Control.MouseFilterEnum.Stop)
             currentActivePlayer = Player.Player2;
-        }
     }
 
-    private void ShowActivePlayerPanel()
+    public void ShowActivePlayerPanel()
     {
         if (currentActivePlayer == Player.Player1)
-        {
-            Components.Instance.Animations.Player1Turn();
-        }
+            Animations.LeftPlayerTurn();
         else
-        {
-            Components.Instance.Animations.Player2Turn();
-        }
+            Animations.RightPlayerTurn();
     }
 
     private void ApplyColorToActivePlayer(Color color)
     {
         if (currentActivePlayer == Player.Player1)
-        {
-            ApplyColorToPlayer1Elements(color);
-        }
+            ChangeColorPlayerLeft(color);
         else
-        {
-            ApplyColorToPlayer2Elements(color);
-        }
+            ChangeColorPlayerRight(color);
     }
 
-    private void ApplyColorToPlayer1Elements(Color color)
+    private void ChangeColorPlayerLeft(Color color)
     {
         leftPlayerColor = color;
-        LeftPlayerPanel.SelfModulate = color.Darkened(0.3f);
-        LeftPlayerForegroundPanel.SelfModulate = color.Darkened(0f);
 
-        ApplyColorToLineEdit(Components.Instance.CustomizePlayers.LeftPlayerNameEdit, color);
-        ApplyColorToHomeButton(color);
+        var PlayerTween = CreateTween();
+        PlayerTween.Parallel().TweenProperty(Animations.LeftPlayerPanel, "self_modulate", color.Darkened(0.3f), 0.3f).SetEase(Tween.EaseType.Out).SetTrans(Tween.TransitionType.Cubic);
+        PlayerTween.Parallel().TweenProperty(Animations.LeftPlayerForegroundPanel, "self_modulate", color.Darkened(0f), 0.3f).SetEase(Tween.EaseType.Out).SetTrans(Tween.TransitionType.Cubic);
+
+        ApplyColorToLineEdit(Animations.LeftPlayerNameEdit, color);
+        ChangeColorLeftButton(color);
     }
 
-    private void ApplyColorToPlayer2Elements(Color color)
+    private void ChangeColorPlayerRight(Color color)
     {
         rightPlayerColor = color;
-        RightPlayerPanel.SelfModulate = color.Darkened(0.3f);
-        RightPlayerForegroundPanel.SelfModulate = color.Darkened(0f);
 
-        ApplyColorToLineEdit(Components.Instance.CustomizePlayers.RightPlayerNameEdit, color);
-        ApplyColorToAwayButton(color);
+        var PlayerTween = CreateTween();
+        PlayerTween.Parallel().TweenProperty(Animations.RightPlayerPanel, "self_modulate", color.Darkened(0.3f), 0.3f).SetEase(Tween.EaseType.Out).SetTrans(Tween.TransitionType.Cubic);
+        PlayerTween.Parallel().TweenProperty(Animations.RightPlayerForegroundPanel, "self_modulate", color.Darkened(0f), 0.3f).SetEase(Tween.EaseType.Out).SetTrans(Tween.TransitionType.Cubic);
+
+        ApplyColorToLineEdit(Components.Instance.Animations.RightPlayerNameEdit, color);
+        ChangeColorRightButton(color);
     }
 
     private void ApplyColorToLineEdit(LineEdit lineEdit, Color color)
@@ -325,72 +253,93 @@ public partial class ColorPicker : GridContainer
         if (lineEdit == null) return;
 
         var existingStyleBox = lineEdit.GetThemeStylebox("normal") as StyleBoxFlat;
-        StyleBoxFlat styleBox;
+        StyleBoxFlat styleBox = existingStyleBox.Duplicate() as StyleBoxFlat;
 
-        styleBox = existingStyleBox.Duplicate() as StyleBoxFlat;
+        var currentColor = styleBox.BgColor;
 
-        styleBox.BgColor = color;
-        styleBox.BorderColor = color.Lightened(0.2f);
-
-        lineEdit.AddThemeStyleboxOverride("normal", styleBox);
-        lineEdit.AddThemeStyleboxOverride("focus", styleBox);
+        var lineEditTween = CreateTween();
+        lineEditTween.TweenMethod(Callable.From<Color>((Color interpolatedColor) =>
+        {
+            styleBox.BgColor = interpolatedColor;
+            styleBox.BorderColor = interpolatedColor.Lightened(0.2f);
+            lineEdit.AddThemeStyleboxOverride("normal", styleBox);
+            lineEdit.AddThemeStyleboxOverride("focus", styleBox);
+        }), currentColor, color, 0.3f).SetEase(Tween.EaseType.Out).SetTrans(Tween.TransitionType.Cubic);
 
         var luminance = (color.R * 0.299f + color.G * 0.587f + color.B * 0.114f);
         var textColor = luminance > 0.5f ? Colors.Black : Colors.White;
         lineEdit.AddThemeColorOverride("font_color", textColor);
     }
 
-    private void ApplyColorToHomeButton(Color color)
+    private void ChangeColorLeftButton(Color color)
     {
-        var normalStyleBox = LeftPlayerColorButton.GetThemeStylebox("normal") as StyleBoxFlat;
-        var hoverStyleBox = LeftPlayerColorButton.GetThemeStylebox("hover") as StyleBoxFlat;
-        var focusStyleBox = LeftPlayerColorButton.GetThemeStylebox("focus") as StyleBoxFlat;
+        var normalStyleBox = ButtonHandler.LeftPlayerColorButton.GetThemeStylebox("normal") as StyleBoxFlat;
+        var hoverStyleBox = ButtonHandler.LeftPlayerColorButton.GetThemeStylebox("hover") as StyleBoxFlat;
+        var focusStyleBox = ButtonHandler.LeftPlayerColorButton.GetThemeStylebox("focus") as StyleBoxFlat;
 
         normalStyleBox = normalStyleBox.Duplicate() as StyleBoxFlat;
-        normalStyleBox.BgColor = color;
-        normalStyleBox.BorderColor = color.Lightened(0.2f);
-        LeftPlayerColorButton.AddThemeStyleboxOverride("normal", normalStyleBox);
-
         hoverStyleBox = hoverStyleBox.Duplicate() as StyleBoxFlat;
-        hoverStyleBox.BgColor = color.Lightened(0.1f);
-        hoverStyleBox.BorderColor = color.Lightened(0.3f);
-        LeftPlayerColorButton.AddThemeStyleboxOverride("hover", hoverStyleBox);
-
         focusStyleBox = focusStyleBox.Duplicate() as StyleBoxFlat;
-        focusStyleBox.BgColor = color;
-        focusStyleBox.BorderColor = color.Lightened(0.2f);
-        LeftPlayerColorButton.AddThemeStyleboxOverride("focus", focusStyleBox);
+
+        var currentColor = normalStyleBox.BgColor;
+
+        var colorTween = CreateTween();
+        colorTween.TweenMethod(Callable.From<Color>((Color interpolatedColor) =>
+        {
+            normalStyleBox.BgColor = interpolatedColor;
+            normalStyleBox.BorderColor = interpolatedColor.Lightened(0.2f);
+            ButtonHandler.LeftPlayerColorButton.AddThemeStyleboxOverride("normal", normalStyleBox);
+
+            hoverStyleBox.BgColor = interpolatedColor.Lightened(0.1f);
+            hoverStyleBox.BorderColor = interpolatedColor.Lightened(0.3f);
+            ButtonHandler.LeftPlayerColorButton.AddThemeStyleboxOverride("hover", hoverStyleBox);
+
+            focusStyleBox.BgColor = interpolatedColor;
+            focusStyleBox.BorderColor = interpolatedColor.Lightened(0.2f);
+            ButtonHandler.LeftPlayerColorButton.AddThemeStyleboxOverride("focus", focusStyleBox);
+        }), currentColor, color, 0.3f).SetEase(Tween.EaseType.Out).SetTrans(Tween.TransitionType.Cubic);
 
         var luminance = (color.R * 0.299f + color.G * 0.587f + color.B * 0.114f);
         var textColor = luminance > 0.5f ? Colors.Black : Colors.White;
-        LeftPlayerColorButton.AddThemeColorOverride("font_color", textColor);
+        ButtonHandler.LeftPlayerColorButton.AddThemeColorOverride("font_color", textColor);
     }
 
-    private void ApplyColorToAwayButton(Color color)
+    private void ChangeColorRightButton(Color color)
     {
-        var normalStyleBox = RightPlayerColorButton.GetThemeStylebox("normal") as StyleBoxFlat;
-        var hoverStyleBox = RightPlayerColorButton.GetThemeStylebox("hover") as StyleBoxFlat;
-        var focusStyleBox = RightPlayerColorButton.GetThemeStylebox("focus") as StyleBoxFlat;
+        var normalStyleBox = ButtonHandler.RightPlayerColorButton.GetThemeStylebox("normal") as StyleBoxFlat;
+        var hoverStyleBox = ButtonHandler.RightPlayerColorButton.GetThemeStylebox("hover") as StyleBoxFlat;
+        var focusStyleBox = ButtonHandler.RightPlayerColorButton.GetThemeStylebox("focus") as StyleBoxFlat;
 
         normalStyleBox = normalStyleBox.Duplicate() as StyleBoxFlat;
-        normalStyleBox.BgColor = color;
-        normalStyleBox.BorderColor = color.Lightened(0.2f);
-        RightPlayerColorButton.AddThemeStyleboxOverride("normal", normalStyleBox);
-
         hoverStyleBox = hoverStyleBox.Duplicate() as StyleBoxFlat;
-        hoverStyleBox.BgColor = color.Lightened(0.1f);
-        hoverStyleBox.BorderColor = color.Lightened(0.3f);
-        RightPlayerColorButton.AddThemeStyleboxOverride("hover", hoverStyleBox);
-
         focusStyleBox = focusStyleBox.Duplicate() as StyleBoxFlat;
-        focusStyleBox.BgColor = color;
-        focusStyleBox.BorderColor = color.Lightened(0.2f);
-        RightPlayerColorButton.AddThemeStyleboxOverride("focus", focusStyleBox);
+
+        var currentColor = normalStyleBox.BgColor;
+
+        var colorTween = CreateTween();
+        colorTween.TweenMethod(Callable.From<Color>((Color interpolatedColor) =>
+        {
+            normalStyleBox.BgColor = interpolatedColor;
+            normalStyleBox.BorderColor = interpolatedColor.Lightened(0.2f);
+            ButtonHandler.RightPlayerColorButton.AddThemeStyleboxOverride("normal", normalStyleBox);
+
+            hoverStyleBox.BgColor = interpolatedColor.Lightened(0.1f);
+            hoverStyleBox.BorderColor = interpolatedColor.Lightened(0.3f);
+            ButtonHandler.RightPlayerColorButton.AddThemeStyleboxOverride("hover", hoverStyleBox);
+
+            focusStyleBox.BgColor = interpolatedColor;
+            focusStyleBox.BorderColor = interpolatedColor.Lightened(0.2f);
+            ButtonHandler.RightPlayerColorButton.AddThemeStyleboxOverride("focus", focusStyleBox);
+        }), currentColor, color, 0.3f).SetEase(Tween.EaseType.Out).SetTrans(Tween.TransitionType.Cubic);
 
         var luminance = (color.R * 0.299f + color.G * 0.587f + color.B * 0.114f);
         var textColor = luminance > 0.5f ? Colors.Black : Colors.White;
-        RightPlayerColorButton.AddThemeColorOverride("font_color", textColor);
+        ButtonHandler.RightPlayerColorButton.AddThemeColorOverride("font_color", textColor);
     }
+
+    public void SetSelectedColors() { ApplyColorToActivePlayer(selectedColor); }
+
+    private void UpdateColorRect() { ColorRect.Color = selectedColor; }
 
     public Player GetCurrentActivePlayer() { return currentActivePlayer; }
 

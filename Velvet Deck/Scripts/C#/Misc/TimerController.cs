@@ -15,7 +15,7 @@ public partial class TimerController : Control
 	private float currentTimer = 0f;
 
 	private bool isCountdownActive = false;
-	private bool isTimerActive = false;
+	public bool isTimerActive = false;
 
 	public override void _Ready()
 	{

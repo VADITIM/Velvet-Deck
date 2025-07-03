@@ -1,84 +1,132 @@
 using Godot;
 using System;
 
-public partial class CardAnimations : Button
+public partial class CardAnimations : Control
 {
-    [Export] public Panel BackCardPanel = Components.Instance?.DeckManager?.BackCardPanel;
-    [Export] public Panel FrontCardPanel = Components.Instance?.DeckManager?.FrontCardPanel;
-    private Vector2 backCardOriginalPos;
-    private Vector2 frontCardOriginalPos;
+    Animations Animations => Components.Instance?.Animations;
+    DeckManager DeckManager => Components.Instance?.DeckManager;
+    ButtonHandler ButtonHandler => Components.Instance?.ButtonHandler;
 
-    public override void _Ready()
+    public void AnimateDeckEmpty()
     {
-        backCardOriginalPos = BackCardPanel.Position;
-        frontCardOriginalPos = FrontCardPanel.Position;
+        var animationSpeed = 0.3f;
+
+        var LeftPlayerTween = CreateTween();
+        LeftPlayerTween.TweenProperty(Animations.LeftPlayerPanel, "position", Animations.leftPlayerPanelOriginalPosition, animationSpeed).SetDelay(.16f).SetEase(Tween.EaseType.Out).SetTrans(Tween.TransitionType.Quad);
+
+        var RightPlayerTween = CreateTween();
+        RightPlayerTween.TweenProperty(Animations.RightPlayerPanel, "position", Animations.rightPlayerPanelOriginalPosition, animationSpeed).SetDelay(.16f).SetEase(Tween.EaseType.Out).SetTrans(Tween.TransitionType.Quad);
     }
 
-    public void OnFrontCardPressed()
+    public void FlipCards()
     {
         var animationSpeed = 0.25f;
 
-        var frontButton = Components.Instance.DeckManager.FrontCardButton;
-        var backButton = Components.Instance.DeckManager.BackCardButton;
-        BackCardPanel.Position = backCardOriginalPos;
-        FrontCardPanel.Position = frontCardOriginalPos;
+        var frontButton = ButtonHandler.FrontCardButton;
+        var backButton = ButtonHandler.BackCardButton;
+        Animations.BackCardPanel.Position = Animations.backCardOriginalPos;
+        Animations.FrontCardPanel.Position = Animations.frontCardOriginalPos;
 
-        BackCardPanel.Visible = false;
-        BackCardPanel.Scale = new Vector2(0.0f, BackCardPanel.Scale.Y);
+        frontButton.Disabled = true;
+        Animations.BackCardPanel.Visible = false;
+        Animations.BackCardPanel.Scale = new Vector2(0.0f, Animations.BackCardPanel.Scale.Y);
 
         var FrontCardFlip = CreateTween();
-        var flipFrontTween = FrontCardFlip.TweenProperty(FrontCardPanel, "scale:x", 0.0f, animationSpeed);
-        flipFrontTween.SetEase(Tween.EaseType.Out);
-        flipFrontTween.SetTrans(Tween.TransitionType.Sine);
-
+        FrontCardFlip.Parallel().TweenProperty(Animations.FrontCardPanel, "scale:x", 0.0f, animationSpeed).SetEase(Tween.EaseType.Out).SetTrans(Tween.TransitionType.Sine);
         FrontCardFlip.TweenCallback(Callable.From(() =>
         {
-            FrontCardPanel.Visible = false;
-            BackCardPanel.Visible = true;
+            Animations.BackCardPanel.Visible = true;
+
         }));
 
         var BackCardFlip = CreateTween();
-        var flipBackTween = BackCardFlip.TweenProperty(BackCardPanel, "scale:x", 1.0f, animationSpeed);
-        flipBackTween.SetEase(Tween.EaseType.Out);
-        flipBackTween.SetTrans(Tween.TransitionType.Sine);
-
+        BackCardFlip.Parallel().TweenProperty(Animations.BackCardPanel, "scale:x", 1.0f, animationSpeed).SetDelay(animationSpeed).SetEase(Tween.EaseType.Out).SetTrans(Tween.TransitionType.Sine);
         BackCardFlip.TweenCallback(Callable.From(() =>
         {
             backButton.Disabled = false;
+            Animations.FrontCardPanel.Visible = false;
+            Animations.FrontCardPanel.Scale = new Vector2(1.0f, Animations.FrontCardPanel.Scale.Y);
+            Animations.FrontCardPanel.Position = Animations.frontCardOriginalPos + 2000 * Vector2.Up;
+            DeckManager.ClearFrontCardElements();
         }));
     }
 
-    public void OnBackCardPressed()
+    public void MoveCards()
     {
-        var frontButton = Components.Instance.DeckManager.FrontCardButton;
-        var backButton = Components.Instance.DeckManager.BackCardButton;
+        var animationSpeed = 0.4f;
+        var frontButton = ButtonHandler.FrontCardButton;
+        var backButton = ButtonHandler.BackCardButton;
 
-        var animationSpeed = 0.3f;
-
-        BackCardPanel.Visible = true;
-        FrontCardPanel.Visible = false;
         backButton.Disabled = true;
 
-        var BackCardMoveOut = CreateTween();
-        var moveBackTween = BackCardMoveOut.TweenProperty(BackCardPanel, "position", new Vector2(0, 2000), animationSpeed);
-        moveBackTween.SetEase(Tween.EaseType.Out);
-        moveBackTween.SetTrans(Tween.TransitionType.Sine);
-
-        BackCardMoveOut.TweenCallback(Callable.From(() =>
+        var BackCardTween = CreateTween();
+        BackCardTween.TweenProperty(Animations.BackCardPanel, "position", Animations.backCardOriginalPos + 2000 * Vector2.Down, animationSpeed).SetEase(Tween.EaseType.In).SetTrans(Tween.TransitionType.Quint);
+        BackCardTween.TweenCallback(Callable.From(() =>
         {
-            BackCardPanel.Visible = false;
-            Components.Instance.DeckManager.ProgressToNextCard();
+            Animations.FrontCardPanel.Visible = true;
+            Animations.BackCardPanel.Visible = false;
+            DeckManager.ProgressToNextCard();
         }));
 
-        var FrontCardMoveIn = CreateTween();
-        var frontCardTween = FrontCardMoveIn.TweenProperty(FrontCardPanel, "position", Vector2.Zero, animationSpeed);
-        frontCardTween.SetEase(Tween.EaseType.Out);
-        frontCardTween.SetTrans(Tween.TransitionType.Sine);
-
-        FrontCardMoveIn.TweenCallback(Callable.From(() =>
+        var FrontCardTween = CreateTween();
+        FrontCardTween.TweenProperty(Animations.FrontCardPanel, "position", Animations.frontCardOriginalPos, animationSpeed).SetDelay(animationSpeed).SetEase(Tween.EaseType.Out).SetTrans(Tween.TransitionType.Quint);
+        FrontCardTween.TweenCallback(Callable.From(() =>
         {
-            FrontCardPanel.Visible = true;
             frontButton.Disabled = false;
         }));
     }
+
+    public void ShowLuckyCard()
+    {
+        ButtonHandler.LuckyCardButton.Disabled = true;
+
+        var animationSpeed = 0.4f;
+        Animations.LuckyCardPanel.Position = new Vector2(Animations.luckyCardOriginalPos.X, -1500);
+
+        var LuckyCardTween = CreateTween();
+        LuckyCardTween.TweenProperty(Animations.LuckyCardPanel, "position", Animations.luckyCardOriginalPos, animationSpeed).SetDelay(.1f).SetEase(Tween.EaseType.Out).SetTrans(Tween.TransitionType.Quint);
+
+        var TimeoutTween = CreateTween();
+        TimeoutTween.TweenProperty(Animations.LuckyCardPanel, "scale:x", 1.0f, .1f)
+            .SetDelay(.4f)
+            .SetEase(Tween.EaseType.Out)
+            .SetTrans(Tween.TransitionType.Sine);
+        TimeoutTween.TweenCallback(Callable.From(() =>
+        {
+            ButtonHandler.LuckyCardButton.Disabled = false;
+        }));
+    }
+
+    public void HideLuckyCard()
+    {
+        ButtonHandler.FrontCardButton.Disabled = true;
+        ButtonHandler.LuckyCardButton.Disabled = true;
+        var animationSpeed = 0.4f;
+
+        var LuckyCardTween = CreateTween();
+        LuckyCardTween.TweenProperty(Animations.LuckyCardPanel, "scale:x", 0.0f, .1f)
+            .SetEase(Tween.EaseType.Out)
+            .SetTrans(Tween.TransitionType.Sine);
+        LuckyCardTween.TweenCallback(Callable.From(() =>
+        {
+            DeckManager.LuckyHeaderLabel.Text = "";
+            DeckManager.LuckyDescriptionLabel.Text = "";
+            DeckManager.LuckyCardImage.Visible = true;
+            DeckManager.LuckyCardType.Visible = true;
+
+        }));
+        LuckyCardTween.TweenProperty(Animations.LuckyCardPanel, "scale:x", 1.0f, .1f)
+            .SetEase(Tween.EaseType.Out)
+            .SetTrans(Tween.TransitionType.Sine);
+        LuckyCardTween.TweenProperty(Animations.LuckyCardPanel, "position", new Vector2(Animations.luckyCardOriginalPos.X, 3000), animationSpeed)
+            .SetEase(Tween.EaseType.In)
+            .SetTrans(Tween.TransitionType.Quint);
+        LuckyCardTween.TweenCallback(Callable.From(() =>
+        {
+            Animations.LuckyCardPanel.Visible = false;
+            ButtonHandler.FrontCardButton.Disabled = false;
+            ButtonHandler.LuckyCardButton.Disabled = false;
+        }));
+    }
+
 }

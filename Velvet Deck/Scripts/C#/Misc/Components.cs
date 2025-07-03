@@ -9,8 +9,12 @@ public partial class Components : Node
     [Export] public TurnManager TurnManager;
     [Export] public CardManager CardManager;
     [Export] public Animations Animations;
+    [Export] public CardAnimations CardAnimations;
+    [Export] public PlayerSetupManager PlayerSetupManager;
+    [Export] public ButtonHandler ButtonHandler;
+    [Export] public TimerController TimerController;
     [Export] public ColorPicker ColorPicker;
-    [Export] public CustomizePlayers CustomizePlayers;
+
 
     public override void _Ready()
     {
@@ -23,5 +27,7 @@ public partial class Components : Node
         TurnManager = GetNode<TurnManager>("Turn Manager");
         CardManager = GetNode<CardManager>("Card Manager");
         Animations = GetNode<Animations>("Animations");
+        CardAnimations = GetNode<CardAnimations>("Card Animations");
+        ButtonHandler = GetNode<ButtonHandler>("Button Handler");
     }
 }

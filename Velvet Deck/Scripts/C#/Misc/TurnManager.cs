@@ -9,38 +9,18 @@ public enum Player
 
 public partial class TurnManager : Node
 {
-    [Export] public Button StartGameButton;
-    [Export] public Control CustomizePlayers;
+    ButtonHandler ButtonHandler => Components.Instance?.ButtonHandler;
+    Animations Animations => Components.Instance?.Animations;
+    PlayerSetupManager PlayerSetupManager => Components.Instance?.PlayerSetupManager;
 
     private Player currentPlayer;
-    private bool gameStarted = false;
-    private bool turnsAssigned = false;
+    public bool gameStarted = false;
+    public bool turnsAssigned = false;
 
-    public override void _Ready()
-    {
-        StartGameButton.Pressed += OnStartGamePressed;
-        StartGameButton.Visible = false;
-    }
-
-    public void OnStartGamePressed()
-    {
-        if (!turnsAssigned)
-        {
-            AssignFirstPlayer();
-            turnsAssigned = true;
-            gameStarted = true;
-
-            CustomizePlayers.Visible = false;
-            UpdatePlayerTurn();
-            Components.Instance.DeckManager.OnGameStarted();
-        }
-    }
-
-    private void AssignFirstPlayer()
+    public void AssignFirstPlayer()
     {
         Random random = new Random();
         currentPlayer = random.Next(2) == 0 ? Player.Player1 : Player.Player2;
-        GD.Print($"Game started! {currentPlayer} goes first.");
     }
 
     public void NextTurn()
@@ -48,20 +28,19 @@ public partial class TurnManager : Node
         if (!gameStarted) return;
 
         currentPlayer = currentPlayer == Player.Player1 ? Player.Player2 : Player.Player1;
-        GD.Print($"Turn changed to {currentPlayer}");
 
         UpdatePlayerTurn();
     }
 
-    private void UpdatePlayerTurn() { Components.Instance.Animations.AnimateForPlayer(currentPlayer); }
+    public void UpdatePlayerTurn() { Animations.AnimateForPlayer(currentPlayer); }
 
-    public Player GetCurrentPlayer() {  return currentPlayer; }
+    public Player GetCurrentPlayer() { return currentPlayer; }
 
     public bool IsGameStarted() { return gameStarted; }
 
     public bool AreTurnsAssigned() { return turnsAssigned; }
 
-    public void SetStartButtonVisible(bool visible) { StartGameButton.Visible = visible; }
+    public void SetStartButtonVisible(bool visible) { ButtonHandler.StartGameButton.Visible = visible; }
 
-    public CustomizePlayers GetCustomizePlayers() { return CustomizePlayers as CustomizePlayers; }
+    public PlayerSetupManager GetCustomizePlayers() { return PlayerSetupManager as PlayerSetupManager; }
 }
