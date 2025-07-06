@@ -6,6 +6,8 @@ public partial class PlayerSetupManager : Node
     ButtonHandler ButtonHandler => Components.Instance?.ButtonHandler;
     Animations Animations => Components.Instance?.Animations;
 
+    [Export] public Control PlayerSetupScene;
+
     private bool leftPlayerConfirmed = false;
     private bool rightPlayerConfirmed = false;
 

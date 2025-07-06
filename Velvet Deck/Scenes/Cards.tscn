@@ -221,7 +221,6 @@ pivot_offset = Vector2(380, 710)
 script = ExtResource("1_q2i7g")
 
 [node name="Lucky Card" type="Panel" parent="."]
-visible = false
 layout_mode = 1
 anchors_preset = -1
 anchor_right = 1.0

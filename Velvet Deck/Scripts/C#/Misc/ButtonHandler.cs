@@ -14,14 +14,19 @@ public partial class ButtonHandler : Node
 	[Export] public Button LeftPlayerColorButton;
 	[Export] public Button RightPlayerColorButton;
 
-	[Export] public Button FrontCardButton;
-	[Export] public Button BackCardButton;
-	[Export] public Button LuckyCardButton;
-
 	public Vector2 leftColorButtonSize;
 	public Vector2 rightColorButtonSize;
 	public Vector2 leftColorButtonPosition;
 	public Vector2 rightColorButtonPosition = new Vector2(560, 1060);
+
+	[Export] public Button FrontCardButton;
+	[Export] public Button BackCardButton;
+	[Export] public Button LuckyCardButton;
+
+	[Export] public Button OptionsButton;
+	[Export] public Button OptionButtonTop;
+	[Export] public Button OptionButtonMid;
+	[Export] public Button OptionButtonBottom;
 
 	public override void _Ready()
 	{
@@ -31,6 +36,8 @@ public partial class ButtonHandler : Node
 		rightColorButtonSize = RightPlayerColorButton.Size;
 
 		StartGameButton.Pressed += OnStartGamePressed;
+		StartGameButton.ButtonDown += StartGameButtonDown;
+		StartGameButton.ButtonUp += StartGameButtonUp;
 
 		LeftPlayerColorButton.ButtonDown += LeftColorButtonDown;
 		LeftPlayerColorButton.ButtonUp += LeftColorButtonUp;
@@ -41,11 +48,14 @@ public partial class ButtonHandler : Node
 		LeftPlayerColorButton.Pressed += LeftColorButtonPressed;
 		RightPlayerColorButton.Pressed += RightColorButtonPressed;
 
-
 		FrontCardButton.Pressed += OnFrontCardPressed;
 		BackCardButton.Pressed += OnBackCardPressed;
 		LuckyCardButton.Pressed += OnLuckyCardPressed;
 	}
+
+	// ------------------------------------------------------------------------------------------------
+	#region Start Button ------------------------------------------------
+	// ------------------------------------------------------------------------------------------------
 
 	public void OnStartGamePressed()
 	{
@@ -59,7 +69,19 @@ public partial class ButtonHandler : Node
 		Animations.StartCardAnimation();
 	}
 
+	public void StartGameButtonDown()
+	{
+		var StartButtonTween = CreateTween();
+		StartButtonTween.Parallel().TweenProperty(StartGameButton, "scale", new Vector2(0.95f, 0.95f), .1f).SetEase(Tween.EaseType.InOut).SetTrans(Tween.TransitionType.Elastic);
+	}
 
+	public void StartGameButtonUp()
+	{
+		var StartButtonTween = CreateTween();
+		StartButtonTween.Parallel().TweenProperty(StartGameButton, "scale", new Vector2(1f, 1f), .1f).SetEase(Tween.EaseType.InOut).SetTrans(Tween.TransitionType.Elastic);
+	}
+
+	#endregion
 	// ------------------------------------------------------------------------------------------------
 	#region Card Buttons ------------------------------------------------
 	// ------------------------------------------------------------------------------------------------
@@ -110,7 +132,7 @@ public partial class ButtonHandler : Node
 		if (ColorPicker.isColorPickerActive)
 		{
 			// ColorPicker.ShowActivePlayerPanel();
-            Animations.StartLeftPlayerTurn();
+			Animations.StartLeftPlayerTurn();
 			LeftPlayerColorButton.ZIndex = 4;
 			RightPlayerColorButton.Visible = true;
 
@@ -160,7 +182,7 @@ public partial class ButtonHandler : Node
 		{
 			RightPlayerColorButton.ZIndex = 4;
 			// ColorPicker.ShowActivePlayerPanel();
-            Animations.StartRightPlayerTurn();
+			Animations.StartRightPlayerTurn();
 
 			LeftPlayerColorButton.Visible = true;
 

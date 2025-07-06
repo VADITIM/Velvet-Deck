@@ -1,4 +1,4 @@
-[gd_scene load_steps=22 format=3 uid="uid://b3fmrrhsk6bpn"]
+[gd_scene load_steps=21 format=3 uid="uid://b3fmrrhsk6bpn"]
 
 [ext_resource type="PackedScene" uid="uid://cajivp4fllee0" path="res://Scenes/ScreenSize.tscn" id="1_kln2b"]
 [ext_resource type="PackedScene" uid="uid://tvik5iraryyn" path="res://Scenes/Components.tscn" id="1_pbw6q"]
@@ -10,7 +10,8 @@
 [ext_resource type="Texture2D" uid="uid://b0cxdkvo1g3pv" path="res://Assets/Textures/Clipped Paths/player2_background.png" id="7_4kpch"]
 [ext_resource type="Texture2D" uid="uid://us1o5dor1ueb" path="res://Assets/Textures/Clipped Paths/player2_background2.png" id="7_grg3l"]
 [ext_resource type="PackedScene" uid="uid://d27ieabox358r" path="res://Scenes/PlayerSetupScene.tscn" id="10_bmxlf"]
-[ext_resource type="Texture2D" uid="uid://d1h08h86p0xgt" path="res://Assets/Textures/FireParticle.png" id="11_4kpch"]
+[ext_resource type="PackedScene" uid="uid://jsyskwty8pop" path="res://Scenes/Jokers.tscn" id="12_frkhe"]
+[ext_resource type="PackedScene" uid="uid://dnb7gvrxwo5us" path="res://Scenes/Options.tscn" id="12_grg3l"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_v1gob"]
 bg_color = Color(0.6, 0.6, 0.6, 0)
@@ -46,60 +47,6 @@ texture = ExtResource("7_4kpch")
 font = ExtResource("2_idj7w")
 font_size = 90
 
-[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_4kpch"]
-particle_flag_disable_z = true
-emission_shape_offset = Vector3(50, -50, 0)
-emission_shape_scale = Vector3(1.5, 1.5, 1.5)
-emission_shape = 1
-emission_sphere_radius = 128.0
-angle_min = -9.99999
-angle_max = -9.99999
-inherit_velocity_ratio = 1.415
-velocity_pivot = Vector3(50, 50, 0)
-direction = Vector3(50, -50, 0)
-spread = 0.0
-flatness = 1.0
-initial_velocity_min = 900.0
-initial_velocity_max = 1000.0
-angular_velocity_min = -2.00002
-angular_velocity_max = 1.99998
-radial_velocity_min = -2.23517e-05
-radial_velocity_max = 200.0
-gravity = Vector3(0, 98, 0)
-linear_accel_min = -2.23517e-06
-linear_accel_max = -2.23517e-06
-scale_min = 0.4
-scale_max = 0.7
-anim_speed_min = 15.66
-anim_speed_max = 15.66
-
-[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_grg3l"]
-particle_flag_disable_z = true
-emission_shape_offset = Vector3(-50, -50, 0)
-emission_shape_scale = Vector3(1.5, 1.5, 1.5)
-emission_shape = 1
-emission_sphere_radius = 128.0
-angle_min = -9.99999
-angle_max = -9.99999
-inherit_velocity_ratio = 1.415
-velocity_pivot = Vector3(-50, 50, 0)
-direction = Vector3(-50, -50, 0)
-spread = 0.0
-flatness = 1.0
-initial_velocity_min = 900.0
-initial_velocity_max = 1000.0
-angular_velocity_min = -2.00002
-angular_velocity_max = 1.99998
-radial_velocity_min = -2.23517e-05
-radial_velocity_max = 200.0
-gravity = Vector3(0, 98, 0)
-linear_accel_min = -2.23517e-06
-linear_accel_max = -2.23517e-06
-scale_min = 0.4
-scale_max = 0.7
-anim_speed_min = 15.66
-anim_speed_max = 15.66
-
 [node name="Main" type="Control"]
 layout_direction = 1
 layout_mode = 3
@@ -108,6 +55,58 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+
+[node name="Components" parent="." node_paths=PackedStringArray("PlayerSetupManager", "TimerController", "ColorPicker") instance=ExtResource("1_pbw6q")]
+PlayerSetupManager = NodePath("Player Setup Manager")
+TimerController = NodePath("../Timer Controller")
+ColorPicker = NodePath("../Player Setup Scene/Colors/Colors Grid")
+
+[node name="Animations" parent="Components" index="0" node_paths=PackedStringArray("LeftPlayerPanel", "RightPlayerPanel", "LeftPlayerForegroundPanel", "RightPlayerForegroundPanel", "CardsContainer", "FrontCardPanel", "BackCardPanel", "LuckyCardPanel", "StartCardFrontPanel", "StartCardBackPanel", "LogoTop", "LogoBottom", "LeftPlayerNameEdit", "RightPlayerNameEdit")]
+LeftPlayerPanel = NodePath("../../< Left Player Panel")
+RightPlayerPanel = NodePath("../../> Right Player Panel")
+LeftPlayerForegroundPanel = NodePath("../../< Left Player Panel/Left Player Foreground")
+RightPlayerForegroundPanel = NodePath("../../> Right Player Panel/Right Player Foreground")
+CardsContainer = NodePath("../../Cards")
+FrontCardPanel = NodePath("../../Cards/Front Card")
+BackCardPanel = NodePath("../../Cards/Back Card")
+LuckyCardPanel = NodePath("../../Cards/Lucky Card")
+StartCardFrontPanel = NodePath("../../Cards/Start Card/Start Card Front")
+StartCardBackPanel = NodePath("../../Cards/Start Card/Start Card Back")
+LogoTop = NodePath("../../Player Setup Scene/Logos/Logo Top")
+LogoBottom = NodePath("../../Player Setup Scene/Logos/Logo Bot")
+LeftPlayerNameEdit = NodePath("../../Player Setup Scene/Input Fields/Left Player Name Edit")
+RightPlayerNameEdit = NodePath("../../Player Setup Scene/Input Fields/Right Player Name Edit")
+
+[node name="Deck Manager" parent="Components" index="1" node_paths=PackedStringArray("TypeLabel", "HeaderLabel", "DescriptionLabel", "LuckyHeaderLabel", "LuckyCardImage", "LuckyCardType", "LuckyDescriptionLabel", "CardTypeImage", "ShotCountImage", "CardsContainer", "FrontCardPanel", "BackCardPanel", "LuckyCardPanel", "TimerController")]
+TypeLabel = NodePath("../../Cards/Front Card/Card Type")
+HeaderLabel = NodePath("../../Cards/Back Card/Header")
+DescriptionLabel = NodePath("../../Cards/Back Card/Description")
+LuckyHeaderLabel = NodePath("../../Cards/Lucky Card/Header")
+LuckyCardImage = NodePath("../../Cards/Lucky Card/Lucky Card Texture")
+LuckyCardType = NodePath("../../Cards/Lucky Card/Card Type")
+LuckyDescriptionLabel = NodePath("../../Cards/Lucky Card/Description")
+CardTypeImage = NodePath("../../Cards/Front Card/Card Type Texture")
+ShotCountImage = NodePath("../../Cards/Back Card/Shot Count")
+CardsContainer = NodePath("../../Cards")
+FrontCardPanel = NodePath("../../Cards/Front Card")
+BackCardPanel = NodePath("../../Cards/Back Card")
+LuckyCardPanel = NodePath("../../Cards/Lucky Card")
+TimerController = NodePath("../../Timer Controller")
+
+[node name="Button Handler" parent="Components" index="2" node_paths=PackedStringArray("StartGameButton", "LeftPlayerColorButton", "RightPlayerColorButton", "FrontCardButton", "BackCardButton", "LuckyCardButton", "OptionsButton", "OptionButtonTop", "OptionButtonMid", "OptionButtonBottom")]
+StartGameButton = NodePath("../../Player Setup Scene/O Start Game Button")
+LeftPlayerColorButton = NodePath("../../Player Setup Scene/< Left Player Color Button")
+RightPlayerColorButton = NodePath("../../Player Setup Scene/> Right Player Color Button")
+FrontCardButton = NodePath("../../Cards/Front Card/Front Card Button")
+BackCardButton = NodePath("../../Cards/Back Card/Back Card Button")
+LuckyCardButton = NodePath("../../Cards/Lucky Card/Lucky Card Button")
+OptionsButton = NodePath("../../Options/Options Panel/Options Button")
+OptionButtonTop = NodePath("../../Options/Options Panel/A Button Top")
+OptionButtonMid = NodePath("../../Options/Options Panel/- Button Mid")
+OptionButtonBottom = NodePath("../../Options/Options Panel/V Button Bottom")
+
+[node name="Player Setup Manager" parent="Components" index="6" node_paths=PackedStringArray("PlayerSetupScene")]
+PlayerSetupScene = NodePath("../../Player Setup Scene")
 
 [node name="Screen Size" parent="." instance=ExtResource("1_kln2b")]
 layout_mode = 1
@@ -151,50 +150,6 @@ visible = false
 
 [node name="PreTimer Panel" parent="Timer Controller" index="1"]
 visible = false
-
-[node name="Components" parent="." node_paths=PackedStringArray("PlayerSetupManager", "TimerController", "ColorPicker") instance=ExtResource("1_pbw6q")]
-PlayerSetupManager = NodePath("Player Setup Manager")
-TimerController = NodePath("../Timer Controller")
-ColorPicker = NodePath("../Player Setup Scene/Colors/Colors Grid")
-
-[node name="Animations" parent="Components" index="0" node_paths=PackedStringArray("LeftPlayerPanel", "RightPlayerPanel", "LeftPlayerForegroundPanel", "RightPlayerForegroundPanel", "FrontCardPanel", "BackCardPanel", "LuckyCardPanel", "StartCardFrontPanel", "StartCardBackPanel", "LogoTop", "LogoBottom", "LeftPlayerNameEdit", "RightPlayerNameEdit")]
-LeftPlayerPanel = NodePath("../../< Left Player Panel")
-RightPlayerPanel = NodePath("../../> Right Player Panel")
-LeftPlayerForegroundPanel = NodePath("../../< Left Player Panel/Left Player Foreground")
-RightPlayerForegroundPanel = NodePath("../../> Right Player Panel/Right Player Foreground")
-FrontCardPanel = NodePath("../../Cards/Front Card")
-BackCardPanel = NodePath("../../Cards/Back Card")
-LuckyCardPanel = NodePath("../../Cards/Lucky Card")
-StartCardFrontPanel = NodePath("../../Cards/Start Card/Start Card Front")
-StartCardBackPanel = NodePath("../../Cards/Start Card/Start Card Back")
-LogoTop = NodePath("../../Player Setup Scene/Logos/Logo Top")
-LogoBottom = NodePath("../../Player Setup Scene/Logos/Logo Bot")
-LeftPlayerNameEdit = NodePath("../../Player Setup Scene/Input Fields/Left Player Name Edit")
-RightPlayerNameEdit = NodePath("../../Player Setup Scene/Input Fields/Right Player Name Edit")
-
-[node name="Deck Manager" parent="Components" index="1" node_paths=PackedStringArray("TypeLabel", "HeaderLabel", "DescriptionLabel", "LuckyHeaderLabel", "LuckyCardImage", "LuckyCardType", "LuckyDescriptionLabel", "CardTypeImage", "ShotCountImage", "CardsContainer", "FrontCardPanel", "BackCardPanel", "LuckyCardPanel", "TimerController")]
-TypeLabel = NodePath("../../Cards/Front Card/Card Type")
-HeaderLabel = NodePath("../../Cards/Back Card/Header")
-DescriptionLabel = NodePath("../../Cards/Back Card/Description")
-LuckyHeaderLabel = NodePath("../../Cards/Lucky Card/Header")
-LuckyCardImage = NodePath("../../Cards/Lucky Card/Lucky Card Texture")
-LuckyCardType = NodePath("../../Cards/Lucky Card/Card Type")
-LuckyDescriptionLabel = NodePath("../../Cards/Lucky Card/Description")
-CardTypeImage = NodePath("../../Cards/Front Card/Card Type Texture")
-ShotCountImage = NodePath("../../Cards/Back Card/Shot Count")
-CardsContainer = NodePath("../../Cards")
-FrontCardPanel = NodePath("../../Cards/Front Card")
-BackCardPanel = NodePath("../../Cards/Back Card")
-LuckyCardPanel = NodePath("../../Cards/Lucky Card")
-TimerController = NodePath("../../Timer Controller")
-
-[node name="Button Handler" parent="Components" index="2" node_paths=PackedStringArray("StartGameButton", "LeftPlayerColorButton", "RightPlayerColorButton", "FrontCardButton", "BackCardButton", "LuckyCardButton")]
-StartGameButton = NodePath("../../Player Setup Scene/O Start Game Button")
-LeftPlayerColorButton = NodePath("../../Player Setup Scene/< Left Player Color Button")
-RightPlayerColorButton = NodePath("../../Player Setup Scene/> Right Player Color Button")
-FrontCardButton = NodePath("../../Cards/Front Card/Front Card Button")
-BackCardButton = NodePath("../../Cards/Back Card/Back Card Button")
-LuckyCardButton = NodePath("../../Cards/Lucky Card/Lucky Card Button")
 
 [node name="< Left Player Panel" type="Panel" parent="."]
 self_modulate = Color(9.62615e-07, 0.379842, 0.653694, 1)
@@ -274,18 +229,6 @@ horizontal_alignment = 2
 vertical_alignment = 1
 uppercase = true
 
-[node name="GPUParticles2D" type="GPUParticles2D" parent="."]
-visible = false
-position = Vector2(100, 2240)
-texture = ExtResource("11_4kpch")
-process_material = SubResource("ParticleProcessMaterial_4kpch")
-
-[node name="GPUParticles2D3" type="GPUParticles2D" parent="."]
-visible = false
-position = Vector2(980, 2240)
-texture = ExtResource("11_4kpch")
-process_material = SubResource("ParticleProcessMaterial_grg3l")
-
 [node name="Player Setup Scene" parent="." instance=ExtResource("10_bmxlf")]
 layout_mode = 1
 
@@ -293,10 +236,23 @@ layout_mode = 1
 visible = false
 layout_mode = 1
 
-[node name="Node" type="Node" parent="."]
+[node name="Lucky Card" parent="Cards" index="4"]
+visible = false
 
-[editable path="Timer Controller"]
+[node name="Jokers" parent="." instance=ExtResource("12_frkhe")]
+layout_mode = 1
+anchors_preset = 0
+anchor_right = 0.0
+anchor_bottom = 0.0
+grow_horizontal = 1
+grow_vertical = 1
+
+[node name="Options" parent="." instance=ExtResource("12_grg3l")]
+layout_mode = 1
+
 [editable path="Components"]
+[editable path="Timer Controller"]
 [editable path="Player Setup Scene"]
 [editable path="Cards"]
 [editable path="Cards/Start Card"]
+[editable path="Options"]

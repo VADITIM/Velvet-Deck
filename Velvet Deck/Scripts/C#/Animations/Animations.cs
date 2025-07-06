@@ -16,6 +16,8 @@ public partial class Animations : Node
     public Vector2 startButtonOriginalPos;
     public Vector2 startButtonOffset;
 
+    [Export] public Control CardsContainer;
+    public Vector2 cardsContainerOriginalPosition;
     [Export] public Panel FrontCardPanel;
     public Vector2 frontCardOriginalPos;
     [Export] public Panel BackCardPanel;
@@ -40,6 +42,9 @@ public partial class Animations : Node
 
     private void InitializeComponents()
     {
+
+        cardsContainerOriginalPosition = CardsContainer.Position;
+
         leftPlayerPanelOriginalPosition = LeftPlayerPanel.Position;
         rightPlayerPanelOriginalPosition = RightPlayerPanel.Position;
         luckyCardOriginalPos = LuckyCardPanel.Position;

@@ -224,13 +224,11 @@ alignment = 1
 [node name="< Left Player Color Button" type="Button" parent="."]
 z_index = 3
 layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_left = 80.0
-offset_top = 1060.0
-offset_right = -560.0
-offset_bottom = -1120.0
+anchors_preset = -1
+anchor_left = 0.0740741
+anchor_top = 0.452991
+anchor_right = 0.481481
+anchor_bottom = 0.513248
 grow_horizontal = 2
 grow_vertical = 2
 pivot_offset = Vector2(220, 80)
@@ -242,17 +240,16 @@ theme_override_styles/hover = SubResource("StyleBoxFlat_p115m")
 theme_override_styles/normal = SubResource("StyleBoxFlat_28bxo")
 text = "< COLOR"
 script = ExtResource("3_1ugi2")
+metadata/_edit_use_anchors_ = true
 
 [node name="> Right Player Color Button" type="Button" parent="."]
 z_index = 3
 layout_mode = 1
 anchors_preset = -1
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_left = 560.0
-offset_top = 1060.0
-offset_right = -80.0001
-offset_bottom = -1120.0
+anchor_left = 0.518519
+anchor_top = 0.452991
+anchor_right = 0.925926
+anchor_bottom = 0.513248
 grow_horizontal = 2
 grow_vertical = 2
 pivot_offset = Vector2(220, 79.9999)
@@ -397,5 +394,7 @@ texture = ExtResource("9_vaaja")
 [connection signal="button_up" from="> Right Player Color Button" to="." method="RightColorButtonUp"]
 [connection signal="pressed" from="> Right Player Color Button" to="Animate Player Buttons" method="_pressed"]
 [connection signal="pressed" from="> Right Player Color Button" to="Animate Player Buttons" method="RightColorButtonPressed"]
+[connection signal="button_down" from="O Start Game Button" to="Animate Player Buttons" method="StartGameButtonDown"]
+[connection signal="button_up" from="O Start Game Button" to="Animate Player Buttons" method="StartGameButtonUp"]
 [connection signal="pressed" from="O Start Game Button" to="." method="OnStartGamePressed"]
 [connection signal="pressed" from="O Start Game Button" to="Animate Player Buttons" method="_pressed2"]

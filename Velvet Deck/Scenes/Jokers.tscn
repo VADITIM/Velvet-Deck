@@ -1,0 +1,59 @@
+[gd_scene load_steps=5 format=3 uid="uid://jsyskwty8pop"]
+
+[ext_resource type="FontFile" uid="uid://cvaw2qt4e71he" path="res://Assets/Fonts/steelfish.eb-regular.otf" id="2_5jop4"]
+[ext_resource type="FontFile" uid="uid://gefc4b2w7ewl" path="res://Assets/Fonts/steelfish.outline-regular.otf" id="3_qrtsx"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_cxq3f"]
+bg_color = Color(0.882353, 0.466667, 0.333333, 1)
+border_width_bottom = 20
+border_color = Color(0.94798, 0.642743, 0.545341, 1)
+corner_radius_top_left = 50
+corner_radius_top_right = 50
+corner_radius_bottom_right = 50
+corner_radius_bottom_left = 50
+shadow_color = Color(0, 0, 0, 0.823529)
+shadow_size = 20
+shadow_offset = Vector2(0, 30)
+
+[sub_resource type="LabelSettings" id="LabelSettings_nt8gw"]
+font = ExtResource("3_qrtsx")
+font_size = 130
+font_color = Color(0.882353, 0.466667, 0.333333, 1)
+shadow_size = 30
+shadow_color = Color(0, 0, 0, 0.498039)
+
+[node name="Jokers" type="Control"]
+z_index = -1
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Button" type="Button" parent="."]
+layout_mode = 0
+offset_left = 420.0
+offset_top = 2122.0
+offset_right = 660.0
+offset_bottom = 2279.0
+pivot_offset = Vector2(140, 80)
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("2_5jop4")
+theme_override_font_sizes/font_size = 130
+theme_override_styles/normal = SubResource("StyleBoxFlat_cxq3f")
+text = "Joker"
+
+[node name="Label" type="Label" parent="Button"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 260.0
+offset_right = 66.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "3"
+label_settings = SubResource("LabelSettings_nt8gw")
+horizontal_alignment = 1
+vertical_alignment = 1

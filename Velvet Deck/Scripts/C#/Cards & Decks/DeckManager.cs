@@ -99,10 +99,6 @@ public partial class DeckManager : Node
             ShotCountImage.Texture = shotCountTextures[card.ShotCount];
         }
 
-        // Don't clear TypeLabel and CardTypeImage here - let the animation handle it
-        // if (TypeLabel != null) TypeLabel.Text = "";
-        // if (CardTypeImage != null) CardTypeImage.Texture = null;
-
         SetCardColor(BackCardPanel, card.Type);
 
         if (card.Timer > 0f && TimerController != null)
@@ -111,7 +107,6 @@ public partial class DeckManager : Node
             isTimerActive = true;
         }
     }
-
 
     public void DisplayLuckyCard(Card card)
     {
@@ -122,7 +117,6 @@ public partial class DeckManager : Node
         LuckyHeaderLabel.Text = card.Header;
         LuckyDescriptionLabel.Text = card.Description;
         LuckyCardType.Visible = false;
-        LuckyCardImage.Visible = false;
 
         SetCardColor(LuckyCardPanel, CardType.Lucky);
     }

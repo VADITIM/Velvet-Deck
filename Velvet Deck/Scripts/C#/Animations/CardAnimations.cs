@@ -111,7 +111,6 @@ public partial class CardAnimations : Control
         {
             DeckManager.LuckyHeaderLabel.Text = "";
             DeckManager.LuckyDescriptionLabel.Text = "";
-            DeckManager.LuckyCardImage.Visible = true;
             DeckManager.LuckyCardType.Visible = true;
 
         }));
