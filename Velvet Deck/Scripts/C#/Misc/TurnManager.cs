@@ -12,6 +12,7 @@ public partial class TurnManager : Node
     ButtonHandler ButtonHandler => Components.Instance?.ButtonHandler;
     Animations Animations => Components.Instance?.Animations;
     PlayerSetupManager PlayerSetupManager => Components.Instance?.PlayerSetupManager;
+    JokerManager JokerManager => Components.Instance?.JokerManager;
 
     private Player currentPlayer;
     public bool gameStarted = false;
@@ -32,11 +33,19 @@ public partial class TurnManager : Node
         UpdatePlayerTurn();
     }
 
-    public void UpdatePlayerTurn() { Animations.AnimateForPlayer(currentPlayer); }
+    public void UpdatePlayerTurn()
+    {
+        Animations.AnimateForPlayer(currentPlayer);
+    }
 
     public Player GetCurrentPlayer() { return currentPlayer; }
 
     public bool IsGameStarted() { return gameStarted; }
+
+    public void SetGameStarted(bool started)
+    {
+        gameStarted = started;
+    }
 
     public bool AreTurnsAssigned() { return turnsAssigned; }
 

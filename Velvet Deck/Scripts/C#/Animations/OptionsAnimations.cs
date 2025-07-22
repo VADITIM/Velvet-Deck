@@ -83,14 +83,14 @@ public partial class OptionsAnimations : Control
 
             isOptionsAnimating = true;
             var Tween = CreateTween();
-            Tween.Parallel().TweenProperty(OptionsPanel, "position", new Vector2(optionsPanelOriginalPosition.X, optionsPanelOriginalPosition.Y - 2340), 1).SetEase(Tween.EaseType.Out).SetTrans(Tween.TransitionType.Bounce);
-            Tween.Parallel().TweenProperty(PlayerSetupManager.PlayerSetupScene, "position", new Vector2(PlayerSetupManager.PlayerSetupScene.Position.X, PlayerSetupManager.PlayerSetupScene.Position.Y - 2340), 1).SetEase(Tween.EaseType.Out).SetTrans(Tween.TransitionType.Bounce);
-            Tween.Parallel().TweenProperty(ButtonHandler.OptionsButton, "position", new Vector2(optionsButtonOriginalPosition.X, optionsButtonOriginalPosition.Y + 2340), 1).SetEase(Tween.EaseType.Out).SetTrans(Tween.TransitionType.Bounce);
+            Tween.Parallel().TweenProperty(OptionsPanel, "position", new Vector2(optionsPanelOriginalPosition.X, optionsPanelOriginalPosition.Y - 2340), 1).SetEase(Tween.EaseType.Out).SetTrans(Tween.TransitionType.Expo);
+            Tween.Parallel().TweenProperty(PlayerSetupManager.PlayerSetupScene, "position", new Vector2(PlayerSetupManager.PlayerSetupScene.Position.X, PlayerSetupManager.PlayerSetupScene.Position.Y - 2340), 1).SetEase(Tween.EaseType.Out).SetTrans(Tween.TransitionType.Expo);
+            Tween.Parallel().TweenProperty(ButtonHandler.OptionsButton, "position", new Vector2(optionsButtonOriginalPosition.X, optionsButtonOriginalPosition.Y + 2340), 1).SetEase(Tween.EaseType.Out).SetTrans(Tween.TransitionType.Expo);
 
-            Tween.Parallel().TweenProperty(Animations.LeftPlayerPanel, "position", new Vector2(Animations.LeftPlayerPanel.Position.X, Animations.LeftPlayerPanel.Position.Y - 2340), 1).SetEase(Tween.EaseType.Out).SetTrans(Tween.TransitionType.Bounce);
-            Tween.Parallel().TweenProperty(Animations.RightPlayerPanel, "position", new Vector2(Animations.RightPlayerPanel.Position.X, Animations.RightPlayerPanel.Position.Y - 2340), 1).SetEase(Tween.EaseType.Out).SetTrans(Tween.TransitionType.Bounce);
+            Tween.Parallel().TweenProperty(Animations.LeftPlayerPanel, "position", new Vector2(Animations.LeftPlayerPanel.Position.X, Animations.LeftPlayerPanel.Position.Y - 2340), 1).SetEase(Tween.EaseType.Out).SetTrans(Tween.TransitionType.Expo);
+            Tween.Parallel().TweenProperty(Animations.RightPlayerPanel, "position", new Vector2(Animations.RightPlayerPanel.Position.X, Animations.RightPlayerPanel.Position.Y - 2340), 1).SetEase(Tween.EaseType.Out).SetTrans(Tween.TransitionType.Expo);
 
-            Tween.Parallel().TweenProperty(Animations.CardsContainer, "position", new Vector2(Animations.CardsContainer.Position.X, Animations.CardsContainer.Position.Y - 2340), 1).SetEase(Tween.EaseType.Out).SetTrans(Tween.TransitionType.Bounce);
+            Tween.Parallel().TweenProperty(Animations.CardsContainer, "position", new Vector2(Animations.CardsContainer.Position.X, Animations.CardsContainer.Position.Y - 2340), 1).SetEase(Tween.EaseType.Out).SetTrans(Tween.TransitionType.Expo);
 
             Tween.TweenCallback(Callable.From(() =>
             {
@@ -102,14 +102,14 @@ public partial class OptionsAnimations : Control
         {
             isOptionsAnimating = true;
             var Tween = CreateTween();
-            Tween.Parallel().TweenProperty(OptionsPanel, "position", optionsPanelOriginalPosition, 1).SetEase(Tween.EaseType.Out).SetTrans(Tween.TransitionType.Bounce);
-            Tween.Parallel().TweenProperty(PlayerSetupManager.PlayerSetupScene, "position", playerSetupSceneOriginalPosition, 1).SetEase(Tween.EaseType.Out).SetTrans(Tween.TransitionType.Bounce);
-            Tween.Parallel().TweenProperty(ButtonHandler.OptionsButton, "position", optionsButtonOriginalPosition, 1).SetEase(Tween.EaseType.Out).SetTrans(Tween.TransitionType.Bounce);
+            Tween.Parallel().TweenProperty(OptionsPanel, "position", optionsPanelOriginalPosition, 1).SetEase(Tween.EaseType.Out).SetTrans(Tween.TransitionType.Expo);
+            Tween.Parallel().TweenProperty(PlayerSetupManager.PlayerSetupScene, "position", playerSetupSceneOriginalPosition, 1).SetEase(Tween.EaseType.Out).SetTrans(Tween.TransitionType.Expo);
+            Tween.Parallel().TweenProperty(ButtonHandler.OptionsButton, "position", optionsButtonOriginalPosition, 1).SetEase(Tween.EaseType.Out).SetTrans(Tween.TransitionType.Expo);
 
-            Tween.Parallel().TweenProperty(Animations.LeftPlayerPanel, "position", leftPlayerPanelOriginalPosition, 1).SetEase(Tween.EaseType.Out).SetTrans(Tween.TransitionType.Bounce);
-            Tween.Parallel().TweenProperty(Animations.RightPlayerPanel, "position", rightPlayerPanelOriginalPosition, 1).SetEase(Tween.EaseType.Out).SetTrans(Tween.TransitionType.Bounce);
+            Tween.Parallel().TweenProperty(Animations.LeftPlayerPanel, "position", leftPlayerPanelOriginalPosition, 1).SetEase(Tween.EaseType.Out).SetTrans(Tween.TransitionType.Expo);
+            Tween.Parallel().TweenProperty(Animations.RightPlayerPanel, "position", rightPlayerPanelOriginalPosition, 1).SetEase(Tween.EaseType.Out).SetTrans(Tween.TransitionType.Expo);
 
-            Tween.Parallel().TweenProperty(Animations.CardsContainer, "position", Animations.cardsContainerOriginalPosition, 1).SetEase(Tween.EaseType.Out).SetTrans(Tween.TransitionType.Bounce);
+            Tween.Parallel().TweenProperty(Animations.CardsContainer, "position", Animations.cardsContainerOriginalPosition, 1).SetEase(Tween.EaseType.Out).SetTrans(Tween.TransitionType.Expo);
 
             Tween.TweenCallback(Callable.From(() =>
             {
@@ -131,28 +131,13 @@ public partial class OptionsAnimations : Control
         Tween.Parallel().TweenProperty(ButtonHandler.OptionsButton, "scale", new Vector2(1f, 1f), 0.1f).SetEase(Tween.EaseType.Out).SetTrans(Tween.TransitionType.Cubic);
     }
 
-    public void AnimateTopOptionButton()
-    {
-        if (!isTopButtonExpanded)
-        {
-            var Tween = CreateTween();
-            Tween.Parallel().TweenProperty(ButtonHandler.OptionButtonTop, "position", new Vector2(optionTopPosition.X + 1080, optionTopPosition.Y), 1.5f).SetEase(Tween.EaseType.InOut).SetTrans(Tween.TransitionType.Elastic);
-
-            isTopButtonExpanded = true;
-        }
-        else
-        {
-            var Tween = CreateTween();
-            Tween.Parallel().TweenProperty(ButtonHandler.OptionButtonTop, "position", optionTopPosition, 1.5f).SetEase(Tween.EaseType.InOut).SetTrans(Tween.TransitionType.Elastic);
-            isTopButtonExpanded = false;
-        }
-    }
 
     public void AnimateOnOffPanels(string buttonType)
     {
         Panel greenPanel = null, redPanel = null;
         Vector2 greenOriginalPos = Vector2.Zero, redOriginalPos = Vector2.Zero;
         bool isPanelsExpanded = false;
+        float duration = 1f;
 
         switch (buttonType.ToLower())
         {
@@ -185,11 +170,14 @@ public partial class OptionsAnimations : Control
 
         if (!isPanelsExpanded)
         {
-            // Animate panels out (to the right)
-            Tween.Parallel().TweenProperty(greenPanel, "position", new Vector2(greenOriginalPos.X + 1080, greenOriginalPos.Y), 1.5f).SetEase(Tween.EaseType.InOut).SetTrans(Tween.TransitionType.Elastic);
-            Tween.Parallel().TweenProperty(redPanel, "position", new Vector2(redOriginalPos.X + 1080, redOriginalPos.Y), 1.5f).SetEase(Tween.EaseType.InOut).SetTrans(Tween.TransitionType.Elastic);
+            Tween.Parallel().TweenProperty(greenPanel, "position", new Vector2(greenOriginalPos.X + 1080, greenOriginalPos.Y), duration)
+            .SetEase(Tween.EaseType.InOut)
+            .SetTrans(Tween.TransitionType.Back);
 
-            // Update state
+            Tween.Parallel().TweenProperty(redPanel, "position", new Vector2(redOriginalPos.X + 1080, redOriginalPos.Y), duration)
+            .SetEase(Tween.EaseType.InOut)
+            .SetTrans(Tween.TransitionType.Back);
+
             switch (buttonType.ToLower())
             {
                 case "top": areTopPanelsExpanded = true; break;
@@ -199,11 +187,14 @@ public partial class OptionsAnimations : Control
         }
         else
         {
-            // Animate panels back to original positions
-            Tween.Parallel().TweenProperty(greenPanel, "position", greenOriginalPos, 1.5f).SetEase(Tween.EaseType.InOut).SetTrans(Tween.TransitionType.Elastic);
-            Tween.Parallel().TweenProperty(redPanel, "position", redOriginalPos, 1.5f).SetEase(Tween.EaseType.InOut).SetTrans(Tween.TransitionType.Elastic);
+            Tween.Parallel().TweenProperty(greenPanel, "position", greenOriginalPos, duration)
+            .SetEase(Tween.EaseType.InOut)
+            .SetTrans(Tween.TransitionType.Back);
 
-            // Update state
+            Tween.Parallel().TweenProperty(redPanel, "position", redOriginalPos, duration)
+            .SetEase(Tween.EaseType.InOut)
+            .SetTrans(Tween.TransitionType.Back);
+
             switch (buttonType.ToLower())
             {
                 case "top": areTopPanelsExpanded = false; break;
@@ -216,52 +207,89 @@ public partial class OptionsAnimations : Control
 
     public void TopOptionPressed()
     {
-        AnimateTopOptionButton();
+        // AnimateTopOptionButton();
         AnimateOnOffPanels("top");
     }
 
     public void MidOptionPressed()
     {
-        AnimateMidOptionButton();
+        // AnimateMidOptionButton();
         AnimateOnOffPanels("mid");
     }
 
     public void BottomOptionPressed()
     {
-        AnimateBottomOptionButton();
+        // AnimateBottomOptionButton();
         AnimateOnOffPanels("bottom");
+    }
+
+    public void AnimateTopOptionButton()
+    {
+        float duration = 1f;
+
+        if (!isTopButtonExpanded)
+        {
+            var Tween = CreateTween();
+            Tween.Parallel().TweenProperty(ButtonHandler.OptionButtonTop, "position", new Vector2(optionTopPosition.X + 1080, optionTopPosition.Y), duration)
+            .SetEase(Tween.EaseType.InOut)
+            .SetTrans(Tween.TransitionType.Back);
+
+            isTopButtonExpanded = true;
+        }
+        else
+        {
+            var Tween = CreateTween();
+            Tween.Parallel().TweenProperty(ButtonHandler.OptionButtonTop, "position", optionTopPosition, duration)
+            .SetEase(Tween.EaseType.InOut)
+            .SetTrans(Tween.TransitionType.Back);
+            isTopButtonExpanded = false;
+        }
     }
 
     public void AnimateMidOptionButton()
     {
+        float duration = 1f;
+
         if (!isMidButtonExpanded)
         {
             var Tween = CreateTween();
-            Tween.Parallel().TweenProperty(ButtonHandler.OptionButtonMid, "position", new Vector2(optionMidPosition.X + 1080, optionMidPosition.Y), 1.5f).SetEase(Tween.EaseType.InOut).SetTrans(Tween.TransitionType.Elastic);
+            Tween.Parallel().TweenProperty(ButtonHandler.OptionButtonMid, "position", new Vector2(optionMidPosition.X + 1080, optionMidPosition.Y), duration)
+            .SetEase(Tween.EaseType.InOut)
+            .SetTrans(Tween.TransitionType.Back);
 
             isMidButtonExpanded = true;
         }
         else
         {
             var Tween = CreateTween();
-            Tween.Parallel().TweenProperty(ButtonHandler.OptionButtonMid, "position", optionMidPosition, 1.5f).SetEase(Tween.EaseType.InOut).SetTrans(Tween.TransitionType.Elastic);
+            Tween.Parallel().TweenProperty(ButtonHandler.OptionButtonMid, "position", optionMidPosition, duration)
+            .SetEase(Tween.EaseType.InOut)
+            .SetTrans(Tween.TransitionType.Back);
+
             isMidButtonExpanded = false;
         }
     }
 
     public void AnimateBottomOptionButton()
     {
+        float duration = 1f;
+
         if (!isBottomButtonExpanded)
         {
             var Tween = CreateTween();
-            Tween.Parallel().TweenProperty(ButtonHandler.OptionButtonBottom, "position", new Vector2(optionBottomPosition.X + 1080, optionBottomPosition.Y), 1.5f).SetEase(Tween.EaseType.InOut).SetTrans(Tween.TransitionType.Elastic);
+            Tween.Parallel().TweenProperty(ButtonHandler.OptionButtonBottom, "position", new Vector2(optionBottomPosition.X + 1080, optionBottomPosition.Y), duration)
+            .SetEase(Tween.EaseType.InOut)
+            .SetTrans(Tween.TransitionType.Back);
 
             isBottomButtonExpanded = true;
         }
         else
         {
             var Tween = CreateTween();
-            Tween.Parallel().TweenProperty(ButtonHandler.OptionButtonBottom, "position", optionBottomPosition, 1.5f).SetEase(Tween.EaseType.InOut).SetTrans(Tween.TransitionType.Elastic);
+            Tween.Parallel().TweenProperty(ButtonHandler.OptionButtonBottom, "position", optionBottomPosition, duration)
+            .SetEase(Tween.EaseType.InOut)
+            .SetTrans(Tween.TransitionType.Back);
+
             isBottomButtonExpanded = false;
         }
     }

@@ -3,11 +3,15 @@ using System;
 
 public partial class TimerController : Control
 {
+
 	[Export] public Timer Timer { get; set; }
 	[Export] public Panel TimerPanel { get; set; }
+	private Vector2 timerPanelPosition;
 	[Export] public Label TimerLabel { get; set; }
 	[Export] public Panel CountdownPanel { get; set; }
+	private Vector2 countdownPanelPosition;
 	[Export] public Label CountdownLabel { get; set; }
+	[Export] public Button BeginnButton { get; set; }
 
 	private float countdownTime = 5f;
 	private float currentCountdown = 0f;
@@ -16,15 +20,77 @@ public partial class TimerController : Control
 
 	private bool isCountdownActive = false;
 	public bool isTimerActive = false;
+	private bool isWaitingForStart = false;
 
 	public override void _Ready()
 	{
-		if (Timer != null)
-		{
-			Timer.Timeout += OnTimerTimeout;
-		}
+		timerPanelPosition = TimerPanel.Position;
+		countdownPanelPosition = CountdownPanel.Position;
+
+		TimerPanel.Scale = new Vector2(0, 0);
+		CountdownPanel.Position = new Vector2(countdownPanelPosition.X, countdownPanelPosition.Y + 600f);
+
+		Timer.Timeout += OnTimerTimeout;
+		BeginnButton.Pressed += OnBeginnButtonPressed;
+		BeginnButton.ButtonDown += BeginnButtonDown;
+		BeginnButton.ButtonUp += BeginnButtonUp;
 
 		HideAllTimers();
+	}
+
+	public void AnimateCountdownIn()
+	{
+		CountdownPanel.Scale = new Vector2(1, 1);
+		CountdownPanel.Position = new Vector2(countdownPanelPosition.X, countdownPanelPosition.Y + 600f);
+
+		var Tween = CreateTween();
+		Tween.TweenProperty(CountdownPanel, "position", countdownPanelPosition, 0.5f)
+			.SetDelay(.3f)
+			.SetEase(Tween.EaseType.Out)
+			.SetTrans(Tween.TransitionType.Quart);
+	}
+
+	public void AnimateCountdownOut()
+	{
+		float duration = 1f;
+
+		var Tween = CreateTween();
+		Tween.Parallel().TweenProperty(CountdownPanel, "position", timerPanelPosition, duration)
+			.SetEase(Tween.EaseType.InOut)
+			.SetTrans(Tween.TransitionType.Elastic);
+
+		Tween.Parallel().TweenProperty(CountdownPanel, "scale", new Vector2(0, 0), duration)
+			.SetEase(Tween.EaseType.InOut)
+			.SetTrans(Tween.TransitionType.Elastic);
+
+		Tween.TweenCallback(Callable.From(() =>
+		{
+			CountdownPanel.Position = countdownPanelPosition + new Vector2(0, 600);
+		}));
+	}
+
+	public void AnimateTimerIn()
+	{
+		TimerPanel.Scale = new Vector2(0, 0);
+
+		var Tween = CreateTween();
+		Tween.Parallel().TweenProperty(TimerPanel, "scale", new Vector2(1, 1), 1f)
+			.SetEase(Tween.EaseType.InOut)
+			.SetTrans(Tween.TransitionType.Elastic);
+	}
+
+	public void AnimateTimerOut()
+	{
+		var Tween = CreateTween();
+		Tween.Parallel().TweenProperty(TimerPanel, "position", new Vector2(timerPanelPosition.X, timerPanelPosition.Y + 600f), 1f)
+			.SetEase(Tween.EaseType.InOut)
+			.SetTrans(Tween.TransitionType.Elastic);
+
+		Tween.TweenCallback(Callable.From(() =>
+		{
+			TimerPanel.Scale = new Vector2(0, 0);
+			TimerPanel.Position = timerPanelPosition;
+		}));
 	}
 
 	public override void _Process(double delta)
@@ -54,26 +120,59 @@ public partial class TimerController : Control
 
 	public void StartCountdown(float timerDurationAfterCountdown)
 	{
-		GD.Print($"StartCountdown called with duration: {timerDurationAfterCountdown}");
-
 		timerDuration = timerDurationAfterCountdown;
-		currentCountdown = countdownTime;
-		isCountdownActive = true;
+		isWaitingForStart = true;
+		isCountdownActive = false;
 		isTimerActive = false;
 
-		ShowCountdownPanel();
-		UpdateCountdownDisplay();
+		ShowStartPrompt();
+	}
 
-		GD.Print($"Starting 5-second countdown before {timerDuration}-second timer");
-		GD.Print($"CountdownPanel visible: {CountdownPanel?.Visible}");
-		GD.Print($"CountdownLabel text: {CountdownLabel?.Text}");
+	private void ShowStartPrompt()
+	{
+		CountdownLabel.Text = "Beginn";
+		BeginnButton.Visible = true;
+
+		AnimateCountdownIn();
+	}
+
+	private void OnBeginnButtonPressed()
+	{
+		if (isWaitingForStart)
+		{
+			isWaitingForStart = false;
+			BeginCountdown();
+		}
+	}
+
+	private void BeginnButtonDown()
+	{
+		var Tween = CreateTween();
+		Tween.Parallel().TweenProperty(CountdownPanel, "scale", new Vector2(0.95f, 0.95f), .1f).SetEase(Tween.EaseType.InOut).SetTrans(Tween.TransitionType.Elastic);
+	}
+
+	private void BeginnButtonUp()
+	{
+		var Tween = CreateTween();
+		Tween.Parallel().TweenProperty(CountdownPanel, "scale", new Vector2(1f, 1f), .1f).SetEase(Tween.EaseType.InOut).SetTrans(Tween.TransitionType.Elastic);
+	}
+
+	private void BeginCountdown()
+	{
+		currentCountdown = countdownTime;
+		isCountdownActive = true;
+
+		BeginnButton.Visible = false;
+
+		Components.Instance.VibrationController.Call("set_vibration_enabled", false);
+		Components.Instance.JokerManager.OnBackCardHidden();
+		UpdateCountdownDisplay();
 	}
 
 	private void EndCountdown()
 	{
 		isCountdownActive = false;
 		HideCountdownPanel();
-		GD.Print("Countdown ended, starting main timer");
 	}
 
 	private void StartTimer()
@@ -82,22 +181,15 @@ public partial class TimerController : Control
 		isTimerActive = true;
 		ShowTimerPanel();
 		UpdateTimerDisplay();
-
-		GD.Print($"Starting {timerDuration}-second timer");
 	}
 
 	private void EndTimer()
 	{
 		isTimerActive = false;
-		HideTimerPanel();
 
-		// Trigger turn change when timer ends (card completed)
-		if (Components.Instance?.TurnManager != null)
-		{
-			Components.Instance.TurnManager.NextTurn();
-		}
-
-		GD.Print("Timer ended");
+		Components.Instance.VibrationController.Call("set_vibration_enabled", true);
+		Components.Instance.VibrationController.Call("VibrateTimer");
+		AnimateTimerOut();
 	}
 
 	private void OnTimerTimeout()
@@ -107,94 +199,48 @@ public partial class TimerController : Control
 
 	private void UpdateCountdownDisplay()
 	{
-		if (CountdownLabel != null)
-		{
-			CountdownLabel.Text = $"Get Ready: {Mathf.Ceil(currentCountdown)}";
-			GD.Print($"Updated countdown display: {CountdownLabel.Text}");
-		}
-		else
-		{
-			GD.Print("CountdownLabel is null!");
-		}
+		CountdownLabel.Text = $"Get Ready: {Mathf.Ceil(currentCountdown)}";
 	}
 
 	private void UpdateTimerDisplay()
 	{
-		if (TimerLabel != null)
-		{
-			int minutes = (int)(currentTimer / 60);
-			int seconds = (int)(currentTimer % 60);
-			TimerLabel.Text = $"{minutes:00}:{seconds:00}";
-		}
+		// Ensure timer doesn't display negative values
+		float displayTime = Mathf.Max(currentTimer, 0f);
+
+		int minutes = (int)(displayTime / 60);
+		int seconds = (int)(displayTime % 60);
+		TimerLabel.Text = $"{minutes:00}:{seconds:00}";
 	}
 
 	public void ShowCountdownPanel()
 	{
-		GD.Print("ShowCountdownPanel called");
-		GD.Print($"CountdownPanel is null: {CountdownPanel == null}");
-		GD.Print($"TimerPanel is null: {TimerPanel == null}");
-
-		if (CountdownPanel != null)
-		{
-			CountdownPanel.Visible = true;
-			GD.Print("CountdownPanel set to visible");
-		}
-
-		if (TimerPanel != null)
-		{
-			TimerPanel.Visible = false;
-			GD.Print("TimerPanel set to hidden");
-		}
-	}
-
-	public void ShowTimerPanel()
-	{
-		if (TimerPanel != null)
-		{
-			TimerPanel.Visible = true;
-		}
-
-		if (CountdownPanel != null)
-		{
-			CountdownPanel.Visible = false;
-		}
+		AnimateCountdownIn();
 	}
 
 	public void HideCountdownPanel()
 	{
-		if (CountdownPanel != null)
-		{
-			CountdownPanel.Visible = false;
-		}
+		AnimateCountdownOut();
 	}
 
-	public void HideTimerPanel()
+	public void ShowTimerPanel()
 	{
-		if (TimerPanel != null)
-		{
-			TimerPanel.Visible = false;
-		}
-	}
-
-	public void ShowTimer()
-	{
-		ShowCountdownPanel();
+		AnimateTimerIn();
 	}
 
 	public void HideTimer()
 	{
-		HideCountdownPanel();
-		HideTimerPanel();
+		AnimateTimerOut();
 		isCountdownActive = false;
 		isTimerActive = false;
 	}
 
 	public void HideAllTimers()
 	{
-		HideCountdownPanel();
-		HideTimerPanel();
+		BeginnButton.Visible = false;
+		CountdownPanel.Position = new Vector2(countdownPanelPosition.X, countdownPanelPosition.Y + 600f);
 		isCountdownActive = false;
 		isTimerActive = false;
+		isWaitingForStart = false;
 	}
 
 	public bool IsCountdownActive()
@@ -207,8 +253,13 @@ public partial class TimerController : Control
 		return isTimerActive;
 	}
 
+	public bool IsWaitingForStart()
+	{
+		return isWaitingForStart;
+	}
+
 	public bool IsAnyTimerRunning()
 	{
-		return isCountdownActive || isTimerActive;
+		return isCountdownActive || isTimerActive || isWaitingForStart;
 	}
 }

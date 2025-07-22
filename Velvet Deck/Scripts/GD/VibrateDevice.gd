@@ -8,3 +8,4 @@ func _pressed():
 func _pressed2():
 	VibrationController.VibrateMedium()
 	print("vibrate medium")
+

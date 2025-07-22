@@ -221,6 +221,7 @@ pivot_offset = Vector2(380, 710)
 script = ExtResource("1_q2i7g")
 
 [node name="Lucky Card" type="Panel" parent="."]
+visible = false
 layout_mode = 1
 anchors_preset = -1
 anchor_right = 1.0
@@ -320,6 +321,21 @@ grow_horizontal = 2
 grow_vertical = 2
 pivot_offset = Vector2(380, 710)
 script = ExtResource("1_q2i7g")
+
+[node name="Beginn Button" type="Button" parent="."]
+self_modulate = Color(1, 1, 1, 0)
+z_index = 10
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 140.0
+offset_top = 440.0
+offset_right = -140.0
+offset_bottom = -440.0
+grow_horizontal = 2
+grow_vertical = 2
+pivot_offset = Vector2(200, 200)
 
 [connection signal="pressed" from="Front Card/Front Card Button" to="." method="_pressed"]
 [connection signal="pressed" from="Front Card/Front Card Button" to="Front Card/Front Card Button" method="FrontCardPressed"]

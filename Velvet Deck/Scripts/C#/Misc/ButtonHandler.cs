@@ -28,6 +28,8 @@ public partial class ButtonHandler : Node
 	[Export] public Button OptionButtonMid;
 	[Export] public Button OptionButtonBottom;
 
+	[Export] public Button JokerButton;
+
 	public override void _Ready()
 	{
 		leftColorButtonPosition = LeftPlayerColorButton.Position;
@@ -51,6 +53,21 @@ public partial class ButtonHandler : Node
 		FrontCardButton.Pressed += OnFrontCardPressed;
 		BackCardButton.Pressed += OnBackCardPressed;
 		LuckyCardButton.Pressed += OnLuckyCardPressed;
+
+		JokerButton.ButtonDown += JokerButtonDown;
+		JokerButton.ButtonUp += JokerButtonUp;
+	}
+
+	public void JokerButtonDown()
+	{
+		var JokerButtonTween = CreateTween();
+		JokerButtonTween.Parallel().TweenProperty(JokerButton, "scale", new Vector2(0.95f, 0.95f), .1f).SetEase(Tween.EaseType.InOut).SetTrans(Tween.TransitionType.Elastic);
+	}
+
+	public void JokerButtonUp()
+	{
+		var JokerButtonTween = CreateTween();
+		JokerButtonTween.Parallel().TweenProperty(JokerButton, "scale", new Vector2(1f, 1f), .1f).SetEase(Tween.EaseType.InOut).SetTrans(Tween.TransitionType.Elastic);
 	}
 
 	// ------------------------------------------------------------------------------------------------
@@ -60,7 +77,7 @@ public partial class ButtonHandler : Node
 	public void OnStartGamePressed()
 	{
 		TurnManager.turnsAssigned = true;
-		TurnManager.gameStarted = true;
+		TurnManager.SetGameStarted(true);
 		DeckManager.gameStarted = true;
 		TurnManager.AssignFirstPlayer();
 		DeckManager.ShowNextFrontCard();

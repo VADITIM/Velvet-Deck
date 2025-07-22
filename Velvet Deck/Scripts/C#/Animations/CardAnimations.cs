@@ -6,6 +6,7 @@ public partial class CardAnimations : Control
     Animations Animations => Components.Instance?.Animations;
     DeckManager DeckManager => Components.Instance?.DeckManager;
     ButtonHandler ButtonHandler => Components.Instance?.ButtonHandler;
+    JokerManager JokerManager => Components.Instance?.JokerManager;
 
     public void AnimateDeckEmpty()
     {
@@ -48,11 +49,14 @@ public partial class CardAnimations : Control
             Animations.FrontCardPanel.Scale = new Vector2(1.0f, Animations.FrontCardPanel.Scale.Y);
             Animations.FrontCardPanel.Position = Animations.frontCardOriginalPos + 2000 * Vector2.Up;
             DeckManager.ClearFrontCardElements();
+
+            JokerManager.OnBackCardVisible();
         }));
     }
 
     public void MoveCards()
     {
+        Components.Instance.JokerManager.OnBackCardHidden();
         var animationSpeed = 0.4f;
         var frontButton = ButtonHandler.FrontCardButton;
         var backButton = ButtonHandler.BackCardButton;
@@ -66,6 +70,8 @@ public partial class CardAnimations : Control
             Animations.FrontCardPanel.Visible = true;
             Animations.BackCardPanel.Visible = false;
             DeckManager.ProgressToNextCard();
+
+            JokerManager.HideJokerAnimation();
         }));
 
         var FrontCardTween = CreateTween();

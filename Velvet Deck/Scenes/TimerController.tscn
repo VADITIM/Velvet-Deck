@@ -4,7 +4,7 @@
 [ext_resource type="FontFile" uid="uid://cvaw2qt4e71he" path="res://Assets/Fonts/steelfish.eb-regular.otf" id="2_13s5m"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_v0mwc"]
-bg_color = Color(1, 0.917647, 0, 1)
+bg_color = Color(0.984314, 0.807843, 0, 1)
 border_width_left = 5
 border_width_top = 5
 border_width_right = 5
@@ -21,7 +21,7 @@ font = ExtResource("2_13s5m")
 font_size = 120
 font_color = Color(0, 0, 0, 1)
 
-[node name="Timer Controller" type="Control"]
+[node name="Timer Controller" type="Control" node_paths=PackedStringArray("Timer", "TimerPanel", "TimerLabel", "CountdownPanel", "CountdownLabel", "BeginnButton")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -29,8 +29,15 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_v0mwc")
+Timer = NodePath("Timer Panel/Timer")
+TimerPanel = NodePath("Timer Panel")
+TimerLabel = NodePath("Timer Panel/Timer Label")
+CountdownPanel = NodePath("Countdown Panel")
+CountdownLabel = NodePath("Countdown Panel/Countdown Label")
+BeginnButton = NodePath("")
 
 [node name="Timer Panel" type="Panel" parent="."]
+z_index = 5
 layout_mode = 1
 anchors_preset = 12
 anchor_top = 1.0
@@ -46,7 +53,7 @@ pivot_offset = Vector2(200, 100)
 theme_override_styles/panel = SubResource("StyleBoxFlat_v0mwc")
 metadata/_edit_use_anchors_ = true
 
-[node name="Timer Timer" type="Label" parent="Timer Panel"]
+[node name="Timer Label" type="Label" parent="Timer Panel"]
 layout_mode = 1
 anchors_preset = -1
 anchor_top = 0.267308
@@ -63,23 +70,24 @@ metadata/_edit_use_anchors_ = true
 
 [node name="Timer" type="Timer" parent="Timer Panel"]
 
-[node name="PreTimer Panel" type="Panel" parent="."]
+[node name="Countdown Panel" type="Panel" parent="."]
+z_index = 5
 layout_mode = 1
 anchors_preset = -1
-anchor_top = 0.91453
-anchor_right = 0.925926
-anchor_bottom = 0.91453
+anchor_top = 0.923077
+anchor_right = 1.0
+anchor_bottom = 0.923077
 offset_left = 340.0
 offset_top = -260.0
-offset_right = -260.0
-offset_bottom = 140.0
+offset_right = -340.0
+offset_bottom = -60.0
 grow_horizontal = 2
 grow_vertical = 0
-pivot_offset = Vector2(200, 200)
+pivot_offset = Vector2(200, 100)
 theme_override_styles/panel = SubResource("StyleBoxFlat_v0mwc")
 metadata/_edit_use_anchors_ = true
 
-[node name="PreTimer Timer" type="Label" parent="PreTimer Panel"]
+[node name="Countdown Label" type="Label" parent="Countdown Panel"]
 layout_mode = 1
 anchors_preset = -1
 anchor_top = 0.267308
@@ -88,12 +96,11 @@ anchor_bottom = 0.732692
 grow_horizontal = 2
 grow_vertical = 2
 pivot_offset = Vector2(200, 60.5)
-text = "Pretimer"
+text = "Countdown"
 label_settings = SubResource("LabelSettings_lg4bk")
 horizontal_alignment = 1
 vertical_alignment = 1
 metadata/_edit_use_anchors_ = true
 
-[node name="PreTimer" type="Timer" parent="PreTimer Panel"]
+[node name="Countdown" type="Timer" parent="Countdown Panel"]
 wait_time = 5.0
-one_shot = true

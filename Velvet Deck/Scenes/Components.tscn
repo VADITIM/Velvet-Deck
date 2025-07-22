@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=3 uid="uid://tvik5iraryyn"]
+[gd_scene load_steps=11 format=3 uid="uid://tvik5iraryyn"]
 
 [ext_resource type="Script" uid="uid://dml4xloskx3cd" path="res://Scripts/C#/Misc/Components.cs" id="1_tcufa"]
 [ext_resource type="Script" uid="uid://2ulnrsthwdj5" path="res://Scripts/C#/Cards & Decks/DeckManager.cs" id="3_6b81e"]
@@ -8,8 +8,10 @@
 [ext_resource type="Script" uid="uid://xu0iwce6d6w2" path="res://Scripts/C#/Animations/CardAnimations.cs" id="6_pkomj"]
 [ext_resource type="Script" uid="uid://dgq5k067xjuoi" path="res://Scripts/C#/Misc/ButtonHandler.cs" id="7_eyuts"]
 [ext_resource type="Script" uid="uid://b2ur185ebo73x" path="res://Scripts/C#/Misc/PlayerSetupManager.cs" id="8_wnp2e"]
+[ext_resource type="Script" uid="uid://nalj23bvwbhl" path="res://Scripts/C#/Misc/Options.cs" id="9_w860t"]
+[ext_resource type="Script" uid="uid://cskp1al8h6pl3" path="res://Scripts/GD/VibrationController.gd" id="10_wfa6p"]
 
-[node name="Components" type="Node" node_paths=PackedStringArray("DeckManager", "TurnManager", "CardManager", "Animations", "CardAnimations", "ButtonHandler")]
+[node name="Components" type="Node" node_paths=PackedStringArray("DeckManager", "TurnManager", "CardManager", "Animations", "CardAnimations", "ButtonHandler", "Options")]
 script = ExtResource("1_tcufa")
 DeckManager = NodePath("Deck Manager")
 TurnManager = NodePath("Turn Manager")
@@ -17,6 +19,7 @@ CardManager = NodePath("Card Manager")
 Animations = NodePath("Animations")
 CardAnimations = NodePath("Card Animations")
 ButtonHandler = NodePath("Button Handler")
+Options = NodePath("Options")
 
 [node name="Animations" type="Node" parent="."]
 script = ExtResource("5_eyuts")
@@ -42,3 +45,9 @@ script = ExtResource("6_pkomj")
 layout_mode = 3
 anchors_preset = 0
 script = ExtResource("8_wnp2e")
+
+[node name="Options" type="Node" parent="."]
+script = ExtResource("9_w860t")
+
+[node name="VibrationController" type="Node" parent="."]
+script = ExtResource("10_wfa6p")

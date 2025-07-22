@@ -9,6 +9,7 @@ public partial class DeckManager : Node
     CardAnimations CardAnimations => Components.Instance?.CardAnimations;
     TurnManager TurnManager => Components.Instance?.TurnManager;
     ButtonHandler ButtonHandler => Components.Instance?.ButtonHandler;
+    JokerManager JokerManager => Components.Instance?.JokerManager;
 
     public Card currentCard = null;
 
@@ -183,9 +184,21 @@ public partial class DeckManager : Node
             isTimerActive = false;
         }
 
+        if (CardManager.GetRemainingCards() == 0)
+        {
+            HandleGameComplete();
+            return;
+        }
+
         if (Components.Instance?.CardManager?.ShouldShowLuckyCard() == true)
             ShowLuckyCard();
         ShowNextFrontCard();
+    }
+
+    private void HandleGameComplete()
+    {
+        CardAnimations.AnimateDeckEmpty();
+        gameStarted = false;
     }
 
 

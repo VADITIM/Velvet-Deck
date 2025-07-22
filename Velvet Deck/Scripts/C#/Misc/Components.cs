@@ -14,6 +14,9 @@ public partial class Components : Node
     [Export] public ButtonHandler ButtonHandler;
     [Export] public TimerController TimerController;
     [Export] public ColorPicker ColorPicker;
+    [Export] public JokerManager JokerManager;
+    [Export] public Options Options;
+    [Export] public Node VibrationController;
 
 
     public override void _Ready()
@@ -29,5 +32,7 @@ public partial class Components : Node
         Animations = GetNode<Animations>("Animations");
         CardAnimations = GetNode<CardAnimations>("Card Animations");
         ButtonHandler = GetNode<ButtonHandler>("Button Handler");
+        Options = GetNode<Options>("Options");
+        VibrationController = GetNode("VibrationController");
     }
 }

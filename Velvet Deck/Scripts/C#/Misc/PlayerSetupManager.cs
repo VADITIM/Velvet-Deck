@@ -7,6 +7,8 @@ public partial class PlayerSetupManager : Node
     Animations Animations => Components.Instance?.Animations;
 
     [Export] public Control PlayerSetupScene;
+    [Export] public Label LeftPlayerName;
+    [Export] public Label RightPlayerName;
 
     private bool leftPlayerConfirmed = false;
     private bool rightPlayerConfirmed = false;
@@ -38,6 +40,8 @@ public partial class PlayerSetupManager : Node
             Animations.LeftPlayerNameEdit.SelectAll();
 
             leftPlayerConfirmed = false;
+            // Clear the label when starting to edit
+            LeftPlayerName.Text = "";
             CheckBothPlayersConfirmed();
             Animations.StartLeftPlayerTurn();
             Animations.LeftPlayerNameEdit.PlaceholderText = "";
@@ -46,6 +50,8 @@ public partial class PlayerSetupManager : Node
         else if (!string.IsNullOrEmpty(Animations.LeftPlayerNameEdit.Text.Trim()))
         {
             leftPlayerConfirmed = true;
+            // Transfer the text from LineEdit to Label
+            LeftPlayerName.Text = Animations.LeftPlayerNameEdit.Text.Trim();
             Animations.FlipLeftInput();
             Animations.ResetPlayersPosition();
             CheckBothPlayersConfirmed();
@@ -53,6 +59,8 @@ public partial class PlayerSetupManager : Node
         else
         {
             leftPlayerConfirmed = false;
+            // Clear the label if input is empty
+            LeftPlayerName.Text = "";
             CheckBothPlayersConfirmed();
         }
     }
@@ -62,6 +70,8 @@ public partial class PlayerSetupManager : Node
         if (isEditing)
         {
             rightPlayerConfirmed = false;
+            // Clear the label when starting to edit
+            RightPlayerName.Text = "";
             CheckBothPlayersConfirmed();
             Animations.StartRightPlayerTurn();
             Animations.RightPlayerNameEdit.PlaceholderText = "";
@@ -70,6 +80,8 @@ public partial class PlayerSetupManager : Node
         else if (!string.IsNullOrEmpty(Animations.RightPlayerNameEdit.Text.Trim()))
         {
             rightPlayerConfirmed = true;
+            // Transfer the text from LineEdit to Label
+            RightPlayerName.Text = Animations.RightPlayerNameEdit.Text.Trim();
             Animations.FlipRightInput();
             Animations.ResetPlayersPosition();
             CheckBothPlayersConfirmed();
@@ -77,6 +89,8 @@ public partial class PlayerSetupManager : Node
         else
         {
             rightPlayerConfirmed = false;
+            // Clear the label if input is empty
+            RightPlayerName.Text = "";
             CheckBothPlayersConfirmed();
         }
     }

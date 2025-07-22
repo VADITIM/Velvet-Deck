@@ -21,12 +21,12 @@ public static class DeckInitializer
     {
         var deck = new List<Card>();
 
-        deck.Add(new Card(CardType.Foreplay, "Give your partner a sensual massage. Use your hands to relax and excite", "Massage Magic", 2));
-        deck.Add(new Card(CardType.Foreplay, "Kiss your partner passionately for 30 seconds. A deep, romantic kiss", "Passionate Kiss", 1));
-        deck.Add(new Card(CardType.Foreplay, "Whisper something seductive in your partner's ear. Share your desires quietly", "Sweet Whispers", 1));
-        deck.Add(new Card(CardType.Foreplay, "Slowly undress each other. Take your time removing clothes", "Slow Reveal", 3));
-        deck.Add(new Card(CardType.Foreplay, "Give your partner a neck massage. Focus on the neck and shoulders", "Neck Caress", 1));
-        deck.Add(new Card(CardType.Foreplay, "Kiss your partner's favorite spot. Find that special place", "Secret Spot", 2));
+        deck.Add(new Card(CardType.Foreplay, "Give your partner a sensual massage. Use your hands to relax and excite", "Massage Magic", 2, 5));
+        deck.Add(new Card(CardType.Foreplay, "Kiss your partner passionately for 30 seconds. A deep, romantic kiss", "Passionate Kiss", 1, 5));
+        deck.Add(new Card(CardType.Foreplay, "Whisper something seductive in your partner's ear. Share your desires quietly", "Sweet Whispers", 1, 5));
+        deck.Add(new Card(CardType.Foreplay, "Slowly undress each other. Take your time removing clothes", "Slow Reveal", 3, 5));
+        deck.Add(new Card(CardType.Foreplay, "Give your partner a neck massage. Focus on the neck and shoulders", "Neck Caress", 1, 5));
+        deck.Add(new Card(CardType.Foreplay, "Kiss your partner's favorite spot. Find that special place", "Secret Spot", 2, 5));
 
         return deck;
     }

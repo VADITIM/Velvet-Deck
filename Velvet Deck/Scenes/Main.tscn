@@ -1,15 +1,16 @@
-[gd_scene load_steps=21 format=3 uid="uid://b3fmrrhsk6bpn"]
+[gd_scene load_steps=22 format=3 uid="uid://b3fmrrhsk6bpn"]
 
 [ext_resource type="PackedScene" uid="uid://cajivp4fllee0" path="res://Scenes/ScreenSize.tscn" id="1_kln2b"]
 [ext_resource type="PackedScene" uid="uid://tvik5iraryyn" path="res://Scenes/Components.tscn" id="1_pbw6q"]
 [ext_resource type="FontFile" uid="uid://cvaw2qt4e71he" path="res://Assets/Fonts/steelfish.eb-regular.otf" id="2_idj7w"]
-[ext_resource type="PackedScene" uid="uid://bqw653qeibxvr" path="res://Scenes/TimerController.tscn" id="4_4kpch"]
 [ext_resource type="Texture2D" uid="uid://cpqal50rmnmfx" path="res://Assets/Textures/Clipped Paths/player_background2.png" id="4_bmxlf"]
 [ext_resource type="Texture2D" uid="uid://picyml8sd0ll" path="res://Assets/Textures/Clipped Paths/player_background.png" id="5_bmxlf"]
 [ext_resource type="PackedScene" uid="uid://bxkcdmjpntvoe" path="res://Scenes/Cards.tscn" id="6_jw32o"]
 [ext_resource type="Texture2D" uid="uid://b0cxdkvo1g3pv" path="res://Assets/Textures/Clipped Paths/player2_background.png" id="7_4kpch"]
 [ext_resource type="Texture2D" uid="uid://us1o5dor1ueb" path="res://Assets/Textures/Clipped Paths/player2_background2.png" id="7_grg3l"]
+[ext_resource type="PackedScene" uid="uid://bqw653qeibxvr" path="res://Scenes/TimerController.tscn" id="8_grg3l"]
 [ext_resource type="PackedScene" uid="uid://d27ieabox358r" path="res://Scenes/PlayerSetupScene.tscn" id="10_bmxlf"]
+[ext_resource type="Script" uid="uid://c2mylv00jljg3" path="res://Scripts/GD/VibrateDevice.gd" id="11_frkhe"]
 [ext_resource type="PackedScene" uid="uid://jsyskwty8pop" path="res://Scenes/Jokers.tscn" id="12_frkhe"]
 [ext_resource type="PackedScene" uid="uid://dnb7gvrxwo5us" path="res://Scenes/Options.tscn" id="12_grg3l"]
 
@@ -56,10 +57,11 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="Components" parent="." node_paths=PackedStringArray("PlayerSetupManager", "TimerController", "ColorPicker") instance=ExtResource("1_pbw6q")]
+[node name="Components" parent="." node_paths=PackedStringArray("PlayerSetupManager", "TimerController", "ColorPicker", "JokerManager") instance=ExtResource("1_pbw6q")]
 PlayerSetupManager = NodePath("Player Setup Manager")
 TimerController = NodePath("../Timer Controller")
 ColorPicker = NodePath("../Player Setup Scene/Colors/Colors Grid")
+JokerManager = NodePath("../Jokers")
 
 [node name="Animations" parent="Components" index="0" node_paths=PackedStringArray("LeftPlayerPanel", "RightPlayerPanel", "LeftPlayerForegroundPanel", "RightPlayerForegroundPanel", "CardsContainer", "FrontCardPanel", "BackCardPanel", "LuckyCardPanel", "StartCardFrontPanel", "StartCardBackPanel", "LogoTop", "LogoBottom", "LeftPlayerNameEdit", "RightPlayerNameEdit")]
 LeftPlayerPanel = NodePath("../../< Left Player Panel")
@@ -93,7 +95,7 @@ BackCardPanel = NodePath("../../Cards/Back Card")
 LuckyCardPanel = NodePath("../../Cards/Lucky Card")
 TimerController = NodePath("../../Timer Controller")
 
-[node name="Button Handler" parent="Components" index="2" node_paths=PackedStringArray("StartGameButton", "LeftPlayerColorButton", "RightPlayerColorButton", "FrontCardButton", "BackCardButton", "LuckyCardButton", "OptionsButton", "OptionButtonTop", "OptionButtonMid", "OptionButtonBottom")]
+[node name="Button Handler" parent="Components" index="2" node_paths=PackedStringArray("StartGameButton", "LeftPlayerColorButton", "RightPlayerColorButton", "FrontCardButton", "BackCardButton", "LuckyCardButton", "OptionsButton", "OptionButtonTop", "OptionButtonMid", "OptionButtonBottom", "JokerButton")]
 StartGameButton = NodePath("../../Player Setup Scene/O Start Game Button")
 LeftPlayerColorButton = NodePath("../../Player Setup Scene/< Left Player Color Button")
 RightPlayerColorButton = NodePath("../../Player Setup Scene/> Right Player Color Button")
@@ -104,9 +106,16 @@ OptionsButton = NodePath("../../Options/Options Panel/Options Button")
 OptionButtonTop = NodePath("../../Options/Options Panel/A Button Top")
 OptionButtonMid = NodePath("../../Options/Options Panel/- Button Mid")
 OptionButtonBottom = NodePath("../../Options/Options Panel/V Button Bottom")
+JokerButton = NodePath("../../Jokers/Joker Button")
 
-[node name="Player Setup Manager" parent="Components" index="6" node_paths=PackedStringArray("PlayerSetupScene")]
+[node name="Player Setup Manager" parent="Components" index="6" node_paths=PackedStringArray("PlayerSetupScene", "LeftPlayerName", "RightPlayerName")]
 PlayerSetupScene = NodePath("../../Player Setup Scene")
+LeftPlayerName = NodePath("../../< Left Player Panel/Left Player Name")
+RightPlayerName = NodePath("../../> Right Player Panel/Right Player Name")
+
+[node name="Options" parent="Components" index="7" node_paths=PackedStringArray("RoleplayButton", "VibrationButton")]
+RoleplayButton = NodePath("../../Options/Options Panel/- Button Mid")
+VibrationButton = NodePath("../../Options/Options Panel/A Button Top")
 
 [node name="Screen Size" parent="." instance=ExtResource("1_kln2b")]
 layout_mode = 1
@@ -135,21 +144,6 @@ pivot_offset = Vector2(540, 58.5)
 text = "1 / 99"
 label_settings = SubResource("LabelSettings_jw32o")
 horizontal_alignment = 1
-
-[node name="Timer Controller" parent="." node_paths=PackedStringArray("Timer", "TimerPanel", "TimerLabel", "CountdownPanel", "CountdownLabel") instance=ExtResource("4_4kpch")]
-z_index = 1
-layout_mode = 1
-Timer = NodePath("Timer Panel/Timer")
-TimerPanel = NodePath("Timer Panel")
-TimerLabel = NodePath("Timer Panel/Timer Timer")
-CountdownPanel = NodePath("PreTimer Panel")
-CountdownLabel = NodePath("PreTimer Panel/PreTimer Timer")
-
-[node name="Timer Panel" parent="Timer Controller" index="0"]
-visible = false
-
-[node name="PreTimer Panel" parent="Timer Controller" index="1"]
-visible = false
 
 [node name="< Left Player Panel" type="Panel" parent="."]
 self_modulate = Color(9.62615e-07, 0.379842, 0.653694, 1)
@@ -229,6 +223,10 @@ horizontal_alignment = 2
 vertical_alignment = 1
 uppercase = true
 
+[node name="Timer Controller" parent="." node_paths=PackedStringArray("BeginnButton") instance=ExtResource("8_grg3l")]
+layout_mode = 1
+BeginnButton = NodePath("../Cards/Beginn Button")
+
 [node name="Player Setup Scene" parent="." instance=ExtResource("10_bmxlf")]
 layout_mode = 1
 
@@ -236,23 +234,22 @@ layout_mode = 1
 visible = false
 layout_mode = 1
 
-[node name="Lucky Card" parent="Cards" index="4"]
-visible = false
+[node name="Beginn Button" parent="Cards" index="5"]
+offset_bottom = -260.0
+script = ExtResource("11_frkhe")
 
 [node name="Jokers" parent="." instance=ExtResource("12_frkhe")]
 layout_mode = 1
-anchors_preset = 0
-anchor_right = 0.0
-anchor_bottom = 0.0
-grow_horizontal = 1
-grow_vertical = 1
 
 [node name="Options" parent="." instance=ExtResource("12_grg3l")]
 layout_mode = 1
+
+[connection signal="pressed" from="Cards/Beginn Button" to="Components" method="_pressed"]
 
 [editable path="Components"]
 [editable path="Timer Controller"]
 [editable path="Player Setup Scene"]
 [editable path="Cards"]
 [editable path="Cards/Start Card"]
+[editable path="Jokers"]
 [editable path="Options"]
