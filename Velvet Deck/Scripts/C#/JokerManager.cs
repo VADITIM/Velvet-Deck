@@ -6,6 +6,7 @@ public partial class JokerManager : Control
     TurnManager TurnManager => Components.Instance?.TurnManager;
     DeckManager DeckManager => Components.Instance?.DeckManager;
     CardAnimations CardAnimations => Components.Instance?.CardAnimations;
+    TimerController TimerController => Components.Instance?.TimerController;
 
     [Export] Label LeftPlayerJokerCount;
     private Vector2 leftJokerPos;
@@ -178,15 +179,18 @@ public partial class JokerManager : Control
     {
         if (GetCurrentPlayerJokerCount() <= 0) return;
 
+        // Animate countdown out properly, then clean up
+        TimerController.AnimateCountdownOut();
         UseJoker();
         SkipCardWithAnimation();
     }
 
     private void SkipCardWithAnimation()
     {
+        // Don't instantly hide timers here - let the animation play first
+        // Just reset the timer states without moving positions
         if (DeckManager.TimerController != null)
         {
-            DeckManager.TimerController.HideAllTimers();
             DeckManager.TimerController.isTimerActive = false;
         }
 

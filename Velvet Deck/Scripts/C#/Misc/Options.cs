@@ -7,7 +7,7 @@ public partial class Options : Node
     [Export] public Button VibrationButton;
 
     private bool roleplayCardsEnabled = true;
-    private bool vibrationsEnabled = true;
+    public bool vibrationsEnabled = true;
 
     private Node vibrationController;
 
@@ -15,17 +15,11 @@ public partial class Options : Node
     {
         vibrationController = GetNode("/root/VibrationController");
 
-        if (RoleplayButton != null)
-        {
-            RoleplayButton.Pressed += OnRoleplayButtonPressed;
-            UpdateRoleplayButtonVisual();
-        }
+        RoleplayButton.Pressed += OnRoleplayButtonPressed;
+        UpdateRoleplayButtonVisual();
 
-        if (VibrationButton != null)
-        {
-            VibrationButton.Pressed += OnVibrationButtonPressed;
-            UpdateVibrationButtonVisual();
-        }
+        VibrationButton.Pressed += OnVibrationButtonPressed;
+        UpdateVibrationButtonVisual();
     }
 
     private void OnRoleplayButtonPressed()
@@ -33,15 +27,10 @@ public partial class Options : Node
         roleplayCardsEnabled = !roleplayCardsEnabled;
         UpdateRoleplayButtonVisual();
 
-        if (Components.Instance?.TurnManager != null && !Components.Instance.TurnManager.IsGameStarted())
+        if (!Components.Instance.TurnManager.IsGameStarted())
         {
-            if (Components.Instance?.CardManager != null)
-            {
-                Components.Instance.CardManager.ReinitializeDecksWithOptions();
-            }
+            Components.Instance.CardManager.ReinitializeDecksWithOptions();
         }
-
-        GD.Print($"Roleplay cards {(roleplayCardsEnabled ? "enabled" : "disabled")}");
     }
 
     private void OnVibrationButtonPressed()
@@ -49,12 +38,33 @@ public partial class Options : Node
         vibrationsEnabled = !vibrationsEnabled;
         UpdateVibrationButtonVisual();
 
-        if (vibrationController != null)
+        vibrationController.Call("set_vibration_enabled", vibrationsEnabled);
+    }
+
+    public void DisableVibrationForTimer()
+    {
+        if (!vibrationsEnabled)
         {
-            vibrationController.Call("set_vibration_enabled", vibrationsEnabled);
+            return;
         }
 
-        GD.Print($"Vibrations {(vibrationsEnabled ? "enabled" : "disabled")}");
+        vibrationsEnabled = !vibrationsEnabled;
+        UpdateVibrationButtonVisual();
+
+        vibrationController.Call("set_vibration_enabled", vibrationsEnabled);
+    }
+
+    public void EnableVibrationForTimer()
+    {
+        if (vibrationsEnabled)
+        {
+            return;
+        }
+
+        vibrationsEnabled = !vibrationsEnabled;
+        UpdateVibrationButtonVisual();
+
+        vibrationController.Call("set_vibration_enabled", vibrationsEnabled);
     }
 
     private void UpdateRoleplayButtonVisual()

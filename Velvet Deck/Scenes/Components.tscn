@@ -11,7 +11,7 @@
 [ext_resource type="Script" uid="uid://nalj23bvwbhl" path="res://Scripts/C#/Misc/Options.cs" id="9_w860t"]
 [ext_resource type="Script" uid="uid://cskp1al8h6pl3" path="res://Scripts/GD/VibrationController.gd" id="10_wfa6p"]
 
-[node name="Components" type="Node" node_paths=PackedStringArray("DeckManager", "TurnManager", "CardManager", "Animations", "CardAnimations", "ButtonHandler", "Options")]
+[node name="Components" type="Node" node_paths=PackedStringArray("DeckManager", "TurnManager", "CardManager", "Animations", "CardAnimations", "ButtonHandler", "Options", "VibrationController")]
 script = ExtResource("1_tcufa")
 DeckManager = NodePath("Deck Manager")
 TurnManager = NodePath("Turn Manager")
@@ -20,6 +20,7 @@ Animations = NodePath("Animations")
 CardAnimations = NodePath("Card Animations")
 ButtonHandler = NodePath("Button Handler")
 Options = NodePath("Options")
+VibrationController = NodePath("VibrationController")
 
 [node name="Animations" type="Node" parent="."]
 script = ExtResource("5_eyuts")

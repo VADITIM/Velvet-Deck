@@ -1,6 +1,7 @@
-[gd_scene load_steps=15 format=4 uid="uid://jsyskwty8pop"]
+[gd_scene load_steps=16 format=4 uid="uid://jsyskwty8pop"]
 
 [ext_resource type="Script" uid="uid://qbes52yw0d3c" path="res://Scripts/C#/JokerManager.cs" id="1_jjxid"]
+[ext_resource type="Script" uid="uid://c2mylv00jljg3" path="res://Scripts/GD/VibrateDevice.gd" id="2_5rehb"]
 [ext_resource type="FontFile" uid="uid://gefc4b2w7ewl" path="res://Assets/Fonts/steelfish.outline-regular.otf" id="3_qrtsx"]
 
 [sub_resource type="Image" id="Image_2xp5q"]
@@ -626,6 +627,7 @@ theme_override_styles/hover = SubResource("StyleBoxFlat_cxq3f")
 theme_override_styles/pressed = SubResource("StyleBoxFlat_cxq3f")
 theme_override_styles/normal = SubResource("StyleBoxFlat_cxq3f")
 text = "Use Joker"
+script = ExtResource("2_5rehb")
 
 [node name="Left Player Joker Laabel" type="Label" parent="."]
 z_index = 1
@@ -665,4 +667,5 @@ vertical_alignment = 1
 
 [connection signal="button_down" from="Joker Button" to="." method="JokerButtonDown"]
 [connection signal="button_up" from="Joker Button" to="." method="JokerButtonUp"]
+[connection signal="pressed" from="Joker Button" to="." method="_pressed"]
 [connection signal="pressed" from="Joker Button" to="." method="JokerButtonPressed"]

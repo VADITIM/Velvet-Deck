@@ -21,7 +21,7 @@ font = ExtResource("2_13s5m")
 font_size = 120
 font_color = Color(0, 0, 0, 1)
 
-[node name="Timer Controller" type="Control" node_paths=PackedStringArray("Timer", "TimerPanel", "TimerLabel", "CountdownPanel", "CountdownLabel", "BeginnButton")]
+[node name="Timer Controller" type="Control" node_paths=PackedStringArray("Timer", "TimerPanel", "TimerLabel", "CountdownPanel", "CountdownLabel")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -34,7 +34,6 @@ TimerPanel = NodePath("Timer Panel")
 TimerLabel = NodePath("Timer Panel/Timer Label")
 CountdownPanel = NodePath("Countdown Panel")
 CountdownLabel = NodePath("Countdown Panel/Countdown Label")
-BeginnButton = NodePath("")
 
 [node name="Timer Panel" type="Panel" parent="."]
 z_index = 5
