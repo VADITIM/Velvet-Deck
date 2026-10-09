@@ -1,0 +1,76 @@
+name: build
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+# Two pushes in quick succession both publish the same release; without this the older run can finish last and overwrite the newer APK.
+concurrency:
+  group: build-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  assemble:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 17
+
+      - uses: gradle/actions/setup-gradle@v4
+
+      # The release key lives only in the repository's secrets. Without them the build falls back to the debug key and says so.
+      - name: Release key
+        env:
+          RELEASE_KEYSTORE_BASE64: ${{ secrets.RELEASE_KEYSTORE_BASE64 }}
+        run: |
+          # While this file exists the build keeps the debug key, so it installs over an app signed with it; delete the file to move to the release key.
+          if [ -f .github/sign-with-debug-key ]; then
+            echo "::warning::.github/sign-with-debug-key present; signing with the debug key"
+            exit 0
+          fi
+          if [ -z "$RELEASE_KEYSTORE_BASE64" ]; then
+            echo "::warning::No release key secrets; signing with the debug key"
+            exit 0
+          fi
+          echo "$RELEASE_KEYSTORE_BASE64" | base64 -d > "$RUNNER_TEMP/release.jks"
+          echo "RELEASE_KEYSTORE=$RUNNER_TEMP/release.jks" >> "$GITHUB_ENV"
+
+      - name: Build APK
+        env:
+          RELEASE_KEYSTORE_PASSWORD: ${{ secrets.RELEASE_KEYSTORE_PASSWORD }}
+          RELEASE_KEY_ALIAS: ${{ secrets.RELEASE_KEY_ALIAS }}
+          RELEASE_KEY_PASSWORD: ${{ secrets.RELEASE_KEY_PASSWORD }}
+        run: |
+          ./gradlew assembleRelease 2>&1 | tee build.log
+          # The Kotlin errors are repeated here, last, so a failed run can be read from its tail instead of from the Gradle stack trace.
+          if [ "${PIPESTATUS[0]}" -ne 0 ]; then echo "=== COMPILER ERRORS ==="; grep -E '^e: |error:' build.log; exit 1; fi
+          version=$(sed -n 's/.*versionName = "\(.*\)".*/\1/p' app/build.gradle.kts)
+          echo "VERSION=$version" >> "$GITHUB_ENV"
+          mkdir -p out
+          cp app/build/outputs/apk/release/app-release.apk "out/velvet-deck-v$version.apk"
+          # The certificate in the log, so a run signed with the wrong key is visible at a glance.
+          "$(ls -d "$ANDROID_HOME"/build-tools/* | sort -V | tail -1)/apksigner" verify --print-certs "out/velvet-deck-v$version.apk" | grep -E "DN|SHA-256"
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: velvet-deck
+          path: out/
+
+      # One release per version, tagged v<versionName>, its text the short changelog in RELEASE_NOTES.md. Bump versionName in app/build.gradle.kts with every change; a push that keeps the version replaces that release.
+      - name: Publish release
+        if: github.ref == 'refs/heads/master' && github.event_name == 'push'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh release delete "v$VERSION" --cleanup-tag --yes || true
+          gh release create "v$VERSION" "out/velvet-deck-v$VERSION.apk" \
+            --target "$GITHUB_SHA" \
+            --title "v$VERSION" \
+            --notes-file RELEASE_NOTES.md
