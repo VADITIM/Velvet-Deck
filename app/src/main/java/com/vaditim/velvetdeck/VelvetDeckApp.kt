@@ -64,6 +64,8 @@ fun VelvetDeckApp() {
 
     BackHandler(isOptionsOpen) { isOptionsOpen = false }
     BackHandler(stage == Stage.EMPTY && !isOptionsOpen) { stage = Stage.SETUP }
+    // Back on the table opens the options, where the game is ended.
+    BackHandler(stage == Stage.TABLE && !isOptionsOpen) { isOptionsOpen = true }
 
     CompositionLocalProvider(LocalAccent provides accentOf(stage), LocalHazeState provides hazeState) {
         Box(Modifier.fillMaxSize().background(Palette.ground)) {
@@ -82,19 +84,24 @@ fun VelvetDeckApp() {
                     when (shown) {
                         Stage.SETUP -> SetupScreen(lineup, onStart = ::deal, onOptions = { isOptionsOpen = true })
                         Stage.TABLE -> table?.let { current ->
-                            TableScreen(
-                                current,
-                                isBackFree = !isOptionsOpen,
-                                onEnd = { stage = Stage.SETUP },
-                                onOptions = { isOptionsOpen = true },
-                                onDeckEmpty = { stage = Stage.EMPTY },
-                            )
+                            TableScreen(current, onOptions = { isOptionsOpen = true }, onDeckEmpty = { stage = Stage.EMPTY })
                         }
                         Stage.EMPTY -> EmptyDeckScreen(onShuffle = ::deal, onNewPlayers = { stage = Stage.SETUP })
                     }
                 }
             }
-            OverlaySheet(isOptionsOpen, onClose = { isOptionsOpen = false }) { OptionsSheet() }
+            OverlaySheet(isOptionsOpen, onClose = { isOptionsOpen = false }) {
+                OptionsSheet(
+                    onEnd = if (stage == Stage.TABLE) {
+                        {
+                            isOptionsOpen = false
+                            stage = Stage.SETUP
+                        }
+                    } else {
+                        null
+                    },
+                )
+            }
         }
     }
 }

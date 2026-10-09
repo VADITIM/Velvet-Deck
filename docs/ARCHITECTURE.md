@@ -18,7 +18,8 @@ the app joins them.
 ## State
 
 - `Table` is one game, as plain snapshot state with the methods that change it: `turnOver`, `begin`,
-  `runClock`, `pass`, `dismissLucky`. It decides what is allowed (`canPass`, `canJoker`).
-- `Dealer` is the table screen's hand: the drag, the flip and the card's way out. It tells `Table` to pass
+  `runClock`, `skipClock` (testing only), `pass`, `dismissLucky`. It decides what is allowed (`canPass`,
+  `canJoker`) and keeps the lucky cards each player holds (`heldBy`).
+- `Dealer` is the table screen's hand: the drag, the flip, the joker's rise and the card's way out. It tells `Table` to pass
   only once the card has left, so names and colours change on the cut.
 - `Lineup` is the two players as the setup screen edits them; `Settings` remembers them.

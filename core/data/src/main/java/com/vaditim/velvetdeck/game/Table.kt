@@ -38,11 +38,15 @@ class Table(val lineup: Lineup, isRoleplayOn: Boolean, random: Random = Random.D
     var secondsLeft by mutableIntStateOf(0)
         private set
     private val jokers = mutableStateMapOf(Seat.FIRST to JOKERS_PER_PLAYER, Seat.SECOND to JOKERS_PER_PLAYER)
+    // The lucky cards each player has been dealt, oldest first; they stay with that player for the rest of the game.
+    private val held = mutableStateMapOf(Seat.FIRST to emptyList<Card>(), Seat.SECOND to emptyList<Card>())
 
     val isEmpty: Boolean get() = card == null
     val player: Player get() = lineup.of(seat)
 
     fun jokersOf(seat: Seat): Int = jokers.getValue(seat)
+
+    fun heldBy(seat: Seat): List<Card> = held.getValue(seat)
 
     // Passing the card on is held back while its time is owed: from the moment it is turned until the timer has run out.
     val canPass: Boolean get() = face == Face.BACK && (timerPhase == TimerPhase.NONE || timerPhase == TimerPhase.DONE)
@@ -87,6 +91,13 @@ class Table(val lineup: Lineup, isRoleplayOn: Boolean, random: Random = Random.D
         }
     }
 
+    // For testing only: the clock is finished at once, as if its time had run out.
+    fun skipClock() {
+        if (timerPhase != TimerPhase.WAITING && timerPhase != TimerPhase.COUNTDOWN && timerPhase != TimerPhase.RUNNING) return
+        secondsLeft = 0
+        timerPhase = TimerPhase.DONE
+    }
+
     // Called once the card has left the table, so nothing changes colour or name while it is still on its way out.
     fun pass(isJoker: Boolean) {
         if (isJoker) jokers[seat] = jokersOf(seat) - 1
@@ -100,7 +111,10 @@ class Table(val lineup: Lineup, isRoleplayOn: Boolean, random: Random = Random.D
         if (card != null && deck.shouldShowLucky()) lucky = deck.drawLucky()
     }
 
+    // The lucky card is put down in front of the player it was dealt to, whose turn it is.
     fun dismissLucky() {
+        val shown = lucky ?: return
+        held[seat] = heldBy(seat) + shown
         lucky = null
     }
 

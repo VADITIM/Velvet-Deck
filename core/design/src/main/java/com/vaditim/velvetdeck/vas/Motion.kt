@@ -37,7 +37,8 @@ object Motion {
 
     // The lucky card falling onto the table from above; it is an event, so it travels the whole screen.
     const val LUCKY_ENTER_MS = 420
-    const val LUCKY_LEAVE_MS = 160
+    // Put down, it slides to the bottom of the screen and rests there with its header showing.
+    const val LUCKY_DOCK_MS = 320
 
     // The bar-sweep reveal on a title: the bar grows, then retracts slower because that half is the one read; leaving is a quicker cut.
     const val SWEEP_GROW_MS = 420

@@ -27,6 +27,9 @@ version so the deck still looks like itself: drink `#00a3ff`, foreplay `#e165ca`
 - **A card's face is filled with its kind's colour; its back is dark with the colour on the edge.** The face
   only says what kind of card it is, so it can shout; the back is read, so the words carry it.
 - **Glass only for what floats over the table**: the options sheet blurs whatever is behind it.
+- **Each player keeps a slice of the table**: a slanted band of their colour along their own edge, the first
+  player's on the left and the second's on the right, kept from the Godot version but thinner and fainter. It
+  fades from the screen's edge toward a hairline; the player whose turn it is shows in full, the other as a trace.
 - **Squircles on every box**, capsules on pills and dots. No shadows anywhere.
 
 ## Type
@@ -48,11 +51,11 @@ lifting 6% off the table at the middle of the turn.
 | Element | Arrives | Leaves |
 |---|---|---|
 | A stage (setup, table, empty) | Rises 1/40 after a 60ms gate, 260ms `back.out`; its pieces assemble top to bottom 50ms apart | Fades, 120ms |
-| The top card | Is the waiting card, grown from 0.92 and half opacity by the swipe itself | Leans 14° per width and leaves past 1.4 widths, 220ms `power2.in`; short of 0.28 of the width it comes home on `back.out` |
+| The top card | Is the waiting card, grown from 0.92 and half opacity by the swipe itself; hidden while the top card turns, so the turn never shows the next kind | Leans 14° per width and leaves past 1.4 widths, 220ms `power2.in`; short of 0.28 of the width it comes home on `back.out`. A joker lifts it straight up and off instead |
 | A card's controls (JOKER, BEGIN, the timer) | Pop in once the card has landed face up | Pop away; each timer step becomes the next in place |
-| The lucky card | Falls from above the screen, 420ms `back.out` | Lifts away, 160ms |
+| The lucky card | Falls from above the screen, 420ms `back.out`; the overlay behind it only fades | Slides down to rest at the bottom with its header showing, 320ms `power3.inOut`, and stays with its player: it goes down with them on the cut and rises again on their turn |
 | The options sheet | Up from 1/6 below, 240ms `back.out`, or with the finger | Down 1/8, 140ms, or with the finger |
-| The turn name and the count | Typed over: back to the shared prefix, then the rest | — |
+| The player's name and the count left | Typed over: back to the shared prefix, then the rest | — |
 | DECK EMPTY | The bar-sweep | — |
 
 A card whose time is still owed can be tugged but not passed: it pulls back hard (22% of the finger) and
@@ -65,5 +68,12 @@ three long pulses when a timer runs out. All silent while VIBRATION is off.
 
 ## Voice
 
-Actions are one or two uppercase words: START, BEGIN, JOKER, END, SHUFFLE AGAIN, NEW PLAYERS. END waits
-for a second tap rather than asking in a dialog. No explanatory text, no emoji.
+Actions are one or two uppercase words: START, BEGIN, JOKER, END GAME, SHUFFLE AGAIN, NEW PLAYERS. END GAME
+sits in the options, where back on the table also leads, and waits for a second tap rather than asking in a
+dialog. No explanatory text, no emoji.
+
+## Layout of the table
+
+Top to bottom: the count left, small under the camera; the player's name with the options beside it; the card;
+its controls; and the room where a player's lucky card rests. SKIP, a small outlined chip beside the timer, is a
+testing control (`IS_SKIP_SHOWN`) and is not part of the design.

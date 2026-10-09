@@ -45,7 +45,6 @@ fun CardFace(kind: CardKind, modifier: Modifier = Modifier) {
             .background(KindLook.face(kind))
             .border(1.5.dp, if (kind == CardKind.SEX) Palette.sexCardInk else Color.Transparent, Shapes.card),
     ) {
-        MicroLabel("Velvet Deck", Modifier.align(Alignment.TopStart).padding(start = 20.dp, top = 18.dp), Type.microLabel.copy(color = ink.copy(alpha = 0.7f)))
         Column(Modifier.align(Alignment.Center), horizontalAlignment = Alignment.CenterHorizontally) {
             Image(
                 painterResource(KindLook.glyph(kind)),
@@ -83,8 +82,9 @@ fun CardBack(card: Card, modifier: Modifier = Modifier) {
                 MicroLabel(card.kind.label, Modifier.weight(1f), Type.microLabel.copy(color = color))
                 Shots(card.shots, color)
             }
-            Spacer(Modifier.weight(0.7f))
-            BasicText(card.title, style = Type.title)
+            // The name stands centred near the top, so it is read first and the task has the room under it.
+            Spacer(Modifier.height(28.dp))
+            BasicText(card.title, Modifier.fillMaxWidth(), style = Type.title.copy(textAlign = TextAlign.Center))
             Spacer(Modifier.height(14.dp))
             BasicText(card.description, style = Type.body.copy(fontSize = 15.sp, lineHeight = 23.sp))
             Spacer(Modifier.weight(1f))

@@ -18,6 +18,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import kotlin.math.abs
+import kotlin.math.max
 import kotlin.math.sign
 
 // The hand that moves the top card: turning it over, and sending it off the table with the finger (dna/05-motion.md §14). The drag is plain state written by the gesture; release only decides, and the card finishes from where the finger left it. The table is told only once the card is gone.
@@ -25,8 +26,12 @@ import kotlin.math.sign
 class Dealer(private val table: Table, private val scope: CoroutineScope, private val onPassed: (isJoker: Boolean) -> Unit) {
     var drag by mutableFloatStateOf(0f)
         private set
+    // How far a joker has lifted the card off the table, upward.
+    var rise by mutableFloatStateOf(0f)
+        private set
     val flip = Animatable(0f)
     var width by mutableFloatStateOf(1f)
+    var height by mutableFloatStateOf(1f)
     var isLeaving by mutableStateOf(false)
         private set
     private var settling: Job? = null
@@ -35,7 +40,7 @@ class Dealer(private val table: Table, private val scope: CoroutineScope, privat
     val isLanded: Boolean get() = flip.value >= 1f
 
     // How far the top card is on its way out; the waiting card grows into its place by the same amount.
-    val departure: Float get() = (abs(drag) / (width * LEAVE_WIDTHS)).coerceIn(0f, 1f)
+    val departure: Float get() = max(abs(drag) / (width * LEAVE_WIDTHS), abs(rise) / (height * RISE_HEIGHTS)).coerceIn(0f, 1f)
 
     fun turnOver() {
         if (table.face != Face.FRONT || isLeaving) return
@@ -69,9 +74,15 @@ class Dealer(private val table: Table, private val scope: CoroutineScope, privat
         if (table.canPass && !isLeaving) throwAway(1f, isJoker = false, velocity = 0f)
     }
 
-    // A joker throws the card the other way, so it never looks like the card was done.
+    // A joker lifts the card up and off the table rather than passing it sideways, so it never looks like the card was done.
     fun joker() {
-        if (table.canJoker && !isLeaving) throwAway(-1f, isJoker = true, velocity = 0f)
+        if (!table.canJoker || isLeaving) return
+        settling?.cancel()
+        isLeaving = true
+        scope.launch {
+            animate(0f, -height * RISE_HEIGHTS, 0f, tween(Motion.CARD_LEAVE_MS, easing = Motion.powerTwoIn)) { value, _ -> rise = value }
+            finish(isJoker = true)
+        }
     }
 
     private fun throwAway(direction: Float, isJoker: Boolean, velocity: Float) {
@@ -79,18 +90,25 @@ class Dealer(private val table: Table, private val scope: CoroutineScope, privat
         isLeaving = true
         scope.launch {
             animate(drag, direction * width * LEAVE_WIDTHS, velocity, tween(Motion.CARD_LEAVE_MS, easing = Motion.powerTwoIn)) { value, _ -> drag = value }
-            // All in one frame: the waiting card has grown to full size, so it simply becomes the top card face up.
-            flip.snapTo(0f)
-            table.pass(isJoker)
-            drag = 0f
-            isLeaving = false
-            onPassed(isJoker)
+            finish(isJoker)
         }
+    }
+
+    // All in one frame: the waiting card has grown to full size, so it simply becomes the top card face up.
+    private suspend fun finish(isJoker: Boolean) {
+        flip.snapTo(0f)
+        table.pass(isJoker)
+        drag = 0f
+        rise = 0f
+        isLeaving = false
+        onPassed(isJoker)
     }
 
     private companion object {
         const val DECIDE_SHARE = 0.28f
         const val LEAVE_WIDTHS = 1.4f
+        // The stage's own height and a half again clears the card past the top of the screen.
+        const val RISE_HEIGHTS = 1.5f
         const val RESISTANCE = 0.22f
         const val FLING_VELOCITY = 1600f
     }

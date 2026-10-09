@@ -1,11 +1,12 @@
-# 2.0.0
+# 2.1.0
 
-The game, rebuilt as a native Android app.
+A cleaner table, and lucky cards you keep.
 
-- Pick both players' names and colours; they are remembered for next time.
-- Tap the card to turn it over, then swipe it away (or tap) to pass to your partner.
-- Timed cards wait for BEGIN, count you in, run, and vibrate when time is up.
-- Three jokers each, to throw a card away instead of doing it.
-- Lucky cards now and then, with a rule for the rest of the game.
-- Options: roleplay cards and vibration, on or off.
-- Much smaller download, and it opens at once.
+- Your name sits at the top with more room for the card; the cards left are counted under the camera.
+- Each player's colour runs along their edge of the screen, slimmer and quieter than before.
+- The card's title is centred at the top of its back, and its front is just the kind.
+- Turning a card no longer gives away the next one.
+- A joker lifts the card up and away.
+- A lucky card stays at the bottom of the screen for the player who drew it, showing on their turns.
+- End the game from the options (back on the table opens them).
+- For testing: SKIP finishes any timer at once.

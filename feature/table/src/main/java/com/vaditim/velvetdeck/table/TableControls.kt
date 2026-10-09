@@ -112,3 +112,22 @@ fun Pips(left: Int, total: Int, color: Color, modifier: Modifier = Modifier) {
         }
     }
 }
+
+// For testing only: finishes the clock at once on every timed card. Turn off before a release that is not for testing.
+const val IS_SKIP_SHOWN = true
+
+// Small and outlined, so it reads as the tester's control rather than part of the game.
+@Composable
+fun SkipChip(onClick: () -> Unit, modifier: Modifier = Modifier) {
+    Box(
+        modifier
+            .pressable(onClick)
+            .height(36.dp)
+            .clip(Shapes.capsule)
+            .border(1.dp, Palette.borderControl, Shapes.capsule)
+            .padding(horizontal = 14.dp),
+        contentAlignment = Alignment.Center,
+    ) {
+        MicroLabel("Skip")
+    }
+}

@@ -24,10 +24,15 @@ import com.vaditim.velvetdeck.vas.pressable
 import kotlin.math.PI
 import kotlin.math.sin
 
-// The card in the middle of the table and the one waiting under it. A tap turns the top card over; once it is read, a swipe either way (or a tap) sends it to the other player.
+// The card in the middle of the table and the one waiting under it. A tap turns the top card over; once it is read, a swipe either way (or a tap) sends it to the other player, and a joker lifts it away upward.
 @Composable
 fun CardStage(table: Table, dealer: Dealer, modifier: Modifier = Modifier) {
-    BoxWithConstraints(modifier.onSizeChanged { size -> dealer.width = size.width.toFloat().coerceAtLeast(1f) }) {
+    BoxWithConstraints(
+        modifier.onSizeChanged { size ->
+            dealer.width = size.width.toFloat().coerceAtLeast(1f)
+            dealer.height = size.height.toFloat().coerceAtLeast(1f)
+        },
+    ) {
         val cardWidth = min(min(maxWidth - 40.dp, maxHeight * CARD_RATIO), 400.dp)
         val cardModifier = Modifier.align(Alignment.Center).size(cardWidth, cardWidth / CARD_RATIO)
 
@@ -37,6 +42,12 @@ fun CardStage(table: Table, dealer: Dealer, modifier: Modifier = Modifier) {
                 CardFace(
                     next.kind,
                     cardModifier.graphicsLayer {
+                        // Hidden while the top card turns: it narrows to an edge mid-turn and would show the next card's kind.
+                        val turned = dealer.flip.value
+                        if (turned > 0f && turned < 1f) {
+                            alpha = 0f
+                            return@graphicsLayer
+                        }
                         val departure = dealer.departure
                         val scale = WAITING_SCALE + (1f - WAITING_SCALE) * departure
                         scaleX = scale
@@ -52,6 +63,7 @@ fun CardStage(table: Table, dealer: Dealer, modifier: Modifier = Modifier) {
             cardModifier
                 .graphicsLayer {
                     translationX = dealer.drag
+                    translationY = dealer.rise
                     rotationZ = dealer.drag / dealer.width * LEAN_DEGREES
                 }
                 .pressable({ if (table.face == Face.FRONT) dealer.turnOver() else dealer.pass() }, pressedScale = 0.98f)
