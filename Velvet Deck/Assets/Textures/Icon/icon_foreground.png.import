@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bd12riasg0ffh"
-path="res://.godot/imported/drink - Kopie.png-2ebc2837003633a1ac6cf2db26b74e6f.ctex"
+uid="uid://br1mlt8o1k8vc"
+path="res://.godot/imported/icon_foreground.png-67ae70c744f252136d54436b37a9ed7b.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assets/Textures/Card Types/drink - Kopie.png"
-dest_files=["res://.godot/imported/drink - Kopie.png-2ebc2837003633a1ac6cf2db26b74e6f.ctex"]
+source_file="res://Assets/Textures/Icon/icon_foreground.png"
+dest_files=["res://.godot/imported/icon_foreground.png-67ae70c744f252136d54436b37a9ed7b.ctex"]
 
 [params]
 

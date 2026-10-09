@@ -8,16 +8,22 @@
 
 config_version=5
 
+[animation]
+
+compatibility/default_parent_skeleton_in_mesh_instance_3d=true
+
 [application]
 
 config/name="Velvet Deck"
 run/main_scene="uid://b3fmrrhsk6bpn"
-config/features=PackedStringArray("4.4", "C#", "Mobile")
+config/features=PackedStringArray("4.7", "C#", "Mobile")
 run/max_fps=120
 
 [autoload]
 
 VibrationController="*res://Scripts/GD/VibrationController.gd"
+_fennara_game_capture="*res://addons/fennara/runtime/game_capture_helper.gd"
+_mcp_game_helper="*res://addons/godot_ai/runtime/game_helper.gd"
 
 [display]
 
@@ -33,7 +39,7 @@ project/assembly_name="Couples Card Game"
 
 [editor_plugins]
 
-enabled=PackedStringArray("res://addons/inspector-category-filter/plugin.cfg", "res://addons/nv.node_pivot/plugin.cfg")
+enabled=PackedStringArray("res://addons/godot_ai/plugin.cfg", "res://addons/nv.node_pivot/plugin.cfg")
 
 [rendering]
 

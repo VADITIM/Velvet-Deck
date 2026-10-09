@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="108" height="108" viewBox="0 0 108 108"><g>
+<defs>
+<radialGradient id="bg" cx="54" cy="26.6" r="62" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#202022"/><stop offset="1" stop-color="#000"/></radialGradient>
+<radialGradient id="gb" cx="40" cy="56.25" r="21" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#008CED" stop-opacity=".38"/><stop offset="1" stop-color="#008CED" stop-opacity="0"/></radialGradient>
+<radialGradient id="gp" cx="68" cy="56.25" r="21" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#FF3976" stop-opacity=".38"/><stop offset="1" stop-color="#FF3976" stop-opacity="0"/></radialGradient>
+<radialGradient id="gr" cx="54" cy="48.87" r="22" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#E0101E" stop-opacity=".4"/><stop offset="1" stop-color="#E0101E" stop-opacity="0"/></radialGradient>
+</defs>
+<rect width="108" height="108" fill="url(#bg)"/>
+<circle cx="40" cy="56.25" r="21" fill="url(#gb)"/><circle cx="68" cy="56.25" r="21" fill="url(#gp)"/><circle cx="54" cy="48.87" r="22" fill="url(#gr)"/>
+</g></svg>
