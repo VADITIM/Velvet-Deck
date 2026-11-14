@@ -16,6 +16,9 @@ class Deck(isRoleplayOn: Boolean, private val random: Random = Random.Default) {
         cards.addAll(order(rest, sexCards))
     }
 
+    // How many cards the deck was shuffled from, so the table can say which one it is on.
+    val total: Int = cards.size
+
     val remaining: Int get() = cards.size
 
     fun draw(): Card? = cards.removeFirstOrNull()

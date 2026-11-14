@@ -41,6 +41,10 @@ class Table(val lineup: Lineup, isRoleplayOn: Boolean, random: Random = Random.D
     // The lucky cards each player has been dealt, oldest first; they stay with that player for the rest of the game.
     private val held = mutableStateMapOf(Seat.FIRST to emptyList<Card>(), Seat.SECOND to emptyList<Card>())
 
+    val total: Int = deck.total
+    // Which card of the deck is on the table, counting from one.
+    val number: Int get() = total - remaining
+
     val isEmpty: Boolean get() = card == null
     val player: Player get() = lineup.of(seat)
 

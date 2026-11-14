@@ -1,6 +1,11 @@
 package com.vaditim.velvetdeck.table
 
 import androidx.compose.animation.AnimatedContent
+import com.vaditim.velvetdeck.vas.pressable
+import com.vaditim.velvetdeck.settings.Strings
+import androidx.compose.foundation.pager.rememberPagerState
+import androidx.compose.foundation.pager.HorizontalPager
+import androidx.activity.compose.BackHandler
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.EnterTransition
 import androidx.compose.animation.core.Animatable
@@ -48,9 +53,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.min
-import com.vaditim.velvetdeck.components.Glyphs
 import com.vaditim.velvetdeck.components.Popped
-import com.vaditim.velvetdeck.components.RoundButton
 import com.vaditim.velvetdeck.components.TypewriterText
 import com.vaditim.velvetdeck.components.assemble
 import com.vaditim.velvetdeck.game.Card
@@ -66,7 +69,7 @@ import com.vaditim.velvetdeck.vas.Type
 
 // The game: whose turn it is, the card, and what can be done with it. The accent is the player whose turn it is, and it changes on the cut, once the last card has left (dna/01 § the accent changes on the cut). Ending the game lives in the options.
 @Composable
-fun TableScreen(table: Table, onOptions: () -> Unit, onDeckEmpty: () -> Unit) {
+fun TableScreen(table: Table, onDeckEmpty: () -> Unit) {
     val context = LocalContext.current
     val dealer = rememberDealer(table) { Haptics.confirm(context) }
     val isLanded by remember(dealer) { derivedStateOf { dealer.isLanded } }
@@ -79,12 +82,9 @@ fun TableScreen(table: Table, onOptions: () -> Unit, onDeckEmpty: () -> Unit) {
     Box(Modifier.fillMaxSize()) {
         PlayerSlices(table)
         Column(Modifier.fillMaxSize().statusBarsPadding().navigationBarsPadding()) {
-            CardCount(table.remaining, Modifier.align(Alignment.CenterHorizontally).padding(top = 6.dp).assemble(0))
-            Row(Modifier.fillMaxWidth().padding(start = 24.dp, end = 16.dp), verticalAlignment = Alignment.CenterVertically) {
-                TypewriterText(table.player.name, Type.title.copy(color = LocalAccent.current), Modifier.weight(1f).assemble(1))
-                RoundButton(Glyphs.options, onOptions, Modifier.assemble(0))
-            }
+            TurnName(table, Modifier.assemble(1))
             CardStage(table, dealer, Modifier.weight(1f).fillMaxWidth().assemble(2))
+            CardCount(table, Modifier.align(Alignment.CenterHorizontally).padding(top = 6.dp).assemble(3))
             // The controls' room is always there, so the card never moves when they pop in.
             Row(
                 Modifier.fillMaxWidth().height(70.dp),
@@ -104,12 +104,29 @@ fun TableScreen(table: Table, onOptions: () -> Unit, onDeckEmpty: () -> Unit) {
     }
 }
 
-// How many cards are left, small and centred under the camera.
+// Only the player whose turn it is has their name up: the first on the left, the second on the right, so each name stays on its own side of the table.
 @Composable
-private fun CardCount(remaining: Int, modifier: Modifier = Modifier) {
-    Row(modifier, horizontalArrangement = Arrangement.spacedBy(6.dp), verticalAlignment = Alignment.CenterVertically) {
-        TypewriterText(remaining.toString(), Type.value.copy(color = Palette.textBody, fontFeatureSettings = "tnum"))
-        MicroLabel("Left")
+private fun TurnName(table: Table, modifier: Modifier = Modifier) {
+    val style = Type.title.copy(color = LocalAccent.current)
+    Box(modifier.fillMaxWidth().height(56.dp).padding(horizontal = 24.dp)) {
+        TypewriterText(if (table.seat == Seat.FIRST) table.player.name else "", style, Modifier.align(Alignment.CenterStart))
+        TypewriterText(if (table.seat == Seat.SECOND) table.player.name else "", style, Modifier.align(Alignment.CenterEnd))
+    }
+}
+
+// Under the card: which card of the deck is on the table, and how many are still to come.
+@Composable
+private fun CardCount(table: Table, modifier: Modifier = Modifier) {
+    val value = Type.value.copy(color = Palette.textBody, fontFeatureSettings = "tnum")
+    Row(modifier.height(28.dp), horizontalArrangement = Arrangement.spacedBy(20.dp), verticalAlignment = Alignment.CenterVertically) {
+        Row(horizontalArrangement = Arrangement.spacedBy(8.dp), verticalAlignment = Alignment.CenterVertically) {
+            MicroLabel(Strings.card)
+            TypewriterText("${table.number} / ${table.total}", value)
+        }
+        Row(horizontalArrangement = Arrangement.spacedBy(8.dp), verticalAlignment = Alignment.CenterVertically) {
+            TypewriterText(table.remaining.toString(), value)
+            MicroLabel(Strings.left)
+        }
     }
 }
 
@@ -155,16 +172,49 @@ private fun LuckyLayer(table: Table) {
     ) {
         Box(Modifier.fillMaxSize().background(Palette.scrim).clickable(remember { MutableInteractionSource() }, indication = null) { table.dismissLucky() })
     }
+    // Tapping the cards resting at the bottom lays them out to be read, one swipe apart.
+    var isViewing by remember { mutableStateOf(false) }
+    LaunchedEffect(table.seat, table.lucky) { isViewing = false }
+    BackHandler(isViewing) { isViewing = false }
     // On the cut the last player's card goes down with them, and the next player's rises into its place.
     AnimatedContent(
         targetState = table.seat,
         transitionSpec = { EnterTransition.None togetherWith slideOutVertically(tween(Motion.CARD_LEAVE_MS, easing = Motion.powerTwoIn)) { height -> height } },
         label = "lucky hand",
-    ) { seat -> LuckyHand(table, seat) }
+    ) { seat -> LuckyHand(table, seat, isViewing, onOpen = { isViewing = true }) }
+    AnimatedVisibility(
+        isViewing,
+        enter = fadeIn(tween(Motion.OVERLAY_ENTER_MS)),
+        exit = fadeOut(tween(Motion.OVERLAY_LEAVE_MS, easing = Motion.powerTwoIn)),
+    ) {
+        LuckyViewer(table.heldBy(table.seat), onClose = { isViewing = false })
+    }
+}
+
+// The lucky cards a player holds, newest first on screen, swiped through one by one; a tap anywhere puts them back.
+@Composable
+private fun LuckyViewer(cards: List<Card>, onClose: () -> Unit) {
+    if (cards.isEmpty()) return
+    val pager = rememberPagerState(initialPage = cards.lastIndex) { cards.size }
+    Box(Modifier.fillMaxSize().background(Palette.scrim).clickable(remember { MutableInteractionSource() }, indication = null, onClick = onClose)) {
+        HorizontalPager(pager, Modifier.fillMaxSize(), pageSpacing = 16.dp) { page ->
+            BoxWithConstraints(Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
+                val cardWidth = min(maxWidth * 0.8f, 340.dp)
+                LuckyCard(cards[page], Modifier.size(cardWidth, cardWidth / CARD_RATIO))
+            }
+        }
+        if (cards.size > 1) {
+            MicroLabel(
+                "${pager.currentPage + 1} / ${cards.size}",
+                Modifier.align(Alignment.BottomCenter).navigationBarsPadding().padding(bottom = 32.dp),
+                Type.microLabel.copy(color = Palette.textBody),
+            )
+        }
+    }
 }
 
 @Composable
-private fun LuckyHand(table: Table, seat: Seat) {
+private fun LuckyHand(table: Table, seat: Seat, isViewing: Boolean, onOpen: () -> Unit) {
     val falling = table.lucky.takeIf { table.seat == seat }
     val held = table.heldBy(seat).lastOrNull()
     // It keeps the last card it showed, so it never empties while it moves.
@@ -190,14 +240,18 @@ private fun LuckyHand(table: Table, seat: Seat) {
                 else -> y.snapTo(screen)
             }
         }
+        // The resting card stands aside while its cards are laid out in the viewer.
+        val presence by animateFloatAsState(if (isViewing) 0f else 1f, tween(Motion.STATE_MS), label = "lucky rest")
+        val isOpenable = falling == null && held != null && seat == table.seat && !isViewing
         shown?.let { card ->
             LuckyCard(
                 card,
                 Modifier.align(Alignment.TopCenter).size(cardWidth, cardHeight).graphicsLayer {
+                    alpha = presence
                     translationY = y.value
                     // Tilted while it is being read, laid straight once it rests.
                     rotationZ = LUCKY_TILT * ((docked - y.value) / (docked - centre)).coerceIn(0f, 1f)
-                },
+                }.then(if (isOpenable) Modifier.pressable(onOpen, pressedScale = 0.98f) else Modifier),
             )
         }
     }

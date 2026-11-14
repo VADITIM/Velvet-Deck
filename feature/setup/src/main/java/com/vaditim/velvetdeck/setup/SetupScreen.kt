@@ -29,6 +29,7 @@ import com.vaditim.velvetdeck.components.RoundButton
 import com.vaditim.velvetdeck.components.assemble
 import com.vaditim.velvetdeck.core.ui.R
 import com.vaditim.velvetdeck.game.Lineup
+import com.vaditim.velvetdeck.settings.Strings
 
 // Who is playing: the logo, one panel per player with a name and a colour, and START once both have a name.
 @Composable
@@ -49,13 +50,13 @@ fun SetupScreen(lineup: Lineup, onStart: () -> Unit, onOptions: () -> Unit) {
             )
             Spacer(Modifier.height(40.dp))
             Column(verticalArrangement = Arrangement.spacedBy(12.dp)) {
-                SeatPanel("Player 1", lineup.first, Modifier.assemble(1))
-                SeatPanel("Player 2", lineup.second, Modifier.assemble(2))
+                SeatPanel(Strings.playerOne, lineup.first, Modifier.assemble(1))
+                SeatPanel(Strings.playerTwo, lineup.second, Modifier.assemble(2))
             }
             Spacer(Modifier.height(32.dp))
             // The room START stands in is always there, so the panels never move when it pops in.
             Box(Modifier.height(64.dp), contentAlignment = Alignment.Center) {
-                Popped(lineup.isReady) { PillButton("Start", onStart) }
+                Popped(lineup.isReady) { PillButton(Strings.start, onStart) }
             }
             Spacer(Modifier.height(16.dp))
         }

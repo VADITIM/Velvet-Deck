@@ -33,6 +33,10 @@ import com.vaditim.velvetdeck.vas.MicroLabel
 import com.vaditim.velvetdeck.vas.Palette
 import com.vaditim.velvetdeck.vas.Shapes
 import com.vaditim.velvetdeck.vas.Type
+import com.vaditim.velvetdeck.game.shownLabel
+import com.vaditim.velvetdeck.game.shownTitle
+import com.vaditim.velvetdeck.game.shownDescription
+import com.vaditim.velvetdeck.settings.Strings
 
 // The face a card is dealt with: only its kind, as a filled colour, a glyph and the kind's name in the display face. The one display line on the table.
 @Composable
@@ -55,7 +59,7 @@ fun CardFace(kind: CardKind, modifier: Modifier = Modifier) {
             Spacer(Modifier.height(26.dp))
             // The name shrinks to fit rather than being cut, so FOREPLAY stands as whole as FUN.
             BasicText(
-                kind.label.uppercase(),
+                kind.shownLabel.uppercase(),
                 Modifier.padding(horizontal = 20.dp),
                 style = Type.display.copy(color = ink),
                 maxLines = 1,
@@ -79,18 +83,18 @@ fun CardBack(card: Card, modifier: Modifier = Modifier) {
     ) {
         Column(Modifier.fillMaxSize()) {
             Row(Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
-                MicroLabel(card.kind.label, Modifier.weight(1f), Type.microLabel.copy(color = color))
+                MicroLabel(card.kind.shownLabel, Modifier.weight(1f), Type.microLabel.copy(color = color))
                 Shots(card.shots, color)
             }
             // The name stands centred near the top, so it is read first and the task has the room under it.
             Spacer(Modifier.height(28.dp))
-            BasicText(card.title, Modifier.fillMaxWidth(), style = Type.title.copy(textAlign = TextAlign.Center))
+            BasicText(card.shownTitle, Modifier.fillMaxWidth(), style = Type.title.copy(textAlign = TextAlign.Center))
             Spacer(Modifier.height(14.dp))
-            BasicText(card.description, style = Type.body.copy(fontSize = 15.sp, lineHeight = 23.sp))
+            BasicText(card.shownDescription, style = Type.body.copy(fontSize = 15.sp, lineHeight = 23.sp))
             Spacer(Modifier.weight(1f))
             if (card.seconds > 0) {
                 Row(verticalAlignment = Alignment.CenterVertically) {
-                    MicroLabel("Time", Modifier.weight(1f))
+                    MicroLabel(Strings.time, Modifier.weight(1f))
                     BasicText(clock(card.seconds), style = Type.value.copy(color = Palette.textBody))
                 }
             }
@@ -111,15 +115,15 @@ fun LuckyCard(card: Card, modifier: Modifier = Modifier) {
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         Row(Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
-            MicroLabel("Lucky", Modifier.weight(1f), Type.microLabel.copy(color = ink.copy(alpha = 0.7f)))
+            MicroLabel(Strings.lucky, Modifier.weight(1f), Type.microLabel.copy(color = ink.copy(alpha = 0.7f)))
             Shots(card.shots, ink)
         }
         Spacer(Modifier.weight(0.6f))
         Image(painterResource(R.drawable.glyph_lucky), contentDescription = null, modifier = Modifier.size(84.dp), colorFilter = ColorFilter.tint(ink))
         Spacer(Modifier.height(24.dp))
-        BasicText(card.title, style = Type.title.copy(color = ink, textAlign = TextAlign.Center))
+        BasicText(card.shownTitle, style = Type.title.copy(color = ink, textAlign = TextAlign.Center))
         Spacer(Modifier.height(14.dp))
-        BasicText(card.description, style = Type.body.copy(color = ink, fontSize = 15.sp, lineHeight = 23.sp, textAlign = TextAlign.Center))
+        BasicText(card.shownDescription, style = Type.body.copy(color = ink, fontSize = 15.sp, lineHeight = 23.sp, textAlign = TextAlign.Center))
         Spacer(Modifier.weight(1f))
     }
 }

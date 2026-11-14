@@ -43,6 +43,7 @@ import com.vaditim.velvetdeck.vas.Panel
 import com.vaditim.velvetdeck.vas.Shapes
 import com.vaditim.velvetdeck.vas.Type
 import com.vaditim.velvetdeck.vas.pressable
+import com.vaditim.velvetdeck.settings.Strings
 
 // One player: the panel wears their colour on its label and edge, so each panel reads as a person before a name is in it.
 @Composable
@@ -76,7 +77,7 @@ private fun NameField(player: Player, color: Color) {
         decorationBox = { field ->
             Column {
                 Box(Modifier.padding(vertical = 6.dp)) {
-                    if (player.name.isEmpty()) BasicText("NAME", style = Type.name.copy(color = Palette.textFaint))
+                    if (player.name.isEmpty()) BasicText(Strings.name, style = Type.name.copy(color = Palette.textFaint))
                     field()
                 }
                 Box(Modifier.fillMaxWidth().height(1.dp).background(line))

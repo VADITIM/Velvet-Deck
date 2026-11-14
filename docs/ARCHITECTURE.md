@@ -11,8 +11,8 @@ the app joins them.
 | `:feature:options` | `options` | `OptionsSheet` |
 | `:core:ui` | `components` | Pieces used by more than one screen: `PillButton`, `RoundButton` and `Glyphs`, `Toggle`, `OverlaySheet`, `TypewriterText`, `Pop` and `assemble`, `KindLook`, the card glyphs and the logo |
 | `:core:design` | `vas` | VAS in Compose: `Palette`, `Faces` and `Type`, `Motion`, `SquircleShape` and `Shapes`, `Panel`, `Modifier.pressable`, `Modifier.glass`, `LabelReveal`, `Haptics` |
-| `:core:data` | `game` | The rules: `CardCatalogue`, `Deck`, `Player` and `Lineup`, `Table` |
-| `:core:settings` | `settings` | `Settings`: roleplay, vibration, the last players |
+| `:core:data` | `game` | The rules: `CardCatalogue`, `CardTranslations` (the German card text), `Deck`, `Player` and `Lineup`, `Table` |
+| `:core:settings` | `settings` | `Settings`: roleplay, vibration, language, the last players; `Strings`, every interface word in English and German |
 | `build-logic` | — | The convention plugins `vados.android.library` and `vados.android.feature` |
 
 ## State

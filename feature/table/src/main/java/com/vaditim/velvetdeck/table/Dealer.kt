@@ -12,6 +12,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import com.vaditim.velvetdeck.game.Face
+import com.vaditim.velvetdeck.game.Seat
 import com.vaditim.velvetdeck.game.Table
 import com.vaditim.velvetdeck.vas.Motion
 import kotlinx.coroutines.CoroutineScope
@@ -70,8 +71,9 @@ class Dealer(private val table: Table, private val scope: CoroutineScope, privat
         }
     }
 
+    // A card that is done goes to the side of the player who held it: the first player's is on the left, the second's on the right.
     fun pass() {
-        if (table.canPass && !isLeaving) throwAway(1f, isJoker = false, velocity = 0f)
+        if (table.canPass && !isLeaving) throwAway(if (table.seat == Seat.FIRST) -1f else 1f, isJoker = false, velocity = 0f)
     }
 
     // A joker lifts the card up and off the table rather than passing it sideways, so it never looks like the card was done.

@@ -84,7 +84,7 @@ fun VelvetDeckApp() {
                     when (shown) {
                         Stage.SETUP -> SetupScreen(lineup, onStart = ::deal, onOptions = { isOptionsOpen = true })
                         Stage.TABLE -> table?.let { current ->
-                            TableScreen(current, onOptions = { isOptionsOpen = true }, onDeckEmpty = { stage = Stage.EMPTY })
+                            TableScreen(current, onDeckEmpty = { stage = Stage.EMPTY })
                         }
                         Stage.EMPTY -> EmptyDeckScreen(onShuffle = ::deal, onNewPlayers = { stage = Stage.SETUP })
                     }

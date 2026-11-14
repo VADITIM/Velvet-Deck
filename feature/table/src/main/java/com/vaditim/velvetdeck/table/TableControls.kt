@@ -37,6 +37,7 @@ import com.vaditim.velvetdeck.vas.Palette
 import com.vaditim.velvetdeck.vas.Shapes
 import com.vaditim.velvetdeck.vas.Type
 import com.vaditim.velvetdeck.vas.pressable
+import com.vaditim.velvetdeck.settings.Strings
 
 // The timer under a timed card. Each step becomes the next in place: BEGIN pops away and the countdown pops in where it stood, never sliding (components/24 §3).
 @Composable
@@ -52,13 +53,13 @@ fun TimerControl(table: Table, modifier: Modifier = Modifier) {
         label = "timer",
     ) { phase ->
         when (phase) {
-            TimerPhase.WAITING -> PillButton("Begin", { table.begin() })
-            TimerPhase.COUNTDOWN -> Readout("Ready", table.secondsLeft.toString(), share = 0f)
+            TimerPhase.WAITING -> PillButton(Strings.begin, { table.begin() })
+            TimerPhase.COUNTDOWN -> Readout(Strings.ready, table.secondsLeft.toString(), share = 0f)
             TimerPhase.RUNNING -> {
                 val total = (table.card?.seconds ?: 1).coerceAtLeast(1)
                 // The fill moves smoothly between the once-a-second readings rather than in steps.
                 val elapsed by animateFloatAsState(1f - table.secondsLeft / total.toFloat(), tween(1000, easing = LinearEasing), label = "timer fill")
-                Readout("Time", clock(table.secondsLeft), share = elapsed)
+                Readout(Strings.time, clock(table.secondsLeft), share = elapsed)
             }
             TimerPhase.NONE, TimerPhase.DONE -> Box(Modifier.size(0.dp))
         }
@@ -99,7 +100,7 @@ fun JokerPill(left: Int, total: Int, onClick: () -> Unit, modifier: Modifier = M
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.spacedBy(12.dp),
     ) {
-        BasicText("JOKER", style = Type.action.copy(color = Palette.textBody))
+        BasicText(Strings.joker, style = Type.action.copy(color = Palette.textBody))
         Pips(left, total, accent)
     }
 }
@@ -128,6 +129,6 @@ fun SkipChip(onClick: () -> Unit, modifier: Modifier = Modifier) {
             .padding(horizontal = 14.dp),
         contentAlignment = Alignment.Center,
     ) {
-        MicroLabel("Skip")
+        MicroLabel(Strings.skip)
     }
 }

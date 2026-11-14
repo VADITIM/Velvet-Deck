@@ -1,12 +1,10 @@
-# 2.1.0
+# 2.2.0
 
-A cleaner table, and lucky cards you keep.
+German, a card counter, and lucky cards you can look through.
 
-- Your name sits at the top with more room for the card; the cards left are counted under the camera.
-- Each player's colour runs along their edge of the screen, slimmer and quieter than before.
-- The card's title is centred at the top of its back, and its front is just the kind.
-- Turning a card no longer gives away the next one.
-- A joker lifts the card up and away.
-- A lucky card stays at the bottom of the screen for the player who drew it, showing on their turns.
-- End the game from the options (back on the table opens them).
-- For testing: SKIP finishes any timer at once.
+- The game now speaks German, with every card translated. Change the language in the options.
+- Under the card: which card of the deck you are on, and how many are left.
+- Tap the lucky card resting at the bottom to lay out all the lucky cards you hold; swipe to go through them.
+- A finished card flies off to the side of the player who held it: left for player 1, right for player 2.
+- No settings button on the table any more; only the name of the player whose turn it is shows, player 1 on the left and player 2 on the right (back still opens the options).
+- All timers except the sex cards are a quarter shorter.
