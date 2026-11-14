@@ -87,7 +87,7 @@ private fun LanguageChoice(language: Language, isChosen: Boolean) {
     val fill by animateColorAsState(if (isChosen) accent else Color.Transparent, tween(Motion.STATE_MS), label = "language fill")
     val ink by animateColorAsState(if (isChosen) Palette.inkOn(accent) else Palette.textMuted, tween(Motion.STATE_MS), label = "language ink")
     Box(
-        Modifier.pressable({ Settings.setLanguage(language) }).clip(Shapes.capsule).background(fill).padding(horizontal = 16.dp, vertical = 10.dp),
+        Modifier.pressable({ Settings.chooseLanguage(language) }).clip(Shapes.capsule).background(fill).padding(horizontal = 16.dp, vertical = 10.dp),
         contentAlignment = Alignment.Center,
     ) {
         BasicText(language.shortName, style = Type.action.copy(color = ink))

@@ -50,7 +50,7 @@ object Settings {
         preferences.edit().putBoolean(KEY_VIBRATION, isOn).apply()
     }
 
-    fun setLanguage(chosen: Language) {
+    fun chooseLanguage(chosen: Language) {
         language = chosen
         preferences.edit().putString(KEY_LANGUAGE, chosen.code).apply()
     }
